@@ -51,3 +51,5 @@ class Order_Product(models.Model):
         constraints = [
             models.UniqueConstraint(fields=['order_id', 'product_id'], name='order_product_id')
         ]
+
+
