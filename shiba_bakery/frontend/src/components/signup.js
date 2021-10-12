@@ -15,7 +15,6 @@ const paperStyle={padding:'3opx 20px'}
 
     )
 
-
 }
 
 export default Signup;
