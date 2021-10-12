@@ -124,3 +124,5 @@ dmypy.json
 .pyre/
 
 shiba_bakery/frontend/node_modules/
+
+shiba_bakery/node_modules/

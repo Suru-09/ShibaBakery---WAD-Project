@@ -1,6 +1,12 @@
 import React, {Component} from "react";
-import Signup from "./signup";
+import SignUp from "./signup";
 import { render } from "react-dom";
+import { BrowserRouter as Router,
+    Switch,
+    Route,
+    Link,
+    Redirect
+    } from "react-router-dom";
 
 export default class App extends Component {
     constructor(props) {
@@ -9,9 +15,10 @@ export default class App extends Component {
     
     render() {
         return(
-            <div className="center">
-                <Signup/>
+            <div>
+                 <SignUp/>
             </div>
+           
         );
     }
 
