@@ -4,6 +4,7 @@ from .models import User
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import generics, status
+from django.contrib.auth.hashers import make_password
 
 # Create your views here.
 
@@ -22,11 +23,14 @@ class SignUpView(APIView):
             first_name = serializer.data.get('first_name')
             last_name = serializer.data.get('last_name')
             username = serializer.data.get('username')
-            password = serializer.data.get('password')
+            address = serializer.data.get('address')
+            email = serializer.data.get('email')
             user = User(first_name=first_name,
-                password=password,
+                password=make_password('password'),
                 last_name=last_name,
-                username=username)
+                username=username,
+                email=email,
+                address=address)
             user.save()
             return Response("User has been created", status=status.HTTP_200_OK)
         return Response("Invalid Data!!", status=status.HTTP_400_BAD_REQUEST)

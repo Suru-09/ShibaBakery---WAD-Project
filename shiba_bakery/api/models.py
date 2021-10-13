@@ -10,7 +10,6 @@ class User(models.Model):
     username = models.CharField(max_length=200, null=False)
     password = models.CharField(max_length=200, null=False)
     address = models.CharField(max_length=200, null=True)
-    hash_salt = models.CharField(max_length=200, null=True)
     isAdmin = models.BooleanField(default=True)
 
     def __str__(self):

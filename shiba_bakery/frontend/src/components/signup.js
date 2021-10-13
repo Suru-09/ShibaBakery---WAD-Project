@@ -25,11 +25,15 @@ export default class SignUp extends Component{
             surnameUser: "",
             usernameUser: "",
             passwordUser: "",
+            addressUser: "",
+            emailUser: "",
         }
         this._handleNameTextFieldChange = this._handleNameTextFieldChange.bind(this);
         this._handleSurnameTextFieldChange = this._handleSurnameTextFieldChange.bind(this);
         this._handleUsernameTextFieldChange = this._handleUsernameTextFieldChange.bind(this);
         this._handlePasswordTextFieldChange = this._handlePasswordTextFieldChange.bind(this);
+        this._handleAddressTextFieldChange = this._handleAddressTextFieldChange.bind(this);
+        this._handleEmailTextFieldChange = this._handleEmailTextFieldChange.bind(this);
         this._renderCreateButtons = this._renderCreateButtons.bind(this);
         this._signUpButtonPressed = this._signUpButtonPressed.bind(this);
         this.getCookie = this.getCookie.bind(this);
@@ -65,12 +69,15 @@ export default class SignUp extends Component{
                 first_name: this.state.surnameUser,
                 username: this.state.usernameUser,
                 password: this.state.passwordUser,
+                address: this.state.addressUser,
+                email: this.state.emailUser,
             }),
         };
         
         fetch('/api/sign-up', requestOptions).then((response) => {
             if(response.ok) {
                 console.log("Am reusit");
+                this.props.history.push('/home');
             }
             else {
                 console.log("Am esuat rau de tot!");
@@ -101,6 +108,18 @@ export default class SignUp extends Component{
     _handlePasswordTextFieldChange(e) {
         this.setState({
             passwordUser: e.target.value
+        });
+    }
+
+    _handleAddressTextFieldChange(e) {
+        this.setState({
+            addressUser: e.target.value
+        });
+    }
+
+    _handleEmailTextFieldChange(e) {
+        this.setState({
+            emailUser: e.target.value
         });
     }
 
@@ -204,6 +223,36 @@ export default class SignUp extends Component{
                                 variant="outlined"
                                 onChange={this._handlePasswordTextFieldChange}
                             />
+                        </Grid>
+
+                        {/* Address Field */}
+                        <Grid> 
+                        <TextField
+                                id="addressField"
+                                label="Address"
+                                onChange={this._handleAddressTextFieldChange}
+                                variant="outlined"
+                                fullWidth
+                                required
+                                placeholder=""
+                                multiline
+                                margin="normal"
+                            ></TextField>
+                        </Grid>
+
+                        {/* Email Field*/}
+                        <Grid> 
+                        <TextField
+                                id="emailField"
+                                label="E-mail"
+                                onChange={this._handleEmailTextFieldChange}
+                                variant="outlined"
+                                fullWidth
+                                required
+                                placeholder=""
+                                multiline
+                                margin="normal"
+                            ></TextField>
                         </Grid>
 
                         {this._renderCreateButtons()}
