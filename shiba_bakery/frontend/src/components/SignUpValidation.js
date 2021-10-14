@@ -3,7 +3,6 @@ const signUpValidation = (values) => {
     
     let errors={};
 
-    
     // Name error
     if(!values.nameUser){
         errors.nameUser="Name is required";

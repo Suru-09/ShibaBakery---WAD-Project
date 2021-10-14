@@ -22,7 +22,7 @@ import { render, Link } from "react-dom";
 import signUpValidation from './SignUpValidation';
 
 
-const errorsDefault = ["","","","","",""]
+const errorsDefault = {};
 
 
 export default class SignUpPage extends Component{
@@ -77,27 +77,15 @@ export default class SignUpPage extends Component{
         });
     }
 
-    // _renderError(e){
-
-    //     return(
-
-            
-
-    //     );
-    //     // switch(e.target.value){
-    //     //     case
-    //     // }
-    // }
-
     _signUpButtonPressed(e) {
        
-       
-        const invalid = signUpValidation(this);
-        if(invalid){
-            this._setError(invalid);
-        }
-        else {
+        const invalid = signUpValidation(this.state);
+        console.log(Object.keys(invalid).length);
+        console.log(Object.getPrototypeOf(invalid) === Object.prototype);
 
+        if( Object.keys(invalid).length === 0 && 
+            Object.getPrototypeOf(invalid) === Object.prototype){
+                
                 const requestOptions = {
                     method: "POST",
                     headers: {
@@ -113,13 +101,10 @@ export default class SignUpPage extends Component{
                         first_name: this.state.surnameUser,
                         username: this.state.usernameUser,
                         password: this.state.passwordUser,
-                        address: this.state.addressUser,
                         email: this.state.emailUser,
                     }),
                 };
                 
-                
-
                 fetch('/api/sign-up', requestOptions).then((response) => {
                     if(response.ok) {
                         console.log("Am reusit");
@@ -130,7 +115,12 @@ export default class SignUpPage extends Component{
                     }
                 }).catch((error) => {
                     console.log(error);
-                })
+                });
+        }
+        else {
+            console.log("Eu sunt: ");
+            console.log(invalid);
+            this._setError(invalid);    
         }
     } 
 
@@ -187,13 +177,13 @@ export default class SignUpPage extends Component{
 
     _handleClickShowPassword(e){
         this.setState({
-            showPassword: !e.showPassword
+            showPassword: !this.state.showPassword
         });
     }
 
     _handleCheckBoxFieldChange(e){
         this.setState({
-            checked: !e.checked
+            checked: !this.state.checked
         });
     }
 
@@ -242,6 +232,7 @@ export default class SignUpPage extends Component{
                                 multiline
                                 margin="normal" 
                             ></TextField>
+                            {console.log(this.state.errors.nameUser)}
                             {this.state.errors.nameUser && <p>{this.state.errors.nameUser}</p>}
                         </Grid>
                         
