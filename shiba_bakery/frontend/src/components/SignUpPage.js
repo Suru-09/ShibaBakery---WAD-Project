@@ -218,7 +218,7 @@ export default class SignUpPage extends Component{
         
             
             <Grid container spacing={1}>
-                <Paper align='center' elevation={20} style={PaperStyle}>
+                <Paper align='center' elevation={25} style={PaperStyle}>
                     <Grid align='center'>
                         <Avatar></Avatar>
                         <h2 style={HeaderStyle}>Sign Up</h2>

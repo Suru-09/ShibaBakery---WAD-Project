@@ -4,6 +4,9 @@ import HomePage from "./HomePage"
 import { render } from "react-dom";
 
 
+
+
+
 export default class App extends Component {
     constructor(props) {
         super(props);
@@ -12,6 +15,7 @@ export default class App extends Component {
     render() {
         return(
             <div className="spl">
+                
                  <HomePage/>
             </div>
            

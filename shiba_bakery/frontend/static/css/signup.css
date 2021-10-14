@@ -4,3 +4,17 @@ p {
     font-size: small ;
     color: red;
 }
+
+body{
+  
+    background-image: url('../images/3.jpg');
+    height: 100%;
+    position: relative;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    opacity: 0.75;
+    
+  }
+  
+  
