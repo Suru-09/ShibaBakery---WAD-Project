@@ -10,8 +10,12 @@ import { Avatar,
     MenuItem,
     FormControl,
     Select,
-    Button
+    Button,
+    IconButton,
+    InputAdornment,
 } from '@material-ui/core';
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
 import { render, Link } from "react-dom";
 
@@ -23,12 +27,14 @@ export default class LoginPage extends Component{
         this.state = {
             usernameUser: "",
             passwordUser: "",
+            showPassword: false,
         }
         this._handleUsernameTextFieldChange = this._handleUsernameTextFieldChange.bind(this);
         this._handlePasswordTextFieldChange = this._handlePasswordTextFieldChange.bind(this);
         this._renderCreateButtons = this._renderCreateButtons.bind(this);
         this._LoginButtonPressed = this._LoginButtonPressed.bind(this);
         this.getCookie = this.getCookie.bind(this);
+        this._handleClickShowPassword = this._handleClickShowPassword.bind(this);
 
     }
 
@@ -101,6 +107,12 @@ export default class LoginPage extends Component{
         );
     }
 
+    _handleClickShowPassword(e){
+        this.setState({
+            showPassword: !e.showPassword
+        });
+    }
+
     render(){
         const PaperStyle={
             padding: '30px 20px 50px',
@@ -141,21 +153,29 @@ export default class LoginPage extends Component{
                             ></TextField>
                         </Grid>
                         
-                        {/* Password field */}
-                        <Grid> 
-                            <TextField
-                                margin="normal"
-                                fullWidth
-                                required
-                                placeholder=""
-                                multiline
-                                id="outlined-password-input"
-                                label="Password"
-                                type="password"
-                                autoComplete="current-password"
-                                variant="outlined"
-                                onChange={this._handlePasswordTextFieldChange}
-                            />
+                         {/* Password field */}
+                         <Grid>
+                        <FormControl  fullWidth margin="normal" variant="outlined">
+                        <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
+                        <OutlinedInput
+                                id="passwordField"
+                                type={this.state.showPassword ? 'text' : 'password'}
+                                
+                                 onChange={this._handlePasswordTextFieldChange}
+                                 endAdornment={
+                                     <InputAdornment position="end">
+                                      <IconButton
+                                      onClick={this._handleClickShowPassword}
+                                      edge="end"
+                                      >
+                                     {this.state.showPassword ? <VisibilityOff /> : <Visibility />}
+                                      </IconButton>
+                                     </InputAdornment>
+                                  }
+                                 label="Password"
+                                
+                         ></OutlinedInput>
+                         </FormControl>
                         </Grid>
 
                         {this._renderCreateButtons()}

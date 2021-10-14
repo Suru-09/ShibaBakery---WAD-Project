@@ -9,6 +9,7 @@ import { BrowserRouter as Router,
     Redirect
 } from "react-router-dom"; 
 import { Grid, Button, ButtonGroup, Typography} from "@material-ui/core";
+import Navbar from "./navbar";
 
 export default class HomePage extends Component {
     constructor(props) {
@@ -18,6 +19,7 @@ export default class HomePage extends Component {
     }
     
     renderHomePage() {
+       
         return (
             <Grid container spacing={3}>
                 <Grid item xs={12} align="center">
@@ -36,12 +38,16 @@ export default class HomePage extends Component {
                     </ButtonGroup>
                 </Grid>
             </Grid>
+
+            
         );
     }
 
     render() {
         return(
             <Router>
+                <Navbar></Navbar>
+                <main>
                 <Switch>
                     <Route exact path='/home'>
                         {this.renderHomePage()}
@@ -49,6 +55,7 @@ export default class HomePage extends Component {
                     <Route path='/sign-up' component={SignUpPage}></Route>
                     <Route path='/login' component={LoginPage}></Route>
                 </Switch>
+                </main>
             </Router>
         );
     }

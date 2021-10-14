@@ -11,12 +11,14 @@ export default class App extends Component {
     
     render() {
         return(
-            <div>
+            <div className="spl">
                  <HomePage/>
             </div>
            
         );
     }
+
+    
 
 }
 

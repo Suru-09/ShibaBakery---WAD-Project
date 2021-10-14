@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, useState, SetStateAction} from 'react';
 import { Avatar,
     Grid,
     OutlinedInput,
@@ -10,10 +10,19 @@ import { Avatar,
     MenuItem,
     FormControl,
     Select,
-    Button
+    Button,
+    IconButton,
+    InputAdornment,
+    FormControlLabel,
+    Checkbox
 } from '@material-ui/core';
-
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import { render, Link } from "react-dom";
+import signUpValidation from './SignUpValidation';
+
+
+const errorsDefault = ["","","","","",""]
 
 
 export default class SignUpPage extends Component{
@@ -25,21 +34,27 @@ export default class SignUpPage extends Component{
             surnameUser: "",
             usernameUser: "",
             passwordUser: "",
-            addressUser: "",
+            confirmUser: "",
             emailUser: "",
+            showPassword: false,
+            checked: false,
+            errors: errorsDefault,
         }
         this._handleNameTextFieldChange = this._handleNameTextFieldChange.bind(this);
         this._handleSurnameTextFieldChange = this._handleSurnameTextFieldChange.bind(this);
         this._handleUsernameTextFieldChange = this._handleUsernameTextFieldChange.bind(this);
         this._handlePasswordTextFieldChange = this._handlePasswordTextFieldChange.bind(this);
-        this._handleAddressTextFieldChange = this._handleAddressTextFieldChange.bind(this);
+        this._handleConfirmTextFieldChange = this._handleConfirmTextFieldChange.bind(this);
         this._handleEmailTextFieldChange = this._handleEmailTextFieldChange.bind(this);
         this._renderCreateButtons = this._renderCreateButtons.bind(this);
         this._signUpButtonPressed = this._signUpButtonPressed.bind(this);
         this.getCookie = this.getCookie.bind(this);
-
+        this._handleClickShowPassword = this._handleClickShowPassword.bind(this);
+        this._handleCheckBoxFieldChange = this._handleCheckBoxFieldChange.bind(this);
+        this._setError = this._setError.bind(this);
     }
 
+    
     getCookie(name) {
         var cookieValue = null;
         if (document.cookie && document.cookie !== '') {
@@ -56,35 +71,67 @@ export default class SignUpPage extends Component{
         return cookieValue;
     }
 
+    _setError(e){
+        this.setState({
+            errors: e
+        });
+    }
+
+    // _renderError(e){
+
+    //     return(
+
+            
+
+    //     );
+    //     // switch(e.target.value){
+    //     //     case
+    //     // }
+    // }
+
     _signUpButtonPressed(e) {
-        const requestOptions = {
-            method: "POST",
-            headers: {
-            "X-CSRFToken": this.getCookie("csrftoken"),
-            "Accept": "application/json",
-            'Content-Type': 'application/json'
-        },
-            body: JSON.stringify({
-                last_name: this.state.nameUser,
-                first_name: this.state.surnameUser,
-                username: this.state.usernameUser,
-                password: this.state.passwordUser,
-                address: this.state.addressUser,
-                email: this.state.emailUser,
-            }),
-        };
-        
-        fetch('/api/sign-up', requestOptions).then((response) => {
-            if(response.ok) {
-                console.log("Am reusit");
-                this.props.history.push('/home');
-            }
-            else {
-                console.log("Am esuat rau de tot!");
-            }
-        }).catch((error) => {
-            console.log(error);
-        })
+       
+       
+        const invalid = signUpValidation(this);
+        if(invalid){
+            this._setError(invalid);
+        }
+        else {
+
+                const requestOptions = {
+                    method: "POST",
+                    headers: {
+                    "X-CSRFToken": this.getCookie("csrftoken"),
+                    "Accept": "application/json",
+                    'Content-Type': 'application/json'
+                },
+
+                
+
+                    body: JSON.stringify({
+                        last_name: this.state.nameUser,
+                        first_name: this.state.surnameUser,
+                        username: this.state.usernameUser,
+                        password: this.state.passwordUser,
+                        address: this.state.addressUser,
+                        email: this.state.emailUser,
+                    }),
+                };
+                
+                
+
+                fetch('/api/sign-up', requestOptions).then((response) => {
+                    if(response.ok) {
+                        console.log("Am reusit");
+                        this.props.history.push('/home');
+                    }
+                    else {
+                        console.log("Am esuat rau de tot!");
+                    }
+                }).catch((error) => {
+                    console.log(error);
+                })
+        }
     } 
 
     _handleNameTextFieldChange(e) {
@@ -111,9 +158,9 @@ export default class SignUpPage extends Component{
         });
     }
 
-    _handleAddressTextFieldChange(e) {
+    _handleConfirmTextFieldChange(e) {
         this.setState({
-            addressUser: e.target.value
+            confirmUser: e.target.value
         });
     }
 
@@ -125,10 +172,11 @@ export default class SignUpPage extends Component{
 
     _renderCreateButtons() {
         return(
-            <Grid container spacing={1} align="center">
-                <Grid item align="center">
+            <Grid container spacing={1} align="center" >
+                <Grid item align="center" >
                     <Button color="primary"
                             variant="contained"
+                            
                             onClick={this._signUpButtonPressed}>
                         Sign Up
                     </Button>
@@ -136,6 +184,19 @@ export default class SignUpPage extends Component{
             </Grid>
         );
     }
+
+    _handleClickShowPassword(e){
+        this.setState({
+            showPassword: !e.showPassword
+        });
+    }
+
+    _handleCheckBoxFieldChange(e){
+        this.setState({
+            checked: !e.checked
+        });
+    }
+
 
     render(){
         const PaperStyle={
@@ -148,6 +209,10 @@ export default class SignUpPage extends Component{
         const HeaderStyle={
             margin: 0,
         }
+
+        
+
+        
         
         return(
         
@@ -165,6 +230,7 @@ export default class SignUpPage extends Component{
 
                         {/* Name field */}
                         <Grid> 
+                            
                             <TextField 
                                 id="namefild" 
                                 onChange={this._handleNameTextFieldChange}
@@ -174,8 +240,9 @@ export default class SignUpPage extends Component{
                                 required
                                 placeholder=""
                                 multiline
-                                margin="normal"
+                                margin="normal" 
                             ></TextField>
+                            {this.state.errors.nameUser && <p>{this.state.errors.nameUser}</p>}
                         </Grid>
                         
                         {/* Surame field */}
@@ -209,37 +276,56 @@ export default class SignUpPage extends Component{
                         </Grid>
                         
                         {/* Password field */}
-                        <Grid> 
-                            <TextField
-                                margin="normal"
-                                fullWidth
-                                required
-                                placeholder=""
-                                multiline
-                                id="outlined-password-input"
-                                label="Password"
-                                type="password"
-                                autoComplete="current-password"
-                                variant="outlined"
-                                onChange={this._handlePasswordTextFieldChange}
-                            />
+                        <Grid>
+                        <FormControl  fullWidth margin="normal" variant="outlined">
+                        <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
+                        <OutlinedInput
+                                id="passwordField"
+                                type={this.state.showPassword ? 'text' : 'password'}
+                                
+                                 onChange={this._handlePasswordTextFieldChange}
+                                 endAdornment={
+                                     <InputAdornment position="end">
+                                      <IconButton
+                                      onClick={this._handleClickShowPassword}
+                                      edge="end"
+                                      >
+                                     {this.state.showPassword ? <VisibilityOff /> : <Visibility />}
+                                      </IconButton>
+                                     </InputAdornment>
+                                  }
+                                 label="Password"
+                                
+                         ></OutlinedInput>
+                         </FormControl>
                         </Grid>
 
-                        {/* Address Field */}
-                        <Grid> 
-                        <TextField
-                                id="addressField"
-                                label="Address"
-                                onChange={this._handleAddressTextFieldChange}
-                                variant="outlined"
-                                fullWidth
-                                required
-                                placeholder=""
-                                multiline
-                                margin="normal"
-                            ></TextField>
+                        {/* Confirm Field */}
+                        <Grid>
+                        <FormControl  fullWidth margin="normal" variant="outlined">
+                        <InputLabel htmlFor="outlined-adornment-password">Confirm password</InputLabel>
+                        <OutlinedInput
+                                id="confirmField"
+                                type={this.state.showPassword ? 'text' : 'password'}
+                                
+                                onChange={this._handleConfirmTextFieldChange}
+                                 endAdornment={
+                                     <InputAdornment position="end">
+                                      <IconButton
+                                      onClick={this._handleClickShowPassword}
+                                      edge="end"
+                                      >
+                                     {this.state.showPassword ? <VisibilityOff /> : <Visibility />}
+                                      </IconButton>
+                                     </InputAdornment>
+                                  }
+                                  label="Confirm password"
+                                
+                         ></OutlinedInput>
+                         </FormControl>
                         </Grid>
 
+                        
                         {/* Email Field*/}
                         <Grid> 
                         <TextField
@@ -253,6 +339,18 @@ export default class SignUpPage extends Component{
                                 multiline
                                 margin="normal"
                             ></TextField>
+                        </Grid>
+
+                        <Grid>
+                        <FormControlLabel
+                            control={
+                            <Checkbox  checked={this.state.checked} onChange={this._handleCheckBoxFieldChange} name="check" color="primary" />
+                            }
+                            
+                            labelPlacement="end"
+                            label="Agree with terms and conditions"
+                            
+                        />
                         </Grid>
 
                         {this._renderCreateButtons()}
