@@ -15,6 +15,9 @@ class User(models.Model):
     def __str__(self):
         return self.first_name + self.last_name
 
+    def get_password(self):
+        return self.password
+
 
 class Product(models.Model):
     name = models.CharField(max_length=200, null=False)

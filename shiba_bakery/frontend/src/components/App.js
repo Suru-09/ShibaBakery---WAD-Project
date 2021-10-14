@@ -1,5 +1,6 @@
 import React, {Component} from "react";
-import SignUp from "./signUp";
+import SignUpPage from "./SignUpPage";
+import HomePage from "./HomePage"
 import { render } from "react-dom";
 
 
@@ -11,7 +12,7 @@ export default class App extends Component {
     render() {
         return(
             <div>
-                 <SignUp/>
+                 <HomePage/>
             </div>
            
         );
