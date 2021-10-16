@@ -281,7 +281,7 @@ export default class SignUpPage extends Component{
                                       onClick={this._handleClickShowPassword}
                                       edge="end"
                                       >
-                                     {this.state.showPassword ? <VisibilityOff /> : <Visibility />}
+                                     {this.state.showPassword ? <Visibility /> : <VisibilityOff />}
                                       </IconButton>
                                      </InputAdornment>
                                   }

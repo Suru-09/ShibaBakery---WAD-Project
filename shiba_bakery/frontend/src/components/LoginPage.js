@@ -109,7 +109,7 @@ export default class LoginPage extends Component{
 
     _handleClickShowPassword(e){
         this.setState({
-            showPassword: !e.showPassword
+            showPassword: !this.state.showPassword
         });
     }
 
@@ -168,7 +168,7 @@ export default class LoginPage extends Component{
                                       onClick={this._handleClickShowPassword}
                                       edge="end"
                                       >
-                                     {this.state.showPassword ? <VisibilityOff /> : <Visibility />}
+                                     {this.state.showPassword ? <Visibility /> : <VisibilityOff />}
                                       </IconButton>
                                      </InputAdornment>
                                   }
