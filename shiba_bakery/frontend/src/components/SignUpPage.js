@@ -249,6 +249,7 @@ export default class SignUpPage extends Component{
                                 multiline
                                 margin="normal"
                             ></TextField>
+                            {this.state.errors.surnameUser && <p>{this.state.errors.surnameUser}</p>}
                         </Grid>
 
                         {/* Username field */}
@@ -264,6 +265,7 @@ export default class SignUpPage extends Component{
                                 multiline
                                 margin="normal"
                             ></TextField>
+                            {this.state.errors.usernameUser && <p>{this.state.errors.usernameUser}</p>}
                         </Grid>
                         
                         {/* Password field */}
@@ -289,6 +291,7 @@ export default class SignUpPage extends Component{
                                 
                          ></OutlinedInput>
                          </FormControl>
+                         {this.state.errors.passwordUser && <p>{this.state.errors.passwordUser}</p>}
                         </Grid>
 
                         {/* Confirm Field */}
@@ -314,6 +317,7 @@ export default class SignUpPage extends Component{
                                 
                          ></OutlinedInput>
                          </FormControl>
+                         {this.state.errors.confirmUser && <p>{this.state.errors.confirmUser}</p>}
                         </Grid>
 
                         
@@ -330,6 +334,7 @@ export default class SignUpPage extends Component{
                                 multiline
                                 margin="normal"
                             ></TextField>
+                            {this.state.errors.emailUser && <p>{this.state.errors.emailUser}</p>}
                         </Grid>
 
                         <Grid>
@@ -342,9 +347,11 @@ export default class SignUpPage extends Component{
                             label="Agree with terms and conditions"
                             
                         />
+                        {this.state.errors.checked && <p>{this.state.errors.checked}</p>}
                         </Grid>
 
                         {this._renderCreateButtons()}
+                        
 
                     </form>
                 </Paper>

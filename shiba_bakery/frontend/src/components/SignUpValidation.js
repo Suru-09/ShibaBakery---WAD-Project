@@ -13,6 +13,11 @@ const signUpValidation = (values) => {
         errors.surnameUser="Surname is required";
     }
 
+    // Username error
+    if(!values.usernameUser){
+        errors.usernameUser="Username is required";
+    }
+
     // Password error
     if(!values.passwordUser){
         errors.passwordUser="Password is required";
