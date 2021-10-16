@@ -1,6 +1,7 @@
 import React, {Component} from "react";
 import SignUpPage from "./SignUpPage";
 import HomePage from "./HomePage"
+import Navbar from "./navbar"
 import { render } from "react-dom";
 
 
@@ -14,10 +15,10 @@ export default class App extends Component {
     
     render() {
         return(
-            <div className="spl">
-                
-                 <HomePage/>
-            </div>
+            <>
+                <Navbar></Navbar>
+                <HomePage/>
+            </>
            
         );
     }

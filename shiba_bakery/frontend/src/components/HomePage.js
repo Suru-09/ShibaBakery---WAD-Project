@@ -46,8 +46,6 @@ export default class HomePage extends Component {
     render() {
         return(
             <Router>
-                <Navbar></Navbar>
-                <main>
                 <Switch>
                     <Route exact path='/home'>
                         {this.renderHomePage()}
@@ -55,7 +53,6 @@ export default class HomePage extends Component {
                     <Route path='/sign-up' component={SignUpPage}></Route>
                     <Route path='/login' component={LoginPage}></Route>
                 </Switch>
-                </main>
             </Router>
         );
     }
