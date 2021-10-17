@@ -20,6 +20,7 @@ import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import { render, Link } from "react-dom";
 import signUpValidation from './SignUpValidation';
+import { NavLink } from 'react-router-dom';
 
 
 const errorsDefault = {};
@@ -162,7 +163,7 @@ export default class SignUpPage extends Component{
 
     _renderCreateButtons() {
         return(
-            <Grid container spacing={1} align="center" >
+            
                 <Grid item align="center" >
                     <Button color="primary"
                             variant="contained"
@@ -171,7 +172,7 @@ export default class SignUpPage extends Component{
                         Sign Up
                     </Button>
                 </Grid>
-            </Grid>
+           
         );
     }
 
@@ -218,141 +219,147 @@ export default class SignUpPage extends Component{
                     
                     <form>
 
-                        {/* Name field */}
-                        <Grid> 
-                            
-                            <TextField 
-                                id="namefild" 
-                                onChange={this._handleNameTextFieldChange}
-                                fullWidth 
-                                label="Name"
-                                variant="outlined"
-                                required
-                                placeholder=""
-                                multiline
-                                margin="normal" 
-                            ></TextField>
-                            {console.log(this.state.errors.nameUser)}
-                            {this.state.errors.nameUser && <p>{this.state.errors.nameUser}</p>}
-                        </Grid>
-                        
-                        {/* Surame field */}
-                        <Grid> 
-                            <TextField 
-                                id="surnamefild" 
-                                onChange={this._handleSurnameTextFieldChange}
-                                fullWidth
-                                label="Surname"
-                                variant="outlined"
-                                required
-                                placeholder=""
-                                multiline
-                                margin="normal"
-                            ></TextField>
-                            {this.state.errors.surnameUser && <p>{this.state.errors.surnameUser}</p>}
-                        </Grid>
+                            <Grid container spacing={2} direction={"column"} align="center">
 
-                        {/* Username field */}
-                        <Grid> 
-                            <TextField
-                                id="usernamefild"
-                                label="Username"
-                                onChange={this._handleUsernameTextFieldChange}
-                                variant="outlined"
-                                fullWidth
-                                required
-                                placeholder=""
-                                multiline
-                                margin="normal"
-                            ></TextField>
-                            {this.state.errors.usernameUser && <p>{this.state.errors.usernameUser}</p>}
-                        </Grid>
-                        
-                        {/* Password field */}
-                        <Grid>
-                        <FormControl  fullWidth margin="normal" variant="outlined">
-                        <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
-                        <OutlinedInput
-                                id="passwordField"
-                                type={this.state.showPassword ? 'text' : 'password'}
+                                    {/* Name field */}
+                                    <Grid item> 
+                                        
+                                        <TextField 
+                                            id="namefild" 
+                                            onChange={this._handleNameTextFieldChange}
+                                            fullWidth 
+                                            label="Name"
+                                            variant="outlined"
+                                            required
+                                            placeholder=""
+                                            multiline
+                                            margin="normal" 
+                                        ></TextField>
+                                        {console.log(this.state.errors.nameUser)}
+                                        {this.state.errors.nameUser && <p>{this.state.errors.nameUser}</p>}
+                                    </Grid>
+                                    
+                                    {/* Surame field */}
+                                    <Grid item> 
+                                        <TextField 
+                                            id="surnamefild" 
+                                            onChange={this._handleSurnameTextFieldChange}
+                                            fullWidth
+                                            label="Surname"
+                                            variant="outlined"
+                                            required
+                                            placeholder=""
+                                            multiline
+                                            margin="normal"
+                                        ></TextField>
+                                        {this.state.errors.surnameUser && <p>{this.state.errors.surnameUser}</p>}
+                                    </Grid>
+
+                                    {/* Username field */}
+                                    <Grid item> 
+                                        <TextField
+                                            id="usernamefild"
+                                            label="Username"
+                                            onChange={this._handleUsernameTextFieldChange}
+                                            variant="outlined"
+                                            fullWidth
+                                            required
+                                            placeholder=""
+                                            multiline
+                                            margin="normal"
+                                        ></TextField>
+                                        {this.state.errors.usernameUser && <p>{this.state.errors.usernameUser}</p>}
+                                    </Grid>
+                                    
+                                    {/* Password field */}
+                                    <Grid item>
+                                    <FormControl  fullWidth margin="normal" variant="outlined">
+                                    <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
+                                    <OutlinedInput
+                                            id="passwordField"
+                                            type={this.state.showPassword ? 'text' : 'password'}
+                                            
+                                            onChange={this._handlePasswordTextFieldChange}
+                                            endAdornment={
+                                                <InputAdornment position="end">
+                                                <IconButton
+                                                onClick={this._handleClickShowPassword}
+                                                edge="end"
+                                                >
+                                                {this.state.showPassword ? <Visibility /> : <VisibilityOff />}
+                                                </IconButton>
+                                                </InputAdornment>
+                                            }
+                                            label="Password"
+                                            
+                                    ></OutlinedInput>
+                                    </FormControl>
+                                    {this.state.errors.passwordUser && <p>{this.state.errors.passwordUser}</p>}
+                                    </Grid>
+
+                                    {/* Confirm Field */}
+                                    <Grid item>
+                                    <FormControl  fullWidth margin="normal" variant="outlined">
+                                    <InputLabel htmlFor="outlined-adornment-password">Confirm password</InputLabel>
+                                    <OutlinedInput
+                                            id="confirmField"
+                                            type={this.state.showPassword ? 'text' : 'password'}
+                                            
+                                            onChange={this._handleConfirmTextFieldChange}
+                                            endAdornment={
+                                                <InputAdornment position="end">
+                                                <IconButton
+                                                onClick={this._handleClickShowPassword}
+                                                edge="end"
+                                                >
+                                                {this.state.showPassword ? <VisibilityOff /> : <Visibility />}
+                                                </IconButton>
+                                                </InputAdornment>
+                                            }
+                                            label="Confirm password"
+                                            
+                                    ></OutlinedInput>
+                                    </FormControl>
+                                    {this.state.errors.confirmUser && <p>{this.state.errors.confirmUser}</p>}
+                                    </Grid>
+
+                                    
+                                    {/* Email Field*/}
+                                    <Grid item> 
+                                    <TextField
+                                            id="emailField"
+                                            label="E-mail"
+                                            onChange={this._handleEmailTextFieldChange}
+                                            variant="outlined"
+                                            fullWidth
+                                            required
+                                            placeholder=""
+                                            multiline
+                                            margin="normal"
+                                        ></TextField>
+                                        {this.state.errors.emailUser && <p>{this.state.errors.emailUser}</p>}
+                                    </Grid>
+
+                                    <Grid item>
+                                    <FormControlLabel
+                                        control={
+                                        <Checkbox  checked={this.state.checked} onChange={this._handleCheckBoxFieldChange} name="check" color="primary" />
+                                        }
+                                        
+                                        labelPlacement="end"
+                                        label="Agree with terms and conditions"
+                                        
+                                    />
+                                    {this.state.errors.checked && <p>{this.state.errors.checked}</p>}
+                                    </Grid>
+
+                                    {this._renderCreateButtons()}
+
+                                    <Grid item>
+                                                <NavLink to="/login" margin="normal">Already have an account? Sign-in</NavLink>
+                                    </Grid>
                                 
-                                 onChange={this._handlePasswordTextFieldChange}
-                                 endAdornment={
-                                     <InputAdornment position="end">
-                                      <IconButton
-                                      onClick={this._handleClickShowPassword}
-                                      edge="end"
-                                      >
-                                     {this.state.showPassword ? <Visibility /> : <VisibilityOff />}
-                                      </IconButton>
-                                     </InputAdornment>
-                                  }
-                                 label="Password"
-                                
-                         ></OutlinedInput>
-                         </FormControl>
-                         {this.state.errors.passwordUser && <p>{this.state.errors.passwordUser}</p>}
-                        </Grid>
-
-                        {/* Confirm Field */}
-                        <Grid>
-                        <FormControl  fullWidth margin="normal" variant="outlined">
-                        <InputLabel htmlFor="outlined-adornment-password">Confirm password</InputLabel>
-                        <OutlinedInput
-                                id="confirmField"
-                                type={this.state.showPassword ? 'text' : 'password'}
-                                
-                                onChange={this._handleConfirmTextFieldChange}
-                                 endAdornment={
-                                     <InputAdornment position="end">
-                                      <IconButton
-                                      onClick={this._handleClickShowPassword}
-                                      edge="end"
-                                      >
-                                     {this.state.showPassword ? <VisibilityOff /> : <Visibility />}
-                                      </IconButton>
-                                     </InputAdornment>
-                                  }
-                                  label="Confirm password"
-                                
-                         ></OutlinedInput>
-                         </FormControl>
-                         {this.state.errors.confirmUser && <p>{this.state.errors.confirmUser}</p>}
-                        </Grid>
-
-                        
-                        {/* Email Field*/}
-                        <Grid> 
-                        <TextField
-                                id="emailField"
-                                label="E-mail"
-                                onChange={this._handleEmailTextFieldChange}
-                                variant="outlined"
-                                fullWidth
-                                required
-                                placeholder=""
-                                multiline
-                                margin="normal"
-                            ></TextField>
-                            {this.state.errors.emailUser && <p>{this.state.errors.emailUser}</p>}
-                        </Grid>
-
-                        <Grid>
-                        <FormControlLabel
-                            control={
-                            <Checkbox  checked={this.state.checked} onChange={this._handleCheckBoxFieldChange} name="check" color="primary" />
-                            }
-                            
-                            labelPlacement="end"
-                            label="Agree with terms and conditions"
-                            
-                        />
-                        {this.state.errors.checked && <p>{this.state.errors.checked}</p>}
-                        </Grid>
-
-                        {this._renderCreateButtons()}
-                        
-
+                            </Grid>
                     </form>
                 </Paper>
 

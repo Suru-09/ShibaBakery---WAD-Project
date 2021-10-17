@@ -7,28 +7,71 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
+import Searchbar from './SearchBar';
+import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
+import Fab from '@mui/material/Fab';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import { BrowserRouter as Router,
+  Switch,
+  Route,
+  Link,
+  Redirect
+} from "react-router-dom"; 
+import LoginPage from './LoginPage';
+import SignUpPage from './SignUpPage';
+
+
+
+
 
 const Navbar = () => {
+
+  
+
   return (
-    <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static">
-        <Toolbar>
-          <IconButton
-            size="large"
-            edge="start"
-            color="inherit"
-            aria-label="menu"
-            sx={{ mr: 2 }}
-          >
-            <MenuIcon />
-          </IconButton>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            News
-          </Typography>
-          <Button color="inherit">Login</Button>
-        </Toolbar>
-      </AppBar>
-    </Box>
+    <Router>
+
+        <Box sx={{ flexGrow: 1 }}>
+            <AppBar position="static" >
+                <Toolbar>
+                    <div className="search_div">
+                          <IconButton
+                            size="large"
+                            edge="start"
+                            color="inherit"
+                            aria-label="menu"
+                            sx={{ mr: 2 }}
+                          >
+                               <MenuIcon />
+                          </IconButton>
+                          <Searchbar/>
+                    </div>
+
+                    <div className="button_div">
+                        <div className="nav_buttons">
+                          <Button to="/login" component={Link} color="inherit">
+                            Login
+                          </Button>
+                      
+                          <Button color="inherit">
+                            <ShoppingCartIcon sx={{ mr: 1 }} />
+                            Cart
+                          </Button>  
+                          
+                          </div>
+                    </div>
+                </Toolbar>
+            </AppBar>
+        </Box>
+
+
+        <Switch>
+            <Route exact path='/login' component={LoginPage}></Route>
+            <Route  path='/sign-up' component={SignUpPage}></Route>
+        </Switch>
+
+    </Router>
   )
 }
 export default Navbar;
+

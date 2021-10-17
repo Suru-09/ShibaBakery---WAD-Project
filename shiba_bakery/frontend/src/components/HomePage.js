@@ -47,11 +47,11 @@ export default class HomePage extends Component {
         return(
             <Router>
                 <Switch>
-                    <Route exact path='/home'>
+                    {/* <Route exact path='/home'>
                         {this.renderHomePage()}
                     </Route>
                     <Route path='/sign-up' component={SignUpPage}></Route>
-                    <Route path='/login' component={LoginPage}></Route>
+                    <Route path='/login' component={LoginPage}></Route> */}
                 </Switch>
             </Router>
         );

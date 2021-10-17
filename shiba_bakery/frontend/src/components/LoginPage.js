@@ -16,6 +16,7 @@ import { Avatar,
 } from '@material-ui/core';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import { NavLink } from 'react-router-dom';
 
 import { render, Link } from "react-dom";
 
@@ -95,15 +96,17 @@ export default class LoginPage extends Component{
 
     _renderCreateButtons() {
         return(
-            <Grid container spacing={1} align="center">
+            
                 <Grid item align="center">
                     <Button color="primary"
                             variant="contained"
-                            onClick={this._LoginButtonPressed}>
+                            onClick={this._LoginButtonPressed}
+                            
+                            >
                         Login
                     </Button>
                 </Grid>
-            </Grid>
+           
         );
     }
 
@@ -138,47 +141,57 @@ export default class LoginPage extends Component{
                     
                     <form>
 
-                        {/* Username field */}
-                        <Grid> 
-                            <TextField
-                                id="usernamefild"
-                                label="Username"
-                                onChange={this._handleUsernameTextFieldChange}
-                                variant="outlined"
-                                fullWidth
-                                required
-                                placeholder=""
-                                multiline
-                                margin="normal"
-                            ></TextField>
-                        </Grid>
-                        
-                         {/* Password field */}
-                         <Grid>
-                        <FormControl  fullWidth margin="normal" variant="outlined">
-                        <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
-                        <OutlinedInput
-                                id="passwordField"
-                                type={this.state.showPassword ? 'text' : 'password'}
-                                
-                                 onChange={this._handlePasswordTextFieldChange}
-                                 endAdornment={
-                                     <InputAdornment position="end">
-                                      <IconButton
-                                      onClick={this._handleClickShowPassword}
-                                      edge="end"
-                                      >
-                                     {this.state.showPassword ? <Visibility /> : <VisibilityOff />}
-                                      </IconButton>
-                                     </InputAdornment>
-                                  }
-                                 label="Password"
-                                
-                         ></OutlinedInput>
-                         </FormControl>
-                        </Grid>
+                        <Grid container spacing={2} direction={"column"} align="center">
 
-                        {this._renderCreateButtons()}
+                                {/* Username field */}
+                                <Grid item> 
+                                    <TextField
+                                        id="usernamefild"
+                                        label="Username"
+                                        onChange={this._handleUsernameTextFieldChange}
+                                        variant="outlined"
+                                        fullWidth
+                                        required
+                                        placeholder=""
+                                        multiline
+                                        margin="normal"
+                                    ></TextField>
+                                </Grid>
+                                
+                                {/* Password field */}
+                                <Grid item>
+                                <FormControl  fullWidth margin="normal" variant="outlined">
+                                <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
+                                <OutlinedInput
+                                        id="passwordField"
+                                        type={this.state.showPassword ? 'text' : 'password'}
+                                        
+                                        onChange={this._handlePasswordTextFieldChange}
+                                        endAdornment={
+                                            <InputAdornment position="end">
+                                            <IconButton
+                                            onClick={this._handleClickShowPassword}
+                                            edge="end"
+                                            >
+                                            {this.state.showPassword ? <Visibility /> : <VisibilityOff />}
+                                            </IconButton>
+                                            </InputAdornment>
+                                        }
+                                        label="Password"
+                                        
+                                ></OutlinedInput>
+                                </FormControl>
+                                </Grid>
+                                
+                                
+                                {this._renderCreateButtons()}
+                                
+
+                                <Grid item>
+                                    <NavLink to="/sign-up" margin="normal">Don't have an account? Sign-up</NavLink>
+                                </Grid>
+
+                        </Grid>
 
                     </form>
                 </Paper>
