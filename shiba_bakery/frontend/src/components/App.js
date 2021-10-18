@@ -1,6 +1,5 @@
 import React, {Component} from "react";
-import SignUpPage from "./SignUpPage";
-import HomePage from "./HomePage"
+import HomePage from "../pages/HomePage"
 import Navbar from "./navbar"
 import { render } from "react-dom";
 

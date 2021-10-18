@@ -17,8 +17,9 @@ import { BrowserRouter as Router,
   Link,
   Redirect
 } from "react-router-dom"; 
-import LoginPage from './LoginPage';
-import SignUpPage from './SignUpPage';
+import LoginPage from '../pages/LoginPage';
+import SignUpPage from '../pages/SignUpPage';
+import CartScreen from '../pages/CartPage';
 
 
 
@@ -53,7 +54,7 @@ const Navbar = () => {
                             Login
                           </Button>
                       
-                          <Button color="inherit">
+                          <Button to="/cart_screen"  component={Link} color="inherit">
                             <ShoppingCartIcon sx={{ mr: 1 }} />
                             Cart
                           </Button>  
@@ -68,6 +69,7 @@ const Navbar = () => {
         <Switch>
             <Route exact path='/login' component={LoginPage}></Route>
             <Route  path='/sign-up' component={SignUpPage}></Route>
+            <Route  path='/cart_screen' component={CartScreen}></Route>
         </Switch>
 
     </Router>
