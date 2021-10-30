@@ -11,7 +11,11 @@ export default class App extends Component {
     constructor(props) {
         super(props);
     }
-    
+
+    componentDidMount() {
+        document.title = "Shiba Bakery";
+    }
+
     render() {
         return(
             <>

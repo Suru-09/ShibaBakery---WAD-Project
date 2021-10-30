@@ -3,31 +3,22 @@ import React from 'react'
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import Searchbar from './SearchBar';
-import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
-import Fab from '@mui/material/Fab';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import { BrowserRouter as Router,
   Switch,
   Route,
   Link,
-  Redirect
 } from "react-router-dom"; 
 import LoginPage from '../pages/LoginPage';
 import SignUpPage from '../pages/SignUpPage';
 import CartScreen from '../pages/CartPage';
 
 
-
-
-
 const Navbar = () => {
-
-  
 
   return (
     <Router>
@@ -67,9 +58,9 @@ const Navbar = () => {
 
 
         <Switch>
-            <Route exact path='/login' component={LoginPage}></Route>
-            <Route  path='/sign-up' component={SignUpPage}></Route>
-            <Route  path='/cart_screen' component={CartScreen}></Route>
+            <Route exact path='/login' component={LoginPage}/>
+            <Route  path='/sign-up' component={SignUpPage}/>
+            <Route  path='/cart_screen' component={CartScreen}/>
         </Switch>
 
     </Router>

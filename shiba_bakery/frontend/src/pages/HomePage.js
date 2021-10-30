@@ -38,7 +38,7 @@ export default class HomePage extends Component {
   
     
     renderHomePage() {
-       
+
         return (
             <>
                 <Grid>
@@ -65,7 +65,7 @@ export default class HomePage extends Component {
                 </div>
                 </Grid>
             </>
-            
+
         );
     }
 
