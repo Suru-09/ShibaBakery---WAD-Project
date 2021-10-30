@@ -3,10 +3,6 @@ import HomePage from "../pages/HomePage"
 import Navbar from "./navbar"
 import { render } from "react-dom";
 
-
-
-
-
 export default class App extends Component {
     constructor(props) {
         super(props);
