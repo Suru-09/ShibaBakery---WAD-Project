@@ -1,15 +1,12 @@
 import React, { Component } from 'react';
-import { Avatar,
+import {
     Grid,
     OutlinedInput,
     Paper,
-    rgbToHex,
     TextField,
     Typography,
     InputLabel,
-    MenuItem,
     FormControl,
-    Select,
     Button,
     IconButton,
     InputAdornment,
@@ -17,9 +14,7 @@ import { Avatar,
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import { NavLink } from 'react-router-dom';
-
-import { render, Link } from "react-dom";
-
+import GetCookie from "../utils/GetCookie";
 
 export default class LoginPage extends Component{
 
@@ -34,32 +29,15 @@ export default class LoginPage extends Component{
         this._handlePasswordTextFieldChange = this._handlePasswordTextFieldChange.bind(this);
         this._renderCreateButtons = this._renderCreateButtons.bind(this);
         this._LoginButtonPressed = this._LoginButtonPressed.bind(this);
-        this.getCookie = this.getCookie.bind(this);
         this._handleClickShowPassword = this._handleClickShowPassword.bind(this);
 
-    }
-
-    getCookie(name) {
-        var cookieValue = null;
-        if (document.cookie && document.cookie !== '') {
-            var cookies = document.cookie.split(';');
-            for (var i = 0; i < cookies.length; i++) {
-                var cookie = jQuery.trim(cookies[i]);
-                // Does this cookie string begin with the name we want?
-                if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                    break;
-                }
-            }
-        }
-        return cookieValue;
     }
 
     _LoginButtonPressed(e) {
         const requestOptions = {
             method: "POST",
             headers: {
-            "X-CSRFToken": this.getCookie("csrftoken"),
+            "X-CSRFToken": GetCookie("csrftoken"),
             "Accept": "application/json",
             'Content-Type': 'application/json'
         },
@@ -155,7 +133,7 @@ export default class LoginPage extends Component{
                                         placeholder=""
                                         multiline
                                         margin="normal"
-                                    ></TextField>
+                                    />
                                 </Grid>
                                 
                                 {/* Password field */}
@@ -163,40 +141,35 @@ export default class LoginPage extends Component{
                                 <FormControl  fullWidth margin="normal" variant="outlined">
                                 <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
                                 <OutlinedInput
-                                        id="passwordField"
-                                        type={this.state.showPassword ? 'text' : 'password'}
-                                        
-                                        onChange={this._handlePasswordTextFieldChange}
-                                        endAdornment={
-                                            <InputAdornment position="end">
+                                    id="passwordField"
+                                    type={this.state.showPassword ? 'text' : 'password'}
+
+                                    onChange={this._handlePasswordTextFieldChange}
+                                    endAdornment={
+                                        <InputAdornment position="end">
                                             <IconButton
-                                            onClick={this._handleClickShowPassword}
-                                            edge="end"
+                                                onClick={this._handleClickShowPassword}
+                                                edge="end"
                                             >
-                                            {this.state.showPassword ? <Visibility /> : <VisibilityOff />}
+                                                {this.state.showPassword ? <Visibility/> : <VisibilityOff/>}
                                             </IconButton>
-                                            </InputAdornment>
-                                        }
-                                        label="Password"
-                                        
-                                ></OutlinedInput>
+                                        </InputAdornment>
+                                    }
+                                    label="Password"
+
+                                />
                                 </FormControl>
                                 </Grid>
-                                
-                                
+
                                 {this._renderCreateButtons()}
-                                
 
                                 <Grid item>
                                     <NavLink to="/sign-up" margin="normal">Don't have an account? Sign-up</NavLink>
                                 </Grid>
-
                         </Grid>
-
                     </form>
                 </Paper>
 
-                
             </Grid>       
         );
 

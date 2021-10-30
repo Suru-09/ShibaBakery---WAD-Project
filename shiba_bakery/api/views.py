@@ -1,3 +1,5 @@
+from django.contrib.auth import authenticate
+
 from .serializers import UserSerializer, LoginSerializer, ProductSerializer, OrderSerializer
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -26,10 +28,10 @@ class SignUpView(APIView):
             username = serializer.data.get('username')
             email = serializer.data.get('email')
             user = User(first_name=first_name,
-                        password=make_password('password'),
                         last_name=last_name,
                         username=username,
                         email=email)
+            user.set_password(serializer.data.get('password'))
             user.save()
             return Response("User has been created", status=status.HTTP_200_OK)
         return Response("Invalid Data!!", status=status.HTTP_400_BAD_REQUEST)
@@ -38,20 +40,19 @@ class SignUpView(APIView):
 class LoginView(APIView):
     serializer_class = LoginSerializer
 
-    def post(self, request, format=None):
+    def post(self, request):
         serializer = self.serializer_class(data=request.data)
 
         if serializer.is_valid():
             username = serializer.data.get('username')
             password = serializer.data.get('password')
             user = User.objects.filter(username=username)
-            print(user)
             if not user:
                 return Response("The user doesn't exist in the database!", status=status.HTTP_400_BAD_REQUEST)
-            if check_password(password, user[0].get_password()):
+            if user[0].check_password(password):
                 return Response("You have successfully logged in!", status=status.HTTP_200_OK)
             return Response("Wrong password!", status=status.HTTP_400_BAD_REQUEST)
-        return Response("Bad information give at input!", status=status.HTTP_400_BAD_REQUEST)
+        return Response("Bad information give at input!", status=status.HTTP_404_NOT_FOUND)
 
 
 class ProductView(APIView):

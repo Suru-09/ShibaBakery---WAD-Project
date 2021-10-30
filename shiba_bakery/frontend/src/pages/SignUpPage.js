@@ -222,27 +222,26 @@ export default class SignUpPage extends Component{
                             <Grid container spacing={2} direction={"column"} align="center">
 
                                     {/* Name field */}
-                                    <Grid item> 
-                                        
-                                        <TextField 
-                                            id="namefild" 
+                                    <Grid item>
+                                        <TextField
+                                            id="namefild"
                                             onChange={this._handleNameTextFieldChange}
-                                            fullWidth 
+                                            fullWidth
                                             label="Name"
                                             variant="outlined"
                                             required
                                             placeholder=""
                                             multiline
-                                            margin="normal" 
-                                        ></TextField>
+                                            margin="normal"
+                                        />
                                         {console.log(this.state.errors.nameUser)}
                                         {this.state.errors.nameUser && <p>{this.state.errors.nameUser}</p>}
                                     </Grid>
                                     
                                     {/* Surame field */}
                                     <Grid item> 
-                                        <TextField 
-                                            id="surnamefild" 
+                                        <TextField
+                                            id="surnamefild"
                                             onChange={this._handleSurnameTextFieldChange}
                                             fullWidth
                                             label="Surname"
@@ -251,7 +250,7 @@ export default class SignUpPage extends Component{
                                             placeholder=""
                                             multiline
                                             margin="normal"
-                                        ></TextField>
+                                        />
                                         {this.state.errors.surnameUser && <p>{this.state.errors.surnameUser}</p>}
                                     </Grid>
 
@@ -267,7 +266,7 @@ export default class SignUpPage extends Component{
                                             placeholder=""
                                             multiline
                                             margin="normal"
-                                        ></TextField>
+                                        />
                                         {this.state.errors.usernameUser && <p>{this.state.errors.usernameUser}</p>}
                                     </Grid>
                                     
@@ -276,23 +275,23 @@ export default class SignUpPage extends Component{
                                     <FormControl  fullWidth margin="normal" variant="outlined">
                                     <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
                                     <OutlinedInput
-                                            id="passwordField"
-                                            type={this.state.showPassword ? 'text' : 'password'}
-                                            
-                                            onChange={this._handlePasswordTextFieldChange}
-                                            endAdornment={
-                                                <InputAdornment position="end">
+                                        id="passwordField"
+                                        type={this.state.showPassword ? 'text' : 'password'}
+
+                                        onChange={this._handlePasswordTextFieldChange}
+                                        endAdornment={
+                                            <InputAdornment position="end">
                                                 <IconButton
-                                                onClick={this._handleClickShowPassword}
-                                                edge="end"
+                                                    onClick={this._handleClickShowPassword}
+                                                    edge="end"
                                                 >
-                                                {this.state.showPassword ? <Visibility /> : <VisibilityOff />}
+                                                    {this.state.showPassword ? <Visibility/> : <VisibilityOff/>}
                                                 </IconButton>
-                                                </InputAdornment>
-                                            }
-                                            label="Password"
-                                            
-                                    ></OutlinedInput>
+                                            </InputAdornment>
+                                        }
+                                        label="Password"
+
+                                    />
                                     </FormControl>
                                     {this.state.errors.passwordUser && <p>{this.state.errors.passwordUser}</p>}
                                     </Grid>
@@ -302,23 +301,23 @@ export default class SignUpPage extends Component{
                                     <FormControl  fullWidth margin="normal" variant="outlined">
                                     <InputLabel htmlFor="outlined-adornment-password">Confirm password</InputLabel>
                                     <OutlinedInput
-                                            id="confirmField"
-                                            type={this.state.showPassword ? 'text' : 'password'}
-                                            
-                                            onChange={this._handleConfirmTextFieldChange}
-                                            endAdornment={
-                                                <InputAdornment position="end">
+                                        id="confirmField"
+                                        type={this.state.showPassword ? 'text' : 'password'}
+
+                                        onChange={this._handleConfirmTextFieldChange}
+                                        endAdornment={
+                                            <InputAdornment position="end">
                                                 <IconButton
-                                                onClick={this._handleClickShowPassword}
-                                                edge="end"
+                                                    onClick={this._handleClickShowPassword}
+                                                    edge="end"
                                                 >
-                                                {this.state.showPassword ? <VisibilityOff /> : <Visibility />}
+                                                    {this.state.showPassword ? <Visibility/> : <VisibilityOff/>}
                                                 </IconButton>
-                                                </InputAdornment>
-                                            }
-                                            label="Confirm password"
-                                            
-                                    ></OutlinedInput>
+                                            </InputAdornment>
+                                        }
+                                        label="Confirm password"
+
+                                    />
                                     </FormControl>
                                     {this.state.errors.confirmUser && <p>{this.state.errors.confirmUser}</p>}
                                     </Grid>
@@ -327,16 +326,16 @@ export default class SignUpPage extends Component{
                                     {/* Email Field*/}
                                     <Grid item> 
                                     <TextField
-                                            id="emailField"
-                                            label="E-mail"
-                                            onChange={this._handleEmailTextFieldChange}
-                                            variant="outlined"
-                                            fullWidth
-                                            required
-                                            placeholder=""
-                                            multiline
-                                            margin="normal"
-                                        ></TextField>
+                                        id="emailField"
+                                        label="E-mail"
+                                        onChange={this._handleEmailTextFieldChange}
+                                        variant="outlined"
+                                        fullWidth
+                                        required
+                                        placeholder=""
+                                        multiline
+                                        margin="normal"
+                                    />
                                         {this.state.errors.emailUser && <p>{this.state.errors.emailUser}</p>}
                                     </Grid>
 
