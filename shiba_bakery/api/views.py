@@ -99,10 +99,10 @@ class OrderView(APIView):
         serializer = self.serializer_class(data=request.data)
 
         if serializer.is_valid():
-            status_order = serializer.data.get("status")
-            date_created = serializer.data.get("customer")
-            customer = serializer.data.get("customer")
-            product = serializer.data.get("product")
+            status_order = serializer.data.get('status')
+            date_created = serializer.data.get('customer')
+            customer = serializer.data.get('customer')
+            product = serializer.data.get('product')
 
             order = Order(status_order,
                           date_created,
@@ -113,4 +113,88 @@ class OrderView(APIView):
             return Response("The order has been added to the database",
                             status=status.HTTP_200_OK)
         return Response("The given data is not valid!",
+                        status=status.HTTP_400_BAD_REQUEST)
+
+
+class DeleteUser:
+    def post(self, request, format=None):
+        try:
+            first_name = request.data.get('first_name')
+            last_name = request.data.get('last_name')
+            user = User.filter(last_name, first_name)
+            user.delete()
+        except:
+            return Response("There was an error",
+                            status=status.HTTP_400_BAD_REQUEST)
+
+        return Response("The user has been deleted from the database",
+                        status=status.HTTP_200_OK)
+
+
+class UpdateUser:
+    serializer_class = UserSerializer
+
+    def post(self, request, format=None):
+        serializer = self.serializer_class(data=request.data)
+
+        if serializer.is_valid():
+            first_name = serializer.data.get('first_name')
+            last_name = serializer.data.get('last_name')
+            username = serializer.data.get('username')
+            email = serializer.data.get('email')
+
+            User.objects.update_or_create(
+                first_name=first_name,
+                last_name=last_name,
+                password=make_password('password'),
+                username=username,
+                email=email
+            )
+
+            return Response("The user has been updated in the database",
+                            status=status.HTTP_200_OK)
+        return Response("The user hasn't been updated!",
+                        status=status.HTTP_400_BAD_REQUEST)
+
+
+class DeleteProduct:
+    def post(self, request, format=None):
+        try:
+            name = request.data.get('name')
+            product = Product.filter(name)
+            product.delete()
+        except:
+            return Response("The product hasn't been deleted!",
+                            status=status.HTTP_400_BAD_REQUEST)
+        return Response("The product has been deleted from the database",
+                        status=status.HTTP_200_OK)
+
+class UpdateProduct:
+    serializer_class = ProductSerializer
+
+    def post(self, request, format=None):
+        serializer = self.serializer_class(data=request.data)
+
+        if serializer.is_valid():
+            name = serializer.data.get('name')
+            ingredients = serializer.data.get('ingredients')
+            price = serializer.data.get('price')
+            category = serializer.data.get('category')
+            description = serializer.data.get('description')
+            date_created = serializer.data.get('date_created')
+            image = serializer.data.get('image')
+
+            Product.objects.update_or_create(
+                name=name,
+                ingredients=ingredients,
+                price=price,
+                category=category,
+                description=description,
+                date_created=date_created,
+                image=image
+            )
+
+            return Response("The product has been updated in the database",
+                            status=status.HTTP_200_OK)
+        return Response("The product hasn't been updated!",
                         status=status.HTTP_400_BAD_REQUEST)
