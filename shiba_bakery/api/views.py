@@ -1,4 +1,3 @@
-from django.shortcuts import render
 from .serializers import UserSerializer, LoginSerializer, ProductSerializer
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -55,7 +54,7 @@ class LoginView(APIView):
         return Response("Bad information give at input!", status=status.HTTP_400_BAD_REQUEST)
 
 
-class AddProduct(APIView):
+class ProductView(APIView):
     serializer_class = ProductSerializer
 
     def get(self, request, format=None):
