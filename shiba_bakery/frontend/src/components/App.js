@@ -1,6 +1,9 @@
 import React, {Component} from "react";
 import HomePage from "../pages/HomePage"
 import Navbar from "./navbar"
+import Footer from "./Footer"
+import '../../static/css/app.css'
+
 import { render } from "react-dom";
 
 export default class App extends Component {
@@ -13,17 +16,23 @@ export default class App extends Component {
     }
 
     render() {
+
         return(
             <>
-                <Navbar></Navbar>
-                <HomePage/>
+                <div className="app_div">
+                    <div className="footer-wrap">
+                        <Navbar/>
+                        <HomePage/>
+                        <div className="footer">
+                            <Footer/>
+                        </div>
+                    </div>
+                </div>
+
             </>
            
         );
     }
-
-    
-
 }
 
 const appDiv = document.getElementById("app");

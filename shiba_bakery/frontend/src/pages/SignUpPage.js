@@ -1,15 +1,12 @@
-import React, { Component, useState, SetStateAction} from 'react';
+import React, { Component} from 'react';
 import { Avatar,
     Grid,
     OutlinedInput,
     Paper,
-    rgbToHex,
     TextField,
     Typography,
     InputLabel,
-    MenuItem,
     FormControl,
-    Select,
     Button,
     IconButton,
     InputAdornment,
@@ -18,13 +15,11 @@ import { Avatar,
 } from '@material-ui/core';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
-import { render, Link } from "react-dom";
 import signUpValidation from './SignUpValidation';
 import { NavLink } from 'react-router-dom';
-
+import GetCookie from "../utils/GetCookie";
 
 const errorsDefault = {};
-
 
 export default class SignUpPage extends Component{
 
@@ -49,28 +44,11 @@ export default class SignUpPage extends Component{
         this._handleEmailTextFieldChange = this._handleEmailTextFieldChange.bind(this);
         this._renderCreateButtons = this._renderCreateButtons.bind(this);
         this._signUpButtonPressed = this._signUpButtonPressed.bind(this);
-        this.getCookie = this.getCookie.bind(this);
         this._handleClickShowPassword = this._handleClickShowPassword.bind(this);
         this._handleCheckBoxFieldChange = this._handleCheckBoxFieldChange.bind(this);
         this._setError = this._setError.bind(this);
     }
 
-    
-    getCookie(name) {
-        var cookieValue = null;
-        if (document.cookie && document.cookie !== '') {
-            var cookies = document.cookie.split(';');
-            for (var i = 0; i < cookies.length; i++) {
-                var cookie = jQuery.trim(cookies[i]);
-                // Does this cookie string begin with the name we want?
-                if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                    break;
-                }
-            }
-        }
-        return cookieValue;
-    }
 
     _setError(e){
         this.setState({
@@ -90,13 +68,10 @@ export default class SignUpPage extends Component{
                 const requestOptions = {
                     method: "POST",
                     headers: {
-                    "X-CSRFToken": this.getCookie("csrftoken"),
+                    "X-CSRFToken": GetCookie("csrftoken"),
                     "Accept": "application/json",
                     'Content-Type': 'application/json'
                 },
-
-                
-
                     body: JSON.stringify({
                         last_name: this.state.nameUser,
                         first_name: this.state.surnameUser,
@@ -188,7 +163,6 @@ export default class SignUpPage extends Component{
         });
     }
 
-
     render(){
         const PaperStyle={
             padding: '30px 20px 50px',
@@ -201,13 +175,8 @@ export default class SignUpPage extends Component{
             margin: 0,
         }
 
-        
-
-        
-        
         return(
-        
-            
+
             <Grid container spacing={1}>
                 <Paper align='center' style={PaperStyle}>
                     <Grid align='center'>
@@ -215,10 +184,7 @@ export default class SignUpPage extends Component{
                         <h2 style={HeaderStyle}>Sign Up</h2>
                         <Typography variant='caption'>Pleasefill in this form to create an account</Typography>
                     </Grid>
-
-                    
                     <form>
-
                             <Grid container spacing={2} direction={"column"} align="center">
 
                                     {/* Name field */}
@@ -322,7 +288,6 @@ export default class SignUpPage extends Component{
                                     {this.state.errors.confirmUser && <p>{this.state.errors.confirmUser}</p>}
                                     </Grid>
 
-                                    
                                     {/* Email Field*/}
                                     <Grid item> 
                                     <TextField
@@ -357,17 +322,12 @@ export default class SignUpPage extends Component{
                                     <Grid item>
                                                 <NavLink to="/login" margin="normal">Already have an account? Sign-in</NavLink>
                                     </Grid>
-                                
                             </Grid>
                     </form>
                 </Paper>
-
-                
             </Grid>       
         );
-
     }
-
 }
 
 

@@ -1,12 +1,22 @@
-/* body{
-  
-  background-image: url('../images/3.jpg');
-  height: 100%;
-  position: relative;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-  opacity: 0.75;
-  
+.app_div {
+   position:relative;
+   min-height: 100vh;
 }
- */
+
+.footer-wrap {
+   padding-bottom: 6rem;
+}
+
+.footer {
+   position: absolute;
+   bottom: 0;
+   width: 100%;
+   height: 5rem;
+   margin-bottom: 0.2rem;
+}
+
+body {
+    min-height: 100vh;
+}
+
+

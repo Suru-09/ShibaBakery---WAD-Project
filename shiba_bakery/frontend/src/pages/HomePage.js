@@ -1,23 +1,11 @@
 import React, {Component} from "react";
-import SignUpPage from "./SignUpPage"
-import LoginPage from "./LoginPage"
-import { render } from "react-dom";
+
 import { BrowserRouter as Router,
     Switch,
-    Route,
-    Link,
-    Redirect
 } from "react-router-dom"; 
-import { Grid, Button, ButtonGroup, Typography} from "@material-ui/core";
-import Navbar from "../components/navbar";
-import { useEffect } from "react";
-// import { useDispatch, useSelector } from "react-redux";
+import { Grid} from "@material-ui/core";
 
-// Components
 import Product from "../components/Product";
-
-//Actions
-// import { getProducts as listProducts } from "../redux/actions/productActions";
 
 
 export default class HomePage extends Component {
@@ -27,16 +15,6 @@ export default class HomePage extends Component {
         this.renderHomePage = this.renderHomePage.bind(this);
     }
 
-    //  dispatch = useDispatch();
-
-    //  getProducts = useSelector((state) => state.getProducts);
-    //  { products, loading, error } = getProducts;
-  
-    // useEffect(() => {
-    //   dispatch(listProducts());
-    // }, [dispatch]);
-  
-    
     renderHomePage() {
 
         return (
