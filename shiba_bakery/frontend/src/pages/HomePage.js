@@ -44,33 +44,38 @@ export default class HomePage extends Component {
 
     renderHomePage() {
 
-        return (
-            // <>
-            //     <Grid>
-            //     <div className="homescreen">
-            //         <h2 className="homescreen__title">Latest Products</h2>
-            //         <div className="homescreen__products">
-            //             {loading ? (
-            //             <h2>Loading...</h2>
-            //             ) : error ? (
-            //             <h2>{error}</h2>
-            //             ) : (
-            //             this.state.products.map((product) => (
-            //                 <Product
-            //                 name={product.name}
-            //                 description={product.description}
-            //                 price={product.price}
-            //                 imageUrl={product.image}
-            //                 />
-            //             ))
-            //             )}
-            //          </div>
-            //     </div>
-            //     </Grid>
-            // </>
-            <>
+        // this.state.products.map((product) => {
+        //     return product;
+        // });
 
+        return (
+            <>
+                <Grid container spacing={2} direction={"column"}>
+                <div className="product_div">
+                    <h2 className= "list_title">Latest Products</h2>
+                    <Grid  container spacing={2} direction={"row"}>
+                        
+                        { this.state.products.map((product) => {
+                            return(
+                            <Product
+                            key={product._id}
+                            name={product.name}
+                            description={product.description}
+                            price={product.price}
+                            imageUrl={product.image}
+                            productId={product._id}
+                            category={product.category}
+                            ></Product>)
+                            })
+                        }
+                        
+                     </Grid>
+                </div>
+                </Grid>
             </>
+            // <>
+
+            // </>
 
         );
     }

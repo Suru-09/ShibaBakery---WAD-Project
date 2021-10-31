@@ -1,12 +1,12 @@
 body{
   
-    background-image: url('../images/3.jpg');
+    background-image: url('../images/bacground2.jpg');
     height: 100%;
     position: relative;
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
-    opacity: 0.75;
+    opacity: 0.9;
     
   }
   
