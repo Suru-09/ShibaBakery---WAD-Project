@@ -1,11 +1,15 @@
 import "../../static/css/product.css";
 import { Link } from "react-router-dom";
 import React from "react";
+import ProductScreen from "../pages/ProductPage";
+
 
 const Product = ({ imageUrl, description, price, name, category, productId }) => {
 
-  console.log(imageUrl);
+
+  
   return (
+    
     
     <div className="product">
       <img src={imageUrl} />
@@ -19,11 +23,12 @@ const Product = ({ imageUrl, description, price, name, category, productId }) =>
 
         <p className="info__price">${price}</p>
 
-        <Link to={`/product/${productId}`} className="info__button">
+        <Link to={`/product/${productId}`}  className="info__button">
           View
         </Link>
       </div>
     </div>
+    
   );
 };
 
