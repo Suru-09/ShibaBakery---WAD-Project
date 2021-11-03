@@ -87,6 +87,7 @@ export default class HomePage extends Component {
                     <Route exact path='/home'>
                         {this.renderHomePage()}
                     </Route>
+                    
                 </Switch>
             </Router>
         );
