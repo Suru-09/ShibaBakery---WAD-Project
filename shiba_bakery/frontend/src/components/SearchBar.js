@@ -15,6 +15,7 @@ export default class SearchBar extends Component {
     }
 
     async getData() {
+        
         const requestOptions = {
                 method: "GET",
                 headers: {

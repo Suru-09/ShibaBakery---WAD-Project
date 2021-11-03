@@ -20,6 +20,7 @@ export default class HomePage extends Component {
     }
 
     async getData() {
+
         const requestOptions = {
                 method: "GET",
                 headers: {
@@ -28,7 +29,6 @@ export default class HomePage extends Component {
                 'Content-Type': 'application/json'
             }
         };
-
 
         const response = await fetch('api/get-product', requestOptions);
         const products = await response.json();
@@ -44,10 +44,6 @@ export default class HomePage extends Component {
 
     renderHomePage() {
 
-        // this.state.products.map((product) => {
-        //     return product;
-        // });
-
         return (
             <>
                 <Grid container spacing={2} direction={"column"}>
@@ -57,15 +53,14 @@ export default class HomePage extends Component {
                         
                         { this.state.products.map((product) => {
                             return(
-                            <Product
-                            key={product._id}
-                            name={product.name}
-                            description={product.description}
-                            price={product.price}
-                            imageUrl={product.image}
-                            productId={product._id}
-                            category={product.category}
-                            ></Product>)
+                                <Product
+                                    name={product.name}
+                                    description={product.description}
+                                    price={product.price}
+                                    imageUrl={product.image}
+                                    productId={product.id}
+                                    category={product.category}
+                                />)
                             })
                         }
                         
@@ -73,10 +68,6 @@ export default class HomePage extends Component {
                 </div>
                 </Grid>
             </>
-            // <>
-
-            // </>
-
         );
     }
 

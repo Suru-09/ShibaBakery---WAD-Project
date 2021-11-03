@@ -1,13 +1,10 @@
 import "../../static/css/product.css";
 import { Link } from "react-router-dom";
 import React from "react";
-import ProductScreen from "../pages/ProductPage";
-
+import ProductPage from "../pages/ProductPage";
 
 const Product = ({ imageUrl, description, price, name, category, productId }) => {
 
-
-  
   return (
     
     

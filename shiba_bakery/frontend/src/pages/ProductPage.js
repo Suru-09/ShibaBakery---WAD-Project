@@ -1,10 +1,12 @@
 import React from "react";
 import '../../static/css/productScreen.css'
+import GetProductAfterId from "../utils/GetProductAfterId";
 
-const ProductScreen = ({ productId }) => {
+const ProductPage = ({ productId }) => {
 
+    const product = GetProductAfterId(productId);
+    console.log("Am intrat cumva aici!");
 
-    
     return (
       <div className="productscreen">
        
@@ -52,6 +54,6 @@ const ProductScreen = ({ productId }) => {
     );
   };
   
-  export default ProductScreen;
+  export default ProductPage;
   
 

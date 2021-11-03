@@ -1,33 +1,35 @@
-import '../../static/css/navbar.css'
 import React from 'react'
+
+// CSS
+import '../../static/css/navbar.css'
+
+// Pages
+import Searchbar from './SearchBar';
+
+
+//Material-ui
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
-import Searchbar from './SearchBar';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import HomeIcon from '@mui/icons-material/Home';
-import { BrowserRouter as Router,
-  Switch,
-  Route,
+
+//Router
+import {
   Link,
 } from "react-router-dom"; 
-import LoginPage from '../pages/LoginPage';
-import SignUpPage from '../pages/SignUpPage';
-import CartScreen from '../pages/CartPage';
-import HomePage from "../pages/HomePage";
 
 
 const Navbar = () => {
 
   return (
-    <Router>
 
         <Box sx={{ flexGrow: 1 }}
         >
-            <AppBar position="static" fullWidth>
+            <AppBar position="static">
                 <Toolbar >
 
                     {/*This is SearchBar div*/}
@@ -68,16 +70,6 @@ const Navbar = () => {
                 </Toolbar>
             </AppBar>
         </Box>
-
-
-        <Switch>
-            <Route exact path='/login' component={LoginPage}/>
-            <Route  path='/sign-up' component={SignUpPage}/>
-            <Route  path='/cart_screen' component={CartScreen}/>
-            <Route path='/home' compoennt={HomePage}/>
-        </Switch>
-
-    </Router>
   )
 }
 export default Navbar;

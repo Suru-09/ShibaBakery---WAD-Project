@@ -88,6 +88,15 @@ class ProductView(APIView):
                         status=status.HTTP_400_BAD_REQUEST)
 
 
+class GetProductAfterID(APIView):
+    serializer_class = ProductSerializer
+
+    def get(self, request, product_id):
+        product = Product.objects.get(pk=product_id)
+        serializer = self.serializer_class(product, Many=False)
+        return Response(serializer.data)
+
+
 class OrderView(APIView):
     serializer_class = OrderSerializer
 
@@ -169,6 +178,7 @@ class DeleteProduct:
                             status=status.HTTP_400_BAD_REQUEST)
         return Response("The product has been deleted from the database",
                         status=status.HTTP_200_OK)
+
 
 class UpdateProduct:
     serializer_class = ProductSerializer

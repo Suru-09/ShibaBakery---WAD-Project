@@ -7,4 +7,5 @@ urlpatterns = [
     path('sign-up', index),
     path('login', index),
     path('cart_screen', index),
+    path('product/<slug:slug>', index),
 ]
