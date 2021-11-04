@@ -1,11 +1,22 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import '../../static/css/productScreen.css'
 import GetProductAfterId from "../utils/GetProductAfterId";
 
 const ProductPage = ({ productId }) => {
 
-    const product = GetProductAfterId(productId);
-    console.log("Am intrat cumva aici!");
+   const [product, setProduct] = useState('');
+
+  useEffect(() => {
+
+     async function getProduct() {
+         const product = await GetProductAfterId(productId);
+         setProduct(product);
+     }
+     getProduct();
+  }, [])
+
+    console.log("Am ajuns in Product Page!");
+    console.log(productId);
 
     return (
       <div className="productscreen">

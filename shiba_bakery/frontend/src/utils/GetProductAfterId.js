@@ -11,8 +11,6 @@ export default async function getProductAfterId(productId) {
             }
         };
 
-        const response = await fetch('api/get-product-by-id' + productId, requestOptions);
-        const products = await response.json();
-
-       return products;
+        const response = await fetch('/api/get-product-by-id' + '?product_id=' + productId, requestOptions);
+        return await response.json();
 }

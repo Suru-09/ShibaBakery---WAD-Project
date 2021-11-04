@@ -13,11 +13,14 @@ export default class HomePage extends Component {
         super(props);
         this.state = {
             products: [],
+            selectedProduct: 0,
         }
 
         this.renderHomePage = this.renderHomePage.bind(this);
         this.getData = this.getData.bind(this);
+        this.handleCallback = this.handleCallback.bind(this);
     }
+
 
     async getData() {
 
@@ -30,7 +33,7 @@ export default class HomePage extends Component {
             }
         };
 
-        const response = await fetch('api/get-product', requestOptions);
+        const response = await fetch('/api/get-product', requestOptions);
         const products = await response.json();
 
         this.setState({
@@ -38,8 +41,15 @@ export default class HomePage extends Component {
         });
     }
 
+     handleCallback = (childData) =>{
+        this.props.productCallback(childData);
+        this.setState({
+            selectedProduct: childData,
+        });
+    }
+
     componentDidMount() {
-        this.getData();
+        this.getData().then();
     }
 
     renderHomePage() {
@@ -53,14 +63,17 @@ export default class HomePage extends Component {
                         
                         { this.state.products.map((product) => {
                             return(
-                                <Product
+                                    <Product
+                                    key={product.id}
+                                    homePageCallback={() => this.handleCallback(product.id)}
+                                    productId={product.id}
                                     name={product.name}
                                     description={product.description}
                                     price={product.price}
                                     imageUrl={product.image}
-                                    productId={product.id}
                                     category={product.category}
-                                />)
+                                    />
+                                )
                             })
                         }
                         
@@ -73,14 +86,10 @@ export default class HomePage extends Component {
 
     render() {
         return(
-            <Router>
-                <Switch>
-                    <Route exact path='/home'>
-                        {this.renderHomePage()}
-                    </Route>
-                    
-                </Switch>
-            </Router>
+            <>
+                {this.renderHomePage()}
+            </>
+
         );
     }
 

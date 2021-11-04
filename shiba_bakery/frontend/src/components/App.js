@@ -27,10 +27,20 @@ from 'react-router-dom';
 export default class App extends Component {
     constructor(props) {
         super(props);
+        this.state = {
+            productId: 0,
+        }
+
+        this.handleCallback = this.handleCallback.bind(this);
     }
 
     componentDidMount() {
         document.title = "Shiba Bakery";
+    }
+
+    handleCallback = (childData) =>{
+        this.setState(
+            {productId: childData})
     }
 
     render() {
@@ -47,8 +57,8 @@ export default class App extends Component {
                                <Route exact path='/login' component={LoginPage}/>
                                <Route  path='/sign-up' component={SignUpPage}/>
                                <Route  path='/cart_screen' component={CartScreen}/>
-                               <Route path='/home' component={HomePage}/>
-                               {/*<Route path='/product/${productId}' render={(props) => <ProductPage productId={props.match.params.id} {...props} /> }/>*/}
+                               <Route path='/home' render={(props) => <HomePage productCallback={this.handleCallback} productId={this.state.productId} {...props} authed={true}/> }/>
+                               <Route path='/product/:productId?' render={(props) => <ProductPage productId={this.state.productId} {...props} authed={true}/> }/>
                            </Switch>
 
                             <div className="footer">

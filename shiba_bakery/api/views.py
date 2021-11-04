@@ -90,10 +90,12 @@ class ProductView(APIView):
 
 class GetProductAfterID(APIView):
     serializer_class = ProductSerializer
+    lookup_url_kwarg = 'product_id'
 
-    def get(self, request, product_id):
+    def get(self, request):
+        product_id = request.GET.get(self.lookup_url_kwarg)
         product = Product.objects.get(pk=product_id)
-        serializer = self.serializer_class(product, Many=False)
+        serializer = self.serializer_class(product)
         return Response(serializer.data)
 
 

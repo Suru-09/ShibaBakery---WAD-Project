@@ -2,12 +2,11 @@ import "../../static/css/product.css";
 import { Link } from "react-router-dom";
 import React from "react";
 import ProductPage from "../pages/ProductPage";
+import Button from "@material-ui/core/Button";
 
-const Product = ({ imageUrl, description, price, name, category, productId }) => {
+const Product = ({ homePageCallback, imageUrl, description, price, name, category, productId }) => {
 
   return (
-    
-    
     <div className="product">
       <img src={imageUrl} />
 
@@ -20,9 +19,10 @@ const Product = ({ imageUrl, description, price, name, category, productId }) =>
 
         <p className="info__price">${price}</p>
 
-        <Link to={`/product/${productId}`}  className="info__button">
+          {/*{productId}*/}
+        <Button to={`/product/${productId}`} component={Link} onClick={() => homePageCallback(productId)} className="info__button">
           View
-        </Link>
+        </Button>
       </div>
     </div>
     

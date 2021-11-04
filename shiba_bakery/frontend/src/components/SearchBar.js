@@ -15,7 +15,7 @@ export default class SearchBar extends Component {
     }
 
     async getData() {
-        
+
         const requestOptions = {
                 method: "GET",
                 headers: {
@@ -25,7 +25,7 @@ export default class SearchBar extends Component {
             }
         };
 
-        const response = await fetch('api/get-product', requestOptions);
+        const response = await fetch('/api/get-product', requestOptions);
         const products = await response.json();
 
         this.setState({
