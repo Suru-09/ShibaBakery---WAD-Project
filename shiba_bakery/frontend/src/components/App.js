@@ -27,13 +27,18 @@ from 'react-router-dom';
 export default class App extends Component {
     constructor(props) {
         super(props);
-        this.state = {
+        this.state = JSON.parse(window.localStorage.getItem('state')) || {
             productId: 0,
         }
 
         this.handleCallback = this.handleCallback.bind(this);
     }
 
+    setState(state) {
+        window.localStorage.setItem('state', JSON.stringify(state));
+        super.setState(state);
+    }
+  
     componentDidMount() {
         document.title = "Shiba Bakery";
     }
