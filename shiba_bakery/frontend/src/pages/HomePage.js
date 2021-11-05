@@ -1,9 +1,4 @@
 import React, {Component} from "react";
-import {
-    BrowserRouter as Router,
-    Switch,
-    Route
-} from "react-router-dom"; 
 import { Grid} from "@material-ui/core";
 import Product from "../components/Product";
 import GetCookie from "../utils/GetCookie";

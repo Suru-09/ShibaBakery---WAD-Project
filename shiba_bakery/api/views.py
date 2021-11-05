@@ -1,6 +1,6 @@
 from django.contrib.auth import authenticate
 
-from .serializers import UserSerializer, LoginSerializer, ProductSerializer, OrderSerializer
+from .serializers import UserSerializer, LoginSerializer, ProductSerializer, OrderSerializer, ProductFilter
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
@@ -55,6 +55,28 @@ class LoginView(APIView):
         return Response("Bad information give at input!", status=status.HTTP_404_NOT_FOUND)
 
 
+class GetUserAfterId(APIView):
+    serializer_class = UserSerializer
+    lookup_url_kwarg = 'user_id'
+
+    def get(self, request, format=None):
+        user_id = request.GET.get(self.lookup_url_kwarg)
+        user = User.objects.get(pk=user_id)
+        serializer = self.serializer_class(user)
+        return Response(serializer.data)
+
+
+class GetUserAfterUsername(APIView):
+    serializer_class = UserSerializer
+    lookup_url_kwarg = 'username'
+
+    def get(self, request, format=None):
+        user_name = request.GET.get(self.lookup_url_kwarg)
+        user = User.objects.get(username=user_name)
+        serializer = self.serializer_class(user)
+        return Response(serializer.data)
+
+
 class ProductView(APIView):
     serializer_class = ProductSerializer
 
@@ -65,6 +87,7 @@ class ProductView(APIView):
 
     def post(self, request):
         serializer = self.serializer_class(data=request.data)
+        filter_product = ProductFilter
 
         if serializer.is_valid():
             name = serializer.data.get('name')
@@ -74,16 +97,20 @@ class ProductView(APIView):
             description = serializer.data.get('description')
             image = serializer.data.get('image')
 
-            product = Product(name,
-                              ingredients,
-                              price,
-                              category,
-                              description,
-                              image)
-            print(product)
-            product.save()
-            return Response("The product has been added to the database",
-                            status=status.HTTP_200_OK)
+            value = filter_product.my_custom_filter(filter_product, name, ingredients, price, category, description)
+            if not value:
+                product = Product(name,
+                                  ingredients,
+                                  price,
+                                  category,
+                                  description,
+                                  image)
+                print(product)
+                product.save()
+                return Response("The product has been added to the database",
+                                status=status.HTTP_200_OK)
+            return Response("The given data is not valid!",
+                            status=status.HTTP_400_BAD_REQUEST)
         return Response("The given data is not valid!",
                         status=status.HTTP_400_BAD_REQUEST)
 

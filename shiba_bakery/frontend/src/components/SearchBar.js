@@ -2,8 +2,9 @@ import React, { Component } from 'react';
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
 import GetCookie from "../utils/GetCookie";
+import {withRouter} from 'react-router-dom';
 
-export default class SearchBar extends Component {
+class SearchBar extends Component {
 
     constructor(props) {
         super(props);
@@ -12,6 +13,7 @@ export default class SearchBar extends Component {
         }
 
         this.getData = this.getData.bind(this);
+        this.onChangeAutocomplete = this.onChangeAutocomplete.bind(this);
     }
 
     async getData() {
@@ -37,6 +39,12 @@ export default class SearchBar extends Component {
         this.getData();
     }
 
+    onChangeAutocomplete(value) {
+        this.props.handleCallback(value.id);
+        this.props.history.push(`/product/` + value.id);
+        window.location = document.URL;
+    }
+
     render() {
 
         const options = this.state.products.map((option) => {
@@ -51,7 +59,15 @@ export default class SearchBar extends Component {
             getOptionLabel={(option) => option.name}
             sx={{ width: 300 }}
             renderInput={(params) => <TextField {...params} label="Search..." variant="outlined" size="normal" />}
+            onChange={(e, value) => {
+                this.onChangeAutocomplete(value);
+            }}
+            // onInputChange={(e, value) => {
+            //     this.onChangeAutocomplete(value);
+            // }}
           />
         );
     }
 };
+
+export default withRouter(SearchBar);

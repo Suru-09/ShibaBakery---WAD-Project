@@ -1,11 +1,11 @@
-import React from 'react'
+import React, {useEffect, useState} from 'react'
 
 // CSS
 import '../../static/css/navbar.css'
 
 // Pages
 import Searchbar from './SearchBar';
-
+import GetUserAfterName from "../utils/GetUserAfterUsername";
 
 //Material-ui
 import AppBar from '@mui/material/AppBar';
@@ -16,19 +16,40 @@ import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import HomeIcon from '@mui/icons-material/Home';
+import Avatar from '@mui/material/Avatar';
+import CardHeader from '@mui/material/CardHeader';
 
 //Router
 import {
   Link,
-} from "react-router-dom"; 
+} from "react-router-dom";
+import { createBrowserHistory } from "history"
 
+const browserHistory = createBrowserHistory()
 
-const Navbar = () => {
+const Navbar = ({navbarCall, userID}) => {
+
+  const [user, setUser] = useState('');
+
+  useEffect(() => {
+
+     async function getUser() {
+         if(userID !== -1 && typeof(userID) != "undefined" && userID ) {
+             const user = await GetUserAfterName(userID);
+             setUser(user);
+         } else {
+             console.log("User doesn't exist in Navbar");
+         }
+     }
+     getUser();
+  }, [])
+
+  const handleProduct = (productId) => {
+      navbarCall(productId);
+  }
 
   return (
-
-        <Box sx={{ flexGrow: 1 }}
-        >
+        <Box sx={{ flexGrow: 1 }}>
             <AppBar position="static">
                 <Toolbar >
 
@@ -48,12 +69,23 @@ const Navbar = () => {
                               >
                                 <MenuIcon />
                             </IconButton>
-                            <Searchbar/>
+                            <Searchbar  history={browserHistory} handleCallback={handleProduct} />
                         </div>
 
                         {/*This is the div with the buttons Login and Cart*/}
                         <div className="button_div">
                             <div className="nav_buttons">
+
+                                <CardHeader
+                                  avatar={
+                                    <Avatar
+                                    >
+                                        {userID && user ? user.last_name.charAt(0).toUpperCase() + user.first_name.charAt(0).toUpperCase() : "G"}
+                                    </Avatar>
+                                  }
+                                  title = {userID && user ? user.last_name + " " + user.first_name : "Guest"}
+                                />
+
                               <Button to="/login" component={Link} color="inherit">
                                 Login
                               </Button>
@@ -72,5 +104,6 @@ const Navbar = () => {
         </Box>
   )
 }
+
 export default Navbar;
 

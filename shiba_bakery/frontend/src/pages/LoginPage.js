@@ -15,6 +15,7 @@ import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import { NavLink } from 'react-router-dom';
 import GetCookie from "../utils/GetCookie";
+import GetUserAfterUsername from "../utils/GetUserAfterUsername";
 
 export default class LoginPage extends Component{
 
@@ -24,6 +25,7 @@ export default class LoginPage extends Component{
             usernameUser: "",
             passwordUser: "",
             showPassword: false,
+            userID: -1,
         }
         this._handleUsernameTextFieldChange = this._handleUsernameTextFieldChange.bind(this);
         this._handlePasswordTextFieldChange = this._handlePasswordTextFieldChange.bind(this);
@@ -46,11 +48,13 @@ export default class LoginPage extends Component{
                 password: this.state.passwordUser,
             }),
         };
-        
+
         fetch('api/login', requestOptions).then((response) => {
             if(response.ok) {
-                console.log("Am reusit");
+                console.log("M-am logat!");
+                this.props.loginCallback(this.state.usernameUser);
                 this.props.history.push('/home');
+                window.location.reload();
             }
             else {
                 console.log("Am esuat rau de tot!");
@@ -176,6 +180,3 @@ export default class LoginPage extends Component{
     }
 
 }
-
-
-

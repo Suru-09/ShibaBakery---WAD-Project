@@ -15,15 +15,13 @@ const ProductPage = ({ productId }) => {
      getProduct();
   }, [])
 
-    console.log("Am ajuns in Product Page!");
-    console.log(productId);
 
-    return (
+  return (
       <div className="productscreen">
-       
+
             <div className="productscreen__left">
               <div className="left__image">
-                <img src={product.imageUrl} alt={product.name} />
+                <img src={product.image}/>
               </div>
               <div className="left__info">
                 <p className="left__name">{product.name}</p>
@@ -60,11 +58,11 @@ const ProductPage = ({ productId }) => {
                 </p>
               </div>
             </div>
-          
+
       </div>
     );
   };
-  
+
   export default ProductPage;
-  
+
 

@@ -3,6 +3,7 @@
     flex-flow: row;
     flex-grow: 1;
     flex-shrink: 2;
+    margin-top: 10px;
 }
 
 .button_div{
