@@ -7,10 +7,14 @@ const ProductPage = ({ productId }) => {
    const [product, setProduct] = useState('');
 
   useEffect(() => {
-
      async function getProduct() {
-         const product = await GetProductAfterId(productId);
-         setProduct(product);
+         if(productId !== 0) {
+             const product = await GetProductAfterId(productId);
+            setProduct(product);
+         }
+         else {
+             console.log("Product id este: " + productId + " in ProductPage");
+         }
      }
      getProduct();
   }, [])

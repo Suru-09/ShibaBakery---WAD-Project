@@ -35,9 +35,11 @@ const Navbar = ({navbarCall, userID}) => {
 
      async function getUser() {
          if(userID !== -1 && typeof(userID) != "undefined" && userID ) {
+             console.log("Eu sunt userId: " + userID);
              const user = await GetUserAfterName(userID);
              setUser(user);
          } else {
+             console.log("Eu sunt userId: " + userID);
              console.log("User doesn't exist in Navbar");
          }
      }

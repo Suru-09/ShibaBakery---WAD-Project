@@ -41,6 +41,7 @@ class SearchBar extends Component {
 
     onChangeAutocomplete(value) {
         this.props.handleCallback(value.id);
+        console.log("Eu sunt product ID in Searchbar: " + value.id);
         this.props.history.push(`/product/` + value.id);
         window.location = document.URL;
     }
@@ -68,6 +69,6 @@ class SearchBar extends Component {
           />
         );
     }
-};
+}
 
 export default withRouter(SearchBar);

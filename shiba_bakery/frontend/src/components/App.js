@@ -31,7 +31,7 @@ export default class App extends Component {
             currentUserID: -1,
         }
 
-        this.handleCallback = this.handleCallback.bind(this);
+        this.handleProductId = this.handleProductId.bind(this);
         this.handleUserSession = this.handleUserSession.bind(this);
     }
 
@@ -39,6 +39,8 @@ export default class App extends Component {
         document.title = "Shiba Bakery";
         const user = window.localStorage.getItem('user');
         const product = window.localStorage.getItem('product');
+        console.log(user);
+        console.log("Component DidMount: " + product);
 
         this.setState({
             currentUserID: user,
@@ -46,9 +48,10 @@ export default class App extends Component {
         });
     }
 
-    handleCallback = (childData) =>{
+    handleProductId = (childData) =>{
         const user = window.localStorage.getItem('user');
         window.localStorage.setItem('product', childData);
+        console.log("Eu sunt ProductId: " + childData);
 
         this.setState({
             currentUserID: user,
@@ -79,14 +82,14 @@ export default class App extends Component {
                 <Router>
                     <div className="app_div">
                         <div className="footer-wrap">
-                            <Navbar navbarCall={this.handleCallback} userID={this.state.currentUserID} />
+                            <Navbar navbarCall={this.handleProductId} userID={this.state.currentUserID} />
 
                             {/*The site will be 1 page, so this is all the switching*/}
                             <Switch>
                                <Route exact path='/login' render={(props) => <LoginPage loginCallback={this.handleUserSession} {...props} authed={true}/> }/>
                                <Route  path='/sign-up' component={SignUpPage}/>
                                <Route  path='/cart_screen' component={CartScreen}/>
-                               <Route path='/home' render={(props) => <HomePage productCallback={this.handleCallback} productId={this.state.productId} {...props} authed={true}/> }/>
+                               <Route path='/home' render={(props) => <HomePage productCallback={this.handleProductId} productId={this.state.productId} {...props} authed={true}/> }/>
                                <Route path='/product/:productId?' render={(props) => <ProductPage productId={this.state.productId} {...props} authed={true}/> }/>
                            </Switch>
 
