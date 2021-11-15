@@ -1,0 +1,18 @@
+.add_div{
+    margin-top: 15px;
+    align-items: center;
+    flex-wrap: wrap;
+    position: fixed
+    
+}
+
+.prod_box{
+    
+    margin: 1;
+    
+}
+
+button{
+    margin-left: 2;
+    margin-right: 2;
+}

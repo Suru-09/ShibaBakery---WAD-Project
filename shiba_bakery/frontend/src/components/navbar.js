@@ -97,6 +97,10 @@ const Navbar = ({navbarCall, userID}) => {
                                 Cart
                               </Button>
 
+                              <Button to="/adminPage"  component={Link} color="inherit">
+                                Admin
+                              </Button>
+
                               </div>
                         </div>
                     </div>
