@@ -26,7 +26,7 @@ from 'react-router-dom';
 export default class App extends Component {
     constructor(props) {
         super(props);
-        this.state = JSON.parse(window.localStorage.getItem('state')) || {
+        this.state = {
             productId: 0,
             currentUserID: -1,
         }
@@ -36,16 +36,8 @@ export default class App extends Component {
     }
 
     componentDidMount() {
+        // window.localStorage.clear();
         document.title = "Shiba Bakery";
-        const user = window.localStorage.getItem('user');
-        const product = window.localStorage.getItem('product');
-        console.log(user);
-        console.log("Component DidMount: " + product);
-
-        this.setState({
-            currentUserID: user,
-            productId: product
-        });
     }
 
     handleProductId = (childData) =>{
@@ -82,7 +74,7 @@ export default class App extends Component {
                 <Router>
                     <div className="app_div">
                         <div className="footer-wrap">
-                            <Navbar navbarCall={this.handleProductId} userID={this.state.currentUserID} />
+                            <Navbar navbarCall={this.handleProductId} userID={window.localStorage.getItem('user')} />
 
                             {/*The site will be 1 page, so this is all the switching*/}
                             <Switch>
@@ -90,7 +82,7 @@ export default class App extends Component {
                                <Route  path='/sign-up' component={SignUpPage}/>
                                <Route  path='/cart_screen' component={CartScreen}/>
                                <Route path='/home' render={(props) => <HomePage productCallback={this.handleProductId} productId={this.state.productId} {...props} authed={true}/> }/>
-                               <Route path='/product/:productId?' render={(props) => <ProductPage productId={this.state.productId} {...props} authed={true}/> }/>
+                               <Route path='/product/:productId?' render={(props) => <ProductPage productId={window.localStorage.getItem('product')} {...props} authed={true}/> }/>
                            </Switch>
 
                             <div className="footer">

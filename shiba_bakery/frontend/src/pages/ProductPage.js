@@ -4,7 +4,7 @@ import GetProductAfterId from "../utils/GetProductAfterId";
 
 const ProductPage = ({ productId }) => {
 
-   const [product, setProduct] = useState('');
+  const [product, setProduct] = useState('');
 
   useEffect(() => {
      async function getProduct() {

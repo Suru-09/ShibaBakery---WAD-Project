@@ -7,9 +7,9 @@ const CartItem = ({ homePageCallback, imageUrl, description, price, name, catego
   return (
     <div className="cartitem">
       <div className="cartitem__image">
-        <img src={imageUrl} alt={name} />
+        <img className="image" src={imageUrl} alt={name} />
       </div>
-      <Button to={`/product/${productId}`} component={Link} onClick={() => homePageCallback(productId)} className="info__button">
+      <Button to={`/product/${productId}`} component={Link} className="info__button">
           View
         </Button>
       <p className="cartitem__price">${price}</p>
@@ -29,7 +29,7 @@ const CartItem = ({ homePageCallback, imageUrl, description, price, name, catego
         className="cartItem__deleteBtn"
         // onClick={() => removeHandler(item.product)}
       >
-        <i className="fas fa-trash"></i>
+        <i className="fas fa-trash"/>
       </button>
     </div>
   );
