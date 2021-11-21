@@ -6,6 +6,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from django.contrib.auth.hashers import make_password, check_password
 from django.contrib.auth.models import User
+from django.contrib.auth import login, authenticate
 from .models import Product, Order
 
 
@@ -39,19 +40,18 @@ class SignUpView(APIView):
 
 class LoginView(APIView):
     serializer_class = LoginSerializer
-
+    
     def post(self, request):
         serializer = self.serializer_class(data=request.data)
 
         if serializer.is_valid():
             username = serializer.data.get('username')
             password = serializer.data.get('password')
-            user = User.objects.filter(username=username)
+            user = authenticate(username=username, password=password)
             if not user:
                 return Response("The user doesn't exist in the database!", status=status.HTTP_400_BAD_REQUEST)
-            if user[0].check_password(password):
-                return Response("You have successfully logged in!", status=status.HTTP_200_OK)
-            return Response("Wrong password!", status=status.HTTP_400_BAD_REQUEST)
+            is_admin = user.is_staff
+            return Response(is_admin, status=status.HTTP_200_OK)
         return Response("Bad information give at input!", status=status.HTTP_404_NOT_FOUND)
 
 

@@ -13,11 +13,11 @@ import {
 } from '@material-ui/core';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
-import { NavLink } from 'react-router-dom';
+import {NavLink, withRouter} from 'react-router-dom';
 import GetCookie from "../utils/GetCookie";
 import GetUserAfterUsername from "../utils/GetUserAfterUsername";
 
-export default class LoginPage extends Component{
+class LoginPage extends Component{
 
     constructor(props) {
         super(props);
@@ -35,7 +35,7 @@ export default class LoginPage extends Component{
 
     }
 
-    _LoginButtonPressed(e) {
+    async _LoginButtonPressed(e) {
         const requestOptions = {
             method: "POST",
             headers: {
@@ -49,14 +49,19 @@ export default class LoginPage extends Component{
             }),
         };
 
-        fetch('api/login', requestOptions).then((response) => {
-            if(response.ok) {
+        await fetch('api/login', requestOptions).then(async (response) => {
+            if (response.ok) {
                 console.log("M-am logat!");
+                const is_admin = await response.json();
+                if(is_admin) {
+                    this.props.history.push('/adminPage');
+                }
+                else {
+                   this.props.history.push('/home');
+                }
                 this.props.loginCallback(this.state.usernameUser);
-                this.props.history.push('/home');
                 window.location.reload();
-            }
-            else {
+            } else {
                 console.log("Am esuat rau de tot!");
             }
         }).catch((error) => {
@@ -178,5 +183,6 @@ export default class LoginPage extends Component{
         );
 
     }
-
 }
+
+export default withRouter(LoginPage);

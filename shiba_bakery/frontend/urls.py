@@ -8,4 +8,5 @@ urlpatterns = [
     path('login', index),
     path('cart_screen', index),
     path('product/<slug:slug>', index),
+    path('adminPage', index),
 ]

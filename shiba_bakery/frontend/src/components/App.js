@@ -55,10 +55,8 @@ export default class App extends Component {
     handleUserSession = (childData) => {
 
         const getUser = async () => {
-            //const user = await GetUserAfterName(childData);
             console.log("Sunt in handlerUserSsession");
             console.log(childData);
-           // console.log(user);
             window.localStorage.setItem('user', childData);
             this.setState(
                 {
