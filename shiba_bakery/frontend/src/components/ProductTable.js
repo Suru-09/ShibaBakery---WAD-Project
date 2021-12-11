@@ -118,7 +118,7 @@ const ProductTable =() => {
                             })}
                         </TableRow>
                         <TableRow>
-                            <Collapse in={open} timeout="auto" unmountOnExit>
+                            <Collapse in={open} timeout="auto" unmountOnExit >
                                 <Box className="prod_box">
                                     <Button variant="contained" size="small">
                                         Update

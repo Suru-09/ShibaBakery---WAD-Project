@@ -1,5 +1,9 @@
 import React, {Component} from "react";
 import { render } from "react-dom";
+import { useTheme, ThemeProvider, createTheme } from '@mui/material/styles';
+import Brightness4Icon from '@mui/icons-material/Brightness4';
+import Brightness7Icon from '@mui/icons-material/Brightness7';
+import IconButton from '@mui/material/IconButton';
 
 //Pages
 import HomePage from "../pages/HomePage"
@@ -11,6 +15,7 @@ import Navbar from "./navbar";
 import ProductPage from "../pages/ProductPage";
 import GetUserAfterName from "../utils/GetUserAfterUsername";
 import AdminPage from "../pages/AdminPage";
+import ToggleColorMode from "./Theme";
 
 //Css
 import '../../static/css/app.css'
@@ -23,6 +28,7 @@ import {
     }
 from 'react-router-dom';
 
+// const ColorModeContext = React.createContext({ toggleColorMode: () => {} });
 
 export default class App extends Component {
     constructor(props) {
@@ -66,7 +72,11 @@ export default class App extends Component {
         getUser();
     }
 
+     
     render() {
+
+        // const theme = useTheme();
+        // const colorMode = React.useContext(ColorModeContext);
 
         return(
             <>
@@ -74,6 +84,10 @@ export default class App extends Component {
                     <div className="app_div">
                         <div className="footer-wrap">
                             <Navbar navbarCall={this.handleProductId} userID={window.localStorage.getItem('user')} />
+                            {/* {theme.palette.mode} mode
+                            <IconButton sx={{ ml: 1 }} onClick={colorMode.toggleColorMode} color="inherit">
+                                {theme.palette.mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
+                            </IconButton> */}
 
                             {/*The site will be 1 page, so this is all the switching*/}
                             <Switch>

@@ -49,6 +49,15 @@ export default function Footer() {
                         </Box>
                     </Grid>
 
+                    {/*This grid items contains the back to top button in the footer*/}
+                    <Grid item xs={12} sm={4}>
+                        <Box>
+
+                            <Link href="#" color="inherit">Back to top</Link>
+
+                        </Box>
+                    </Grid>
+
                 </Grid>
 
             {/* Contains the Copyright message at the end of the footer */}
