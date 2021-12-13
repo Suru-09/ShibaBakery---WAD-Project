@@ -9,4 +9,7 @@ urlpatterns = [
     path('cart_screen', index),
     path('product/<slug:slug>', index),
     path('adminPage', index),
+    path('adminPage/ProductTable', index),
+    path('adminPage/UserTable', index),
+    path('adminPage/OrderTable', index),
 ]

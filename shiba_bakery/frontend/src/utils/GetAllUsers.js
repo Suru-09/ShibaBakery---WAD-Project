@@ -1,8 +1,7 @@
-import React from 'react';
 import GetCookie from "./GetCookie";
 
-export default async function GetAllProducts() {
-         const requestOptions = {
+export default async function GetAllUsers() {
+        const requestOptions = {
                 method: "GET",
                 headers: {
                 "X-CSRFToken": GetCookie("crsftoken"),
@@ -11,6 +10,6 @@ export default async function GetAllProducts() {
             }
         };
 
-        const response = await fetch('/api/get-product', requestOptions);
+        const response = await fetch('/api/sign-up', requestOptions);
         return await response.json();
 }

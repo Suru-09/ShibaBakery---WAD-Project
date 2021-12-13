@@ -15,7 +15,8 @@ class ProductFilter(django_filters.FilterSet):
     def my_custom_filter(self, name, ingredients, price, category, description):
         return Product.objects.filter(
             Q(name__icontains=name) | Q(ingredients__icontains=ingredients)
-            | Q(price__icontains=price) | Q(category__icontains=category) | Q(description__icontaions=description)
+            | Q(price__icontains=price) | Q(category__icontains=category) 
+            | Q(description__icontaions=description)
         )
 
 
@@ -49,7 +50,8 @@ class ProductSerializer(serializers.ModelSerializer):
                   'price',
                   'category',
                   'description',
-                  'image')
+                  'image',
+                  'stock_count')
 
 
 class OrderSerializer(serializers.ModelSerializer):

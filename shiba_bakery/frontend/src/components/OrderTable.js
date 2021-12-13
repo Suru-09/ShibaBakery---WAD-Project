@@ -11,58 +11,48 @@ import { Button } from '@mui/material';
 import { Box } from '@mui/system';
 import GetAllProducts from '../utils/GetAllProducts';
 import { useState, useEffect } from 'react';
-import '../../static/css/productTable.css';
-import UpdateProduct from '../pages/UpdateProduct';
-import AddProduct from '../pages/AddProduct';
+import AddOrder from '../pages/AddOrder';
 import { Grid } from '@material-ui/core';
+import HandleOrder from '../pages/HandleOrder';
+
 
 
 const columns = [
-  { id: 'name', label: 'Name', minWidth: 170 },
-  { id: 'ingredients', label: 'Ingredients', minWidth: 170 },
-  { id: 'price', label: 'Price', minWidth: 100 },
-  { id: 'category', label: 'Category', minWidth: 100 }, 
-  { id: 'description', label: 'Description', minWidth: 100 }, 
-  { id: 'image', label: 'Image URL', minWidth: 100 }, 
-  { id: 'stock_count', label: 'Stock', minWidth: 100 }, 
+  { id: 'date_created', label: 'Date', minWidth: 170 },
+  { id: 'customer', label: 'Customer', minWidth: 170 },
+  { id: 'product', label: 'Product', minWidth: 100 },
+  { id: 'status', label: 'Status', minWidth: 100 }, 
 ];
 
-function createData(name, ingredients, price, category, 
-    description, image, stock_count) {
+function createData(date_created, customer, product, status ) {
     return { 
-        name,
-        ingredients,
-        price, 
-        category,
-        description,
-        image,
-        stock_count
+        date_created,
+        customer,
+        product,
+        status
     };
 }
 
-const ProductTable =() => {
+const OrderTable =() => {
 
-    const [products, setProducts] = useState([]);
-    const productRows = []
+    const [orders, setOrder] = useState([]);
+    const orderRows = []
 
-    useEffect(() => {
-        async function getProducts() {
-            const products = await GetAllProducts();
-            setProducts(products);
-        }
-        getProducts();
-    }, [])
+    // useEffect(() => {
+    //     async function getProducts() {
+    //         const products = await GetAllProducts();
+    //         setProducts(products);
+    //     }
+    //     getProducts();
+    // }, [])
 
-    for(let i = 0; i < products.length; ++i) {
-        productRows.push(createData(products[i].name,
-            products[i].ingredients,
-            products[i].price,
-            products[i].category,
-            products[i].description,
-            products[i].image,
-            products[i].stock_count
-            ));
-    }
+    // for(let i = 0; i < orders.length; ++i) {
+    //     orderRows.push(createData(orders[i].date_created,
+    //         orders[i].customer,
+    //         orders[i].product,
+    //         orders[i].status
+    //         ));
+    // }
 
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
@@ -93,19 +83,22 @@ const ProductTable =() => {
             </TableRow>
             </TableHead>
             <TableBody>
-            {productRows
+            {orderRows
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row) => {
                     return (
                             <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
                                 <TableCell>
                                     <Box className="prod_box">
-                                        <Button variant="contained" size="small" >
+                                        <Button variant="contained" size="small">
                                             Update
                                         </Button>
 
                                         <Button variant="contained" size="small">
                                             Delete
+                                        </Button>
+                                        <Button variant="contained" size="small">
+                                            Handle
                                         </Button>
                                     </Box>
                                 </TableCell>
@@ -130,7 +123,7 @@ const ProductTable =() => {
         <TablePagination
         rowsPerPageOptions={[10, 25, 100]}
         component="div"
-        count={productRows.length}
+        count={orderRows.length}
         rowsPerPage={rowsPerPage}
         page={page}
         onPageChange={handleChangePage}
@@ -138,22 +131,21 @@ const ProductTable =() => {
         />
         <div className="add_div">
         <Button variant="contained" size="large">
-            Add Product
+            Add Order
         </Button>
         </div>
 
-        {/* <UpdateProduct/> */}
         <Grid  container spacing={2} direction={"row"}>
                         <div>
-                            <UpdateProduct/>
+                            <AddOrder/>
                         </div>
 
                         <div>
-                            <AddProduct/>
+                            <HandleOrder/>
                         </div>
         </Grid>
         
     </Paper>
     );
 }
-export default ProductTable;
+export default OrderTable;

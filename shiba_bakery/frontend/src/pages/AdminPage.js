@@ -1,11 +1,20 @@
 import ProductTable from '../components/ProductTable';
 import UserTable from '../components/UserTable';
+import OrderTable from '../components/OrderTable';
 import React, {Component} from "react";
-import '../../static/css/admin.css'
 import { Breadcrumbs, Button } from '@mui/material';
-import { Link } from 'react-router-dom';
-import { Switch, TextField } from '@material-ui/core';
-import { Box } from '@mui/system';
+import '../../static/css/admin.css'
+import {
+    BrowserRouter as Router,
+    Switch,
+    Route,
+    DefaultRoute,
+    Link
+    }
+from 'react-router-dom';
+import UpdateProduct from './UpdateProduct';
+import AddProduct from './AddProduct';
+import { Grid } from '@material-ui/core';
 
 
 export default class AdminPage extends Component {
@@ -13,89 +22,51 @@ export default class AdminPage extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            value: -1,
             breadcrumbs_: ['Products' , 'Users', 'Orders']
         }
-
-        this.renderProducts = this.renderProducts.bind(this);
-        this.renderUsers = this.renderUsers.bind(this);
-        this.setStateValue = this.setStateValue.bind(this);
-        this.switchParam = this.switchParam.bind(this);
-    }
-
-    setStateValue(nr){
-        this.state.value =  nr;
-        console.log("This is state value: " + this.state.value);
-        window.location = document.URL;
-    }
-
-    switchParam(nr){
-        
-        console.log(nr)
-        switch(nr) 
-        {
-            case 0:  return(this.renderProducts());
-            case 1:  return(this.renderUsers());
-            case 2:  return(this.renderProducts());
-            default: return(this.renderProducts());
-        }
-        
-    }
-
-    renderProducts(){
-        
-        return(
-        
-            <div className="produc_tab_div">
-                <ProductTable></ProductTable>
-            </div>
-        );
-    }
-
-    renderUsers(){
-    
-        return(
-        <div className="user_tab_div">
-            <UserTable></UserTable>
-        </div>
-        );
     }
 
     render(){
         return(
-
-            <>
+            <Router>
                 <div className="pageContiner">
                     
-                    <div className="titel_div">
+                    {/* <div className="titel_div">
                         <p>This id the admin page</p>
-                    </div>
+                    </div> */}
 
                     <div>
                         <Breadcrumbs aria-label="breadcrumb">
-                            <Button underline="hover" color="inherit" onClick = {() => {this.setStateValue(0)}}>
+                            <Button underline="hover" color="inherit" to={'/adminPage/ProductTable'} component={Link}>
                                 {this.state.breadcrumbs_.at(0)}
-                                {/* {console.log(this.state.value)} */}
                             </Button>
-                            <Button underline="hover" color="inherit" onClick = {() => {this.setStateValue(1)}}>
+                            <Button underline="hover" color="inherit" to={'/adminPage/UserTable'} component={Link}>
                                 {this.state.breadcrumbs_.at(1)}
                             </Button>
-                            <Button underline="hover" color="inherit" onClick = {() => {this.setStateValue(2)}}>
+                            <Button underline="hover" color="inherit" to={'/adminPage/OrderTable'} component={Link}>
                                 {this.state.breadcrumbs_.at(2)}
                             </Button>
                         </Breadcrumbs>
                     </div>
 
-                    {/* {this.renderProducts()} */}
-                    {
-                        this.switchParam(this.state.value) 
-                        
-                    }
-                    
+                    <Switch>
+                        <Route exact path='/adminPage/ProductTable' component={ProductTable}/>
+                        <Route path='/adminPage/UserTable' component={UserTable}/>
+                        <Route path='/adminPage/OrderTable' component={OrderTable}/>
+                        <DefaultRoute path='/adminPage/ProductTable' component={ProductTable}/>
+                    </Switch>
 
-                    
+                    {/* <Grid  container spacing={20} direction={"row"}>
+                        <div>
+                            <UpdateProduct/>
+                        </div>
+
+                        <div>
+                            <AddProduct/>
+                        </div>
+                    </Grid> */}
                 </div>
-            </>
+            </Router>
         );
     }
 }

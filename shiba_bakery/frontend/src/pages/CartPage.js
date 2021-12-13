@@ -10,8 +10,8 @@ import GetProductAfterId from "../utils/GetProductAfterId";
 // const cart = useSelector((state) => state.cart);
 
 // const qtyChangeHandler = (id, qty) => {
-    //     dispatch(addToCart(id, qty));
-    //   };
+//         dispatch(addToCart(id, qty));
+//       };
 
     //   const removeFromCartHandler = (id) => {
     //     dispatch(removeFromCart(id));
@@ -61,6 +61,7 @@ import GetProductAfterId from "../utils/GetProductAfterId";
                             price={item.price}
                             imageUrl={item.image}
                             category={item.category}
+                            stock_count={item.stock_count}
                             // qtyChangeHandler={qtyChangeHandler}
                             // removeHandler={removeFromCartHandler}
                         />
@@ -68,15 +69,15 @@ import GetProductAfterId from "../utils/GetProductAfterId";
                     )}
                 </div>
 
-                {/*<div className="cartscreen__right">*/}
-                {/*    <div className="cartscreen__info">*/}
-                {/*        /!* <p>Subtotal ({getCartCount()}) items</p>*/}
-                {/*        <p>${getCartSubTotal()}</p> *!/*/}
-                {/*    </div>*/}
-                {/*    <div>*/}
-                {/*    <button>Proceed To Checkout</button>*/}
-                {/*    </div>*/}
-                {/*</div>*/}
+                {/* <div className="cartscreen__right">
+                   <div className="cartscreen__info">
+                       <p>Subtotal ({getCartCount()}) items</p>
+                       <p>${getCartSubTotal()}</p>
+                   </div>
+                   <div>
+                   <button>Proceed To Checkout</button>
+                   </div>
+                </div> */}
             </div>
         </>
     )
