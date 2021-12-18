@@ -101,6 +101,10 @@ const Navbar = ({navbarCall, userID}) => {
                                 Admin
                               </Button>
 
+                              <Button to="/newhome"  component={Link} color="inherit">
+                                HomeSecond
+                              </Button>
+
                               </div>
                         </div>
                     </div>

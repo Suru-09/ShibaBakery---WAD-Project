@@ -16,6 +16,7 @@ import ProductPage from "../pages/ProductPage";
 import GetUserAfterName from "../utils/GetUserAfterUsername";
 import AdminPage from "../pages/AdminPage";
 import ToggleColorMode from "./Theme";
+import HomeSecond from "../pages/HomeSecond";
 
 //Css
 import '../../static/css/app.css'
@@ -27,6 +28,7 @@ import {
     Route
     }
 from 'react-router-dom';
+import NewHome from "../pages/HomeSecond";
 
 // const ColorModeContext = React.createContext({ toggleColorMode: () => {} });
 
@@ -96,6 +98,7 @@ export default class App extends Component {
                                <Route  path='/sign-up' component={SignUpPage}/>
                                <Route  path='/cart_screen' component={CartScreen}/>
                                <Route path='/home' render={(props) => <HomePage productCallback={this.handleProductId} productId={this.state.productId} {...props} authed={true}/> }/>
+                               <Route path='/newhome' render={(props) => <HomeSecond productCallback={this.handleProductId} productId={this.state.productId} {...props} authed={true}/> }/>
                                <Route path='/product/:productId?' render={(props) => <ProductPage productId={window.localStorage.getItem('product')} {...props} authed={true}/> }/>
                            </Switch>
 

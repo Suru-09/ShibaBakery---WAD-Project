@@ -12,4 +12,5 @@ urlpatterns = [
     path('adminPage/ProductTable', index),
     path('adminPage/UserTable', index),
     path('adminPage/OrderTable', index),
+    path('newhome', index),
 ]
