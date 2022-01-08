@@ -10,6 +10,9 @@ import TableContainer from '@mui/material/TableContainer';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import { useState, useEffect } from 'react';
+import '../../static/css/home.css';
+import Slideshow from "../components/SlideShow";
+
 
 function createData(name, ingredients, price, category, 
     description, image, stock_count) {
@@ -31,16 +34,17 @@ export default class HomeSecond extends Component {
             products: [],
             productRows: [],
             selectedProduct: 0,
-            // [page, setPage]: React.useState(0),
-            // [rowsPerPage, setRowsPerPage]: React.useState(10),
+            page: 0,
+            rowsPerPage: 12,
+            
         }
 
         this.renderHomePage = this.renderHomePage.bind(this);
         this.getData = this.getData.bind(this);
         this.handleCallback = this.handleCallback.bind(this);
         this.handleData = this.handleData.bind(this);
-        // this.handleChangePage = this.handleChangePage.bind(this);
-        // this.handleChangeRowsPerPage = this.handleChangeRowsPerPage.bind(this);
+        this.handleChangePage = this.handleChangePage.bind(this);
+        this.handleChangeRowsPerPage = this.handleChangeRowsPerPage.bind(this);
     }
 
 
@@ -61,6 +65,9 @@ export default class HomeSecond extends Component {
         this.setState({
            products: products
         });
+
+        this.handleData();
+
     }
 
      handleCallback = (childData) =>{
@@ -72,11 +79,14 @@ export default class HomeSecond extends Component {
 
     componentDidMount() {
         this.getData().then();
+        
     }
 
-    handleData(){
+    async handleData(){
+        console.log(this.state.products);
+        let temp =[]
         for(let i = 0; i < this.state.products.length; ++i) {
-            this.state.productRows.push(createData(this.state.products[i].name,
+            temp.push(createData(this.state.products[i].name,
                 this.state.products[i].ingredients,
                 this.state.products[i].price,
                 this.state.products[i].category,
@@ -85,74 +95,79 @@ export default class HomeSecond extends Component {
                 this.state.products[i].stock_count
                 ));
         }
+
+        this.setState({
+            productRows: temp,
+        })
+
+        console.log(temp);
     }
 
-    // handleChangePage = (event, newPage) => {
-    //     this.state.setPage(newPage);
-    // };
+    handleChangePage = (event, newPage) => {
+        this.setState({
+            page: newPage
+        });
+    };
 
-    // handleChangeRowsPerPage = (event) => {
-    //     this.state.setRowsPerPage(+event.target.value);
-    //     this.state.setPage(0);
-    // }
+    handleChangeRowsPerPage = (event) => {
+        this.setState({
+            rowsPerPage: event.target.value,
+            page: 0
+        
+        });
+        
+    }
 
     renderHomePage() {
 
         return (
             <>
     
-                     <Paper sx={{ width: '100%', overflow: 'hidden' }}>
-                        <TableContainer>
-                        <Table stickyHeader aria-label="sticky table">
+                <Paper elevation={12} sx={{mx: "auto", my: "25px", width: '85%', overflow: 'hidden' }}>
+                    <div className="slideshow_div">
+                        <Slideshow/>
+                    </div>
+                    <Grid container spacing={5} direction={"column"}>
+                        <div className="product_div">
                             
-                            <TableBody>
                             
-                            {this.state.productRows
-                                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                                .map((row) => {
-                                    
-                                    return (
-                                            <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
-                                                
-                                                { this.state.products.map((product) => {
-                                                    return(
-                                                        <TableCell>
-                                                            <Product
-                                                            key={product.id}
-                                                            homePageCallback={() => this.handleCallback(product.id)}
-                                                            productId={product.id}
-                                                            name={product.name}
-                                                            description={product.description}
-                                                            price={product.price}
-                                                            imageUrl={product.image}
-                                                            category={product.category}
-                                                            />
-                                                        </TableCell>
-                                                        )
-                                                    })
-                                                }
-                                            </TableRow>
-                                    );
-                                })
-                            }
-                            </TableBody>
-                        </Table>
-                        
-                        </TableContainer>
-                        <TablePagination
-                        rowsPerPageOptions={[10, 25, 100]}
-                        component="div"
-                        count={this.state.productRows.length}
-                        rowsPerPage={rowsPerPage}
-                        page={page}
-                        // onPageChange={this.handleChangePage}
-                        // onRowsPerPageChange={this.handleChangeRowsPerPage}
-                        />
-                        
-                        
-                    </Paper>
+                            <Grid  container spacing={5} direction={"row"}>
+                                
+                                { this.state.products
+                                    .slice(this.state.page * this.state.rowsPerPage, this.state.page * this.state.rowsPerPage + this.state.rowsPerPage)
+                                    .map((product) => {
+                                        return(
+                                            <Product
+                                            key={product.id}
+                                            homePageCallback={() => this.handleCallback(product.id)}
+                                            productId={product.id}
+                                            name={product.name}
+                                            description={product.description}
+                                            price={product.price}
+                                            imageUrl={product.image}
+                                            category={product.category}
+                                            />
+                                        )
+                                    })
+                                }
+                                
+                            </Grid>
+                        </div>
+                    </Grid>
+                <TablePagination
+                rowsPerPageOptions={[12, 24, 36]}
+                component="div"
+                count={this.state.productRows.length}
+                rowsPerPage={this.state.rowsPerPage}
+                page={this.state.page}
+                onPageChange={this.handleChangePage}
+                onRowsPerPageChange={this.handleChangeRowsPerPage}
+                />
+                
+                
+            </Paper>
 
-            </>
+        </>
         );
     }
 
