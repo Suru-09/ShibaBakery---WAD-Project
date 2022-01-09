@@ -76,7 +76,7 @@ import { Button } from "@material-ui/core";
                             <p className="cart_info">Toatal : {getCartSubTotal()}$</p>
                         </div>
                         <div>
-                        <Button to="/checkout" component={Link}>Proceed To Checkout</Button>
+                        <Button to="/cart/checkout" component={Link}>Proceed To Checkout</Button>
                         </div>
                     </Grid>
                 </Grid>

@@ -1,15 +1,17 @@
 import React from "react";
+import ProgressBar from "../components/Progress";
+import { Paper } from "@mui/material";
+
 
 const Checkout = () => {
 
-    
-
-
-    return(
+    return (
         <>
-            <div></div>
-        </>
-    )
+        <Paper elevation={12} className="cartpaper">
+            <ProgressBar></ProgressBar>
+        </Paper>
+    </>
+    );
 }
 
 export default Checkout;
