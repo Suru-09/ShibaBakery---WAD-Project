@@ -99,8 +99,8 @@ export default class App extends Component {
                                <Route  path='/sign-up' component={SignUpPage}/>
                                <Route  path='/cart' component={Cart}/>
                                <Route path='/home' render={(props) => <HomeSecond productCallback={this.handleProductId} productId={this.state.productId} {...props} authed={true}/> }/>
+                               <Route path='/product/:productId?' render={(props) => <ProductPage productId={window.localStorage.getItem('product')} {...props} authed={true}/> }/>                     
                                <Route path='' render={(props) => <HomeSecond productCallback={this.handleProductId} productId={this.state.productId} {...props} authed={true}/> }/>
-                               <Route path='/product/:productId?' render={(props) => <ProductPage productId={window.localStorage.getItem('product')} {...props} authed={true}/> }/>
                            </Switch>
 
                             <div className="footer">

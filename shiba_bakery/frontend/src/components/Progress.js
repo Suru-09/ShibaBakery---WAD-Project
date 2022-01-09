@@ -2,11 +2,12 @@ import React from "react";
 import StepProgressBar from "react-step-progress";
 // import the stylesheet
 import "react-step-progress/dist/index.css";
+import OrderDet from "./OrderDetails";
 
 
 const ProgressBar = () => {
 
-    const step1Content = <h1></h1>;
+    const step1Content = <OrderDet></OrderDet>;
     const step2Content = <h1></h1>;
     const step3Content = <h1></h1>;
   
