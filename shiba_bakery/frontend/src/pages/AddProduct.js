@@ -4,8 +4,10 @@ import {
     Paper,
     TextField,
     Button,
-    
 } from '@material-ui/core';
+import {Input} from'@mui/material';
+import signUpValidation from "./SignUpValidation";
+import GetCookie from "../utils/GetCookie";
 
 
 //const errorsDefault = {};
@@ -15,113 +17,102 @@ export default class AddProduct extends Component{
     constructor(props) {
         super(props);
         this.state = {
-            name: '',
-            ingredients: '',
-            price: '' ,
-            category: '',
-            description: '',
-            image: '',
-            stock_count: ''
+            name: "",
+            ingredients: "",
+            price: -1,
+            category: "",
+            description: "",
+            image: "",
+            stock_count: -1
         }
-        // this._handleNameTextFieldChange = this._handleNameTextFieldChange.bind(this);
-        // this._handleSurnameTextFieldChange = this._handleSurnameTextFieldChange.bind(this);
-        // this._handleUsernameTextFieldChange = this._handleUsernameTextFieldChange.bind(this);
-        // this._handlePasswordTextFieldChange = this._handlePasswordTextFieldChange.bind(this);
-        // this._handleConfirmTextFieldChange = this._handleConfirmTextFieldChange.bind(this);
-        // this._handleEmailTextFieldChange = this._handleEmailTextFieldChange.bind(this);
+        this._handleNameChange = this._handleNameChange.bind(this);
+        this._handleIngredientsChange = this._handleIngredientsChange.bind(this);
+        this._handlePriceChange = this._handlePriceChange.bind(this);
+        this._handleCategoryChange = this._handleCategoryChange.bind(this);
+        this._handleDescriptionChange = this._handleDescriptionChange.bind(this);
+        this._handleImageChange = this._handleImageChange.bind(this);
+        this._handleStockCountChange = this._handleStockCountChange.bind(this);
         this._renderCreateButtons = this._renderCreateButtons.bind(this);
-        // this._signUpButtonPressed = this._signUpButtonPressed.bind(this);
-        // this._handleClickShowPassword = this._handleClickShowPassword.bind(this);
-        // this._handleCheckBoxFieldChange = this._handleCheckBoxFieldChange.bind(this);
-        // this._setError = this._setError.bind(this);
+        this._addProductButtonPressed = this._addProductButtonPressed.bind(this);
     }
 
+    _addProductButtonPressed(e) {
 
-    // _setError(e){
-    //     this.setState({
-    //         errors: e
-    //     });
-    // }
+        const requestOptions = {
+            method: "POST",
+            headers: {
+            "X-CSRFToken": GetCookie("csrftoken"),
+            "Accept": "application/json",
+            'Content-Type': 'application/json'
+        },
+            body: JSON.stringify({
+                name: this.state.name,
+                ingredients: this.state.ingredients,
+                price: this.state.price,
+                category: this.state.category,
+                description: this.state.description,
+                image: this.state.image,
+                stock_count: this.state.stock_count
+            }),
+        };
 
-    // _signUpButtonPressed(e) {
-       
-    //     const invalid = signUpValidation(this.state);
-    //     console.log(Object.keys(invalid).length);
-    //     console.log(Object.getPrototypeOf(invalid) === Object.prototype);
+        fetch('/api/add-product', requestOptions).then((response) => {
+            if(response.ok) {
+                console.log("Am reusit");
+                this.props.history.push('/adminPage/ProductTable');
+            }
+            else {
+                console.log("Am esuat rau de tot!");
+            }
+        }).catch((error) => {
+            console.log(error);
+        });
+    }
 
-    //     if( Object.keys(invalid).length === 0 && 
-    //         Object.getPrototypeOf(invalid) === Object.prototype){
-                
-    //             const requestOptions = {
-    //                 method: "POST",
-    //                 headers: {
-    //                 "X-CSRFToken": GetCookie("csrftoken"),
-    //                 "Accept": "application/json",
-    //                 'Content-Type': 'application/json'
-    //             },
-    //                 body: JSON.stringify({
-    //                     last_name: this.state.nameUser,
-    //                     first_name: this.state.surnameUser,
-    //                     username: this.state.usernameUser,
-    //                     password: this.state.passwordUser,
-    //                     email: this.state.emailUser,
-    //                 }),
-    //             };
-                
-    //             fetch('/api/sign-up', requestOptions).then((response) => {
-    //                 if(response.ok) {
-    //                     console.log("Am reusit");
-    //                     this.props.history.push('/home');
-    //                 }
-    //                 else {
-    //                     console.log("Am esuat rau de tot!");
-    //                 }
-    //             }).catch((error) => {
-    //                 console.log(error);
-    //             });
-    //     }
-    //     else {
-    //         console.log("Eu sunt: ");
-    //         console.log(invalid);
-    //         this._setError(invalid);    
-    //     }
-    // } 
+    _handleNameChange(e) {
+        this.setState({
+            name: e.target.value
+        });
+    }
 
-    // _handleNameTextFieldChange(e) {
-    //     this.setState({
-    //         nameUser: e.target.value
-    //     });
-    // }
+    _handleIngredientsChange(e) {
+        this.setState({
+            ingredients: e.target.value
+        });
+    }
 
-    // _handleSurnameTextFieldChange(e) {
-    //     this.setState({
-    //         surnameUser: e.target.value
-    //     });
-    // }
+    _handlePriceChange(e) {
+        this.setState({
+            price: e.target.value
+        });
+    }
 
-    // _handleUsernameTextFieldChange(e) {
-    //     this.setState({
-    //         usernameUser: e.target.value
-    //     });
-    // }
+    _handleCategoryChange(e) {
+        this.setState({
+            category: e.target.value
+        });
+    }
 
-    // _handlePasswordTextFieldChange(e) {
-    //     this.setState({
-    //         passwordUser: e.target.value
-    //     });
-    // }
+    _handleDescriptionChange(e) {
+        this.setState({
+           description: e.target.value
+        });
+    }
 
-    // _handleConfirmTextFieldChange(e) {
-    //     this.setState({
-    //         confirmUser: e.target.value
-    //     });
-    // }
+    _handleImageChange(e) {
+        let index = e.target.value.lastIndexOf("\\");
+        const path = "\\images\\" + e.target.value.substr(index + 1);
+        this.setState({
+            image: path
+        })
+    }
 
-    // _handleEmailTextFieldChange(e) {
-    //     this.setState({
-    //         emailUser: e.target.value
-    //     });
-    // }
+    _handleStockCountChange(e) {
+        this.setState({
+            stock_count: e.target.value
+        })
+    }
+
 
     _renderCreateButtons() {
         return(
@@ -129,8 +120,7 @@ export default class AddProduct extends Component{
                 <Grid item align="center" >
                     <Button color="primary"
                             variant="contained"
-                            
-                            // onClick={this._signUpButtonPressed}
+                            onClick={this._addProductButtonPressed}
                             >
                         Add
                     </Button>
@@ -138,18 +128,6 @@ export default class AddProduct extends Component{
            
         );
     }
-
-    // _handleClickShowPassword(e){
-    //     this.setState({
-    //         showPassword: !this.state.showPassword
-    //     });
-    // }
-
-    // _handleCheckBoxFieldChange(e){
-    //     this.setState({
-    //         checked: !this.state.checked
-    //     });
-    // }
 
     render(){
         const PaperStyle={
@@ -177,7 +155,7 @@ export default class AddProduct extends Component{
                                     <Grid item>
                                         <TextField
                                             id="namefild"
-                                            // onChange={this._handleNameTextFieldChange}
+                                            onChange={this._handleNameChange}
                                             fullWidth
                                             label="Name"
                                             variant="outlined"
@@ -194,7 +172,7 @@ export default class AddProduct extends Component{
                                     <Grid item> 
                                         <TextField
                                             id="ingredients"
-                                            // onChange={this._handleSurnameTextFieldChange}
+                                            onChange={this._handleIngredientsChange}
                                             fullWidth
                                             label="Ingredients"
                                             variant="outlined"
@@ -211,7 +189,7 @@ export default class AddProduct extends Component{
                                         <TextField
                                             id="price"
                                             label="Price"
-                                            // onChange={this._handleUsernameTextFieldChange}
+                                            onChange={this._handlePriceChange}
                                             variant="outlined"
                                             fullWidth
                                             required
@@ -228,7 +206,7 @@ export default class AddProduct extends Component{
                                     <TextField
                                         id="category"
                                         label="Category"
-                                        // onChange={this._handleEmailTextFieldChange}
+                                        onChange={this._handleCategoryChange}
                                         variant="outlined"
                                         fullWidth
                                         required
@@ -239,44 +217,41 @@ export default class AddProduct extends Component{
                                         {/* {this.state.errors.emailUser && <p>{this.state.errors.emailUser}</p>} */}
                                     </Grid>
 
-                                    {/* Email Field*/}
+                                    {/* Description Field*/}
                                     <Grid item> 
-                                    <TextField
-                                        id="description"
-                                        label="Description"
-                                        // onChange={this._handleEmailTextFieldChange}
-                                        variant="outlined"
-                                        fullWidth
-                                        required
-                                        placeholder=""
-                                        multiline
-                                        margin="normal"
-                                    />
+                                        <TextField
+                                            id="description"
+                                            label="Description"
+                                            onChange={this._handleDescriptionChange}
+                                            variant="outlined"
+                                            fullWidth
+                                            required
+                                            placeholder=""
+                                            multiline
+                                            margin="normal"
+                                        />
                                         {/* {this.state.errors.emailUser && <p>{this.state.errors.emailUser}</p>} */}
                                     </Grid>
 
-                                    {/* Email Field*/}
-                                    <Grid item> 
-                                    <TextField
-                                        id="image"
-                                        label="Image"
-                                        // onChange={this._handleEmailTextFieldChange}
-                                        variant="outlined"
-                                        fullWidth
-                                        required
-                                        placeholder=""
-                                        multiline
-                                        margin="normal"
-                                    />
+                                    {/* Image Field*/}
+                                    <Grid item>
+                                        <Input
+                                            type="file"
+                                            label="Image"
+                                            onChange={this._handleImageChange}
+                                            variant="outlined"
+                                            required
+                                        >
+                                        </Input>
                                         {/* {this.state.errors.emailUser && <p>{this.state.errors.emailUser}</p>} */}
                                     </Grid>
 
-                                    {/* Email Field*/}
+                                    {/* Stock Count Field*/}
                                     <Grid item> 
                                     <TextField
                                         id="stock_count"
                                         label="stock_count"
-                                        // onChange={this._handleEmailTextFieldChange}
+                                        onChange={this._handleStockCountChange}
                                         variant="outlined"
                                         fullWidth
                                         required
@@ -296,6 +271,3 @@ export default class AddProduct extends Component{
         );
     }
 }
-
-
-

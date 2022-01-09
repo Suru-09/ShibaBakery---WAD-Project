@@ -9,26 +9,24 @@ import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import { Button } from '@mui/material';
 import { Box } from '@mui/system';
-import GetAllProducts from '../utils/GetAllProducts';
 import { useState, useEffect } from 'react';
-import AddOrder from '../pages/AddOrder';
-import { Grid } from '@material-ui/core';
-import HandleOrder from '../pages/HandleOrder';
+import {Link} from "react-router-dom";
+import GetAllOrders from "../utils/GetAllOrders";
+import GetProductsFromOrder from "../utils/GetProductsFromOrder";
+import GetCookie from "../utils/GetCookie";
 
 
 
 const columns = [
-  { id: 'date_created', label: 'Date', minWidth: 170 },
   { id: 'customer', label: 'Customer', minWidth: 170 },
-  { id: 'product', label: 'Product', minWidth: 100 },
+  { id: 'product_list', label: 'Product', minWidth: 100 },
   { id: 'status', label: 'Status', minWidth: 100 }, 
 ];
 
-function createData(date_created, customer, product, status ) {
-    return { 
-        date_created,
+function createData(customer, product_list, status ) {
+    return {
         customer,
-        product,
+        product_list,
         status
     };
 }
@@ -36,23 +34,72 @@ function createData(date_created, customer, product, status ) {
 const OrderTable =() => {
 
     const [orders, setOrder] = useState([]);
-    const orderRows = []
+    const [product_orders, setProductOrder] = useState([]);
 
-    // useEffect(() => {
-    //     async function getProducts() {
-    //         const products = await GetAllProducts();
-    //         setProducts(products);
-    //     }
-    //     getProducts();
-    // }, [])
+    useEffect(() => {
+        async function getOrders() {
+            const orders = await GetAllOrders();
+            setOrder(orders);
 
-    // for(let i = 0; i < orders.length; ++i) {
-    //     orderRows.push(createData(orders[i].date_created,
-    //         orders[i].customer,
-    //         orders[i].product,
-    //         orders[i].status
-    //         ));
-    // }
+            let product_order = []
+            for(let i = 0; i < orders.length; ++i) {
+
+                const products = await GetProductsFromOrder(orders[i].id);
+                console.log("Eu sunt products: ");
+                console.log(products);
+                let products_name = ""
+
+                for(let j = 0; j < products.length; ++j) {
+                    if (j !== 0)
+                        products_name = products_name + ", " + products[j].name;
+                    else
+                        products_name = products_name + products[j].name;
+                }
+                product_order.push(products_name);
+            }
+            setProductOrder(product_order);
+        }
+        getOrders();
+    }, [])
+
+    let orderRows = []
+    for(let i = 0 ; i < orders.length; i++) {
+        orderRows.push(
+            createData(
+                orders[i].customer,
+                product_orders[i],
+                orders[i].status
+            )
+        );
+    }
+
+    const deleteProduct = (product) => {
+        const requestOptions = {
+            method: "POST",
+            headers: {
+            "X-CSRFToken": GetCookie("csrftoken"),
+            "Accept": "application/json",
+            'Content-Type': 'application/json'
+        },
+            body: JSON.stringify({
+                product: product
+            }),
+        };
+
+        fetch('/api/get-order-products', requestOptions).then((response) => {
+            if(response.ok) {
+                window.location = document.URL;
+                this.props.history.push('/adminPage/OrderTable');
+            }
+            else {
+                console.log("The order from the OrderTable hasn't been deleted!");
+            }
+        }).catch((error) => {
+            console.log(error);
+        });
+    }
+    console.log("Eu sunt productOrder: ");
+    console.log(orderRows);
 
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
@@ -71,16 +118,17 @@ const OrderTable =() => {
         <TableContainer sx={{ maxHeight: 440 }}>
         <Table stickyHeader aria-label="sticky table">
             <TableHead>
-            <TableRow>
-                <TableCell></TableCell> 
-                {columns.map((column) => (
-                <TableCell
-                    style={{ minWidth: column.minWidth }}
-                >
-                    {column.label}
-                </TableCell>
-                ))}
-            </TableRow>
+                <TableRow>
+                    {/*  Empty Cell for table alignment. DO NOT DELETE */}
+                    <TableCell/>
+                    {columns.map((column) => (
+                    <TableCell key={column.id}
+                        style={{ minWidth: column.minWidth }}
+                    >
+                        {column.label}
+                    </TableCell>
+                    ))}
+                </TableRow>
             </TableHead>
             <TableBody>
             {orderRows
@@ -90,22 +138,25 @@ const OrderTable =() => {
                             <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
                                 <TableCell>
                                     <Box className="prod_box">
-                                        <Button variant="contained" size="small">
-                                            Update
-                                        </Button>
+                                        {/*<Button variant="contained" size="small">*/}
+                                        {/*    Update*/}
+                                        {/*</Button>*/}
 
-                                        <Button variant="contained" size="small">
+                                        <Button onClick={() => {
+                                                deleteProduct(row)
+                                                }}
+                                                variant="contained" size="small">
                                             Delete
                                         </Button>
-                                        <Button variant="contained" size="small">
-                                            Handle
-                                        </Button>
+                                        {/*<Button component={Link} to={'/adminPage/handleOrder'} variant="contained" size="small">*/}
+                                        {/*    Handle*/}
+                                        {/*</Button>*/}
                                     </Box>
                                 </TableCell>
                                 {columns.map((column) => {
                                 const value = row[column.id];
                                 return (
-                                    <TableCell>
+                                    <TableCell key={column.id}>
                                     {column.format && typeof value === 'number'
                                         ? column.format(value)
                                         : value}
@@ -130,21 +181,10 @@ const OrderTable =() => {
         onRowsPerPageChange={handleChangeRowsPerPage}
         />
         <div className="add_div">
-        <Button variant="contained" size="large">
+        <Button component={Link} to={'/adminPage/addOrder'} variant="contained" size="large">
             Add Order
         </Button>
         </div>
-
-        <Grid  container spacing={2} direction={"row"}>
-                        <div>
-                            <AddOrder/>
-                        </div>
-
-                        <div>
-                            <HandleOrder/>
-                        </div>
-        </Grid>
-        
     </Paper>
     );
 }

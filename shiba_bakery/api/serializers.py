@@ -12,11 +12,11 @@ class ProductFilter(django_filters.FilterSet):
         model = Product
         fields = ['q']
 
-    def my_custom_filter(self, name, ingredients, price, category, description):
+    def my_custom_filter(self, name, ingredients, price, category, description, stock_count):
         return Product.objects.filter(
             Q(name__icontains=name) | Q(ingredients__icontains=ingredients)
-            | Q(price__icontains=price) | Q(category__icontains=category) 
-            | Q(description__icontaions=description)
+            | Q(price__icontains=price) | Q(category__icontains=category)
+            | Q(description__icontaions=description) | Q(description__icontaions=stock_count)
         )
 
 
@@ -42,6 +42,13 @@ class LoginSerializer(serializers.Serializer):
 
 
 class ProductSerializer(serializers.ModelSerializer):
+    # name = serializers.CharField()
+    # ingredients = serializers.CharField()
+    # price = serializers.CharField()
+    # category = serializers.CharField()
+    # description = serializers.CharField()
+    # image = serializers.CharField()
+    # stock_count = serializers.IntegerField()
     class Meta:
         model = Product
         fields = ('id',
@@ -57,7 +64,6 @@ class ProductSerializer(serializers.ModelSerializer):
 class OrderSerializer(serializers.ModelSerializer):
     class Meta:
         model = Order
-        fields = ('date_created',
+        fields = ('id',
                   'customer',
-                  'product',
                   'status')

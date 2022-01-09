@@ -23,7 +23,6 @@ class Order(models.Model):
     )
     date_created = models.DateTimeField(auto_now_add=True, null=False)
     customer = models.ForeignKey(User, null=False, on_delete=models.CASCADE)
-    product = models.ForeignKey(Product, null=False, on_delete=models.CASCADE)
     status = models.CharField(max_length=200, null=False, choices=STATUS)
 
 

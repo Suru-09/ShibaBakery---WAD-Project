@@ -86,6 +86,3 @@ export default class HandleOrder extends Component{
         );
     }
 }
-
-
-

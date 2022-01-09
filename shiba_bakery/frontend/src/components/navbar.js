@@ -69,7 +69,7 @@ const Navbar = ({navbarCall, userID}) => {
                                 aria-label="menu"
                                 sx={{ mr: 2 }}
                               >
-                                <MenuIcon />
+                                {/* <MenuIcon /> */}
                             </IconButton>
                             <Searchbar  history={browserHistory} handleCallback={handleProduct} />
                         </div>
@@ -96,15 +96,14 @@ const Navbar = ({navbarCall, userID}) => {
                                 <ShoppingCartIcon sx={{ mr: 1 }} />
                                 Cart
                               </Button>
-
-                              <Button to="/adminPage"  component={Link} color="inherit">
-                                Admin
-                              </Button>
-
-                              <Button to="/newhome"  component={Link} color="inherit">
-                                HomeSecond
-                              </Button>
-
+                              
+                              {
+                                user.last_name === 'admin' ? 
+                                  <Button to="/adminPage"  component={Link} color="inherit">
+                                            Admin
+                                  </Button> : null
+                              }
+                              
                               </div>
                         </div>
                     </div>

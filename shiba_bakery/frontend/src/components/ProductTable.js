@@ -15,7 +15,10 @@ import '../../static/css/productTable.css';
 import UpdateProduct from '../pages/UpdateProduct';
 import AddProduct from '../pages/AddProduct';
 import { Grid } from '@material-ui/core';
-
+import {
+    Link
+} from 'react-router-dom';
+import GetCookie from "../utils/GetCookie";
 
 const columns = [
   { id: 'name', label: 'Name', minWidth: 170 },
@@ -28,7 +31,7 @@ const columns = [
 ];
 
 function createData(name, ingredients, price, category, 
-    description, image, stock_count) {
+    description, image, stock_count, code) {
     return { 
         name,
         ingredients,
@@ -36,11 +39,12 @@ function createData(name, ingredients, price, category,
         category,
         description,
         image,
-        stock_count
+        stock_count,
+        code
     };
 }
 
-const ProductTable =() => {
+const ProductTable = ( {productCallBack} ) => {
 
     const [products, setProducts] = useState([]);
     const productRows = []
@@ -60,7 +64,8 @@ const ProductTable =() => {
             products[i].category,
             products[i].description,
             products[i].image,
-            products[i].stock_count
+            products[i].stock_count,
+            i
             ));
     }
 
@@ -76,8 +81,35 @@ const ProductTable =() => {
         setPage(0);
     };
 
+    const deleteProduct = async (name) => {
+        const requestOptions = {
+            method: "POST",
+            headers: {
+            "X-CSRFToken": GetCookie("csrftoken"),
+            "Accept": "application/json",
+            'Content-Type': 'application/json'
+        },
+            body: JSON.stringify({
+                name: name,
+            }),
+        };
+
+        await fetch('/api/delete-product', requestOptions).then((response) => {
+            if(response.ok) {
+                console.log("Am reusit");
+                window.location = document.URL;
+                this.props.history.push('/adminPage/ProductTable');
+            }
+            else {
+                console.log("Am esuat rau de tot!");
+            }
+        }).catch((error) => {
+            console.log(error);
+        });
+    }
+
     return (
-        <Paper sx={{ width: '100%', overflow: 'hidden' }}>
+    <Paper sx={{ width: '100%', overflow: 'hidden' }}>
         <TableContainer sx={{ maxHeight: 440 }}>
         <Table stickyHeader aria-label="sticky table">
             <TableHead>

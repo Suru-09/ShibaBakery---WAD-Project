@@ -6,6 +6,8 @@ import {
     Button,
     
 } from '@material-ui/core';
+import signUpValidation from "./SignUpValidation";
+import GetCookie from "../utils/GetCookie";
 
 
 //const errorsDefault = {};
@@ -15,112 +17,90 @@ export default class AddUser extends Component{
     constructor(props) {
         super(props);
         this.state = {
-            id: '',
             first_name: '',
             last_name: '' ,
             password: '',
             username: '',
-            email: ''
+            email: '',
+            errors: '',
         }
-        // this._handleNameTextFieldChange = this._handleNameTextFieldChange.bind(this);
-        // this._handleSurnameTextFieldChange = this._handleSurnameTextFieldChange.bind(this);
-        // this._handleUsernameTextFieldChange = this._handleUsernameTextFieldChange.bind(this);
-        // this._handlePasswordTextFieldChange = this._handlePasswordTextFieldChange.bind(this);
-        // this._handleConfirmTextFieldChange = this._handleConfirmTextFieldChange.bind(this);
-        // this._handleEmailTextFieldChange = this._handleEmailTextFieldChange.bind(this);
+        this._handleNameTextFieldChange = this._handleNameTextFieldChange.bind(this);
+        this._handleSurnameTextFieldChange = this._handleSurnameTextFieldChange.bind(this);
+        this._handleUsernameTextFieldChange = this._handleUsernameTextFieldChange.bind(this);
+        this._handlePasswordTextFieldChange = this._handlePasswordTextFieldChange.bind(this);
+        this._handleEmailTextFieldChange = this._handleEmailTextFieldChange.bind(this);
         this._renderCreateButtons = this._renderCreateButtons.bind(this);
-        // this._signUpButtonPressed = this._signUpButtonPressed.bind(this);
-        // this._handleClickShowPassword = this._handleClickShowPassword.bind(this);
-        // this._handleCheckBoxFieldChange = this._handleCheckBoxFieldChange.bind(this);
-        // this._setError = this._setError.bind(this);
+        this._addUser = this._addUser.bind(this);
+        this._setError = this._setError.bind(this);
     }
 
 
-    // _setError(e){
-    //     this.setState({
-    //         errors: e
-    //     });
-    // }
+    _setError(e){
+        this.setState({
+            errors: e
+        });
+    }
 
-    // _signUpButtonPressed(e) {
-       
-    //     const invalid = signUpValidation(this.state);
-    //     console.log(Object.keys(invalid).length);
-    //     console.log(Object.getPrototypeOf(invalid) === Object.prototype);
+    _addUser(e) {
+        const requestOptions = {
+            method: "POST",
+            headers: {
+            "X-CSRFToken": GetCookie("csrftoken"),
+            "Accept": "application/json",
+            'Content-Type': 'application/json'
+        },
+            body: JSON.stringify({
+                last_name: this.state.last_name,
+                first_name: this.state.first_name,
+                username: this.state.username,
+                password: this.state.password,
+                email: this.state.email,
+            }),
+        };
 
-    //     if( Object.keys(invalid).length === 0 && 
-    //         Object.getPrototypeOf(invalid) === Object.prototype){
-                
-    //             const requestOptions = {
-    //                 method: "POST",
-    //                 headers: {
-    //                 "X-CSRFToken": GetCookie("csrftoken"),
-    //                 "Accept": "application/json",
-    //                 'Content-Type': 'application/json'
-    //             },
-    //                 body: JSON.stringify({
-    //                     last_name: this.state.nameUser,
-    //                     first_name: this.state.surnameUser,
-    //                     username: this.state.usernameUser,
-    //                     password: this.state.passwordUser,
-    //                     email: this.state.emailUser,
-    //                 }),
-    //             };
-                
-    //             fetch('/api/sign-up', requestOptions).then((response) => {
-    //                 if(response.ok) {
-    //                     console.log("Am reusit");
-    //                     this.props.history.push('/home');
-    //                 }
-    //                 else {
-    //                     console.log("Am esuat rau de tot!");
-    //                 }
-    //             }).catch((error) => {
-    //                 console.log(error);
-    //             });
-    //     }
-    //     else {
-    //         console.log("Eu sunt: ");
-    //         console.log(invalid);
-    //         this._setError(invalid);    
-    //     }
-    // } 
+        fetch('/api/sign-up', requestOptions).then((response) => {
+            if(response.ok) {
+                console.log("Am reusit");
+                this.props.history.push('/adminPage/UserTable');
+            }
+            else {
+                console.log("Am esuat rau de tot!");
+            }
+        }).catch((error) => {
+            console.log(error);
+        });
+    }
 
-    // _handleNameTextFieldChange(e) {
-    //     this.setState({
-    //         nameUser: e.target.value
-    //     });
-    // }
+    _handleNameTextFieldChange(e) {
+        this.setState({
+            first_name: e.target.value
+        });
+    }
 
-    // _handleSurnameTextFieldChange(e) {
-    //     this.setState({
-    //         surnameUser: e.target.value
-    //     });
-    // }
+    _handleSurnameTextFieldChange(e) {
+        this.setState({
+            last_name: e.target.value
+        });
+    }
 
-    // _handleUsernameTextFieldChange(e) {
-    //     this.setState({
-    //         usernameUser: e.target.value
-    //     });
-    // }
+    _handleUsernameTextFieldChange(e) {
+        this.setState({
+            username: e.target.value
+        });
+    }
 
-    // _handlePasswordTextFieldChange(e) {
-    //     this.setState({
-    //         passwordUser: e.target.value
-    //     });
-    // }
+    _handlePasswordTextFieldChange(e) {
+        this.setState({
+            password: e.target.value
+        });
+    }
 
-    // _handleConfirmTextFieldChange(e) {
-    //     this.setState({
-    //         confirmUser: e.target.value
-    //     });
-    // }
 
-    // _handleEmailTextFieldChange(e) {
-    //     this.setState({
-    //         emailUser: e.target.value
-    //     });
-    // }
+    _handleEmailTextFieldChange(e) {
+        this.setState({
+            email: e.target.value
+        });
+    }
 
     _renderCreateButtons() {
         return(
@@ -128,8 +108,7 @@ export default class AddUser extends Component{
                 <Grid item align="center" >
                     <Button color="primary"
                             variant="contained"
-                            
-                            // onClick={this._signUpButtonPressed}
+                            onClick={this._addUser}
                             >
                         Add
                     </Button>
@@ -137,18 +116,6 @@ export default class AddUser extends Component{
            
         );
     }
-
-    // _handleClickShowPassword(e){
-    //     this.setState({
-    //         showPassword: !this.state.showPassword
-    //     });
-    // }
-
-    // _handleCheckBoxFieldChange(e){
-    //     this.setState({
-    //         checked: !this.state.checked
-    //     });
-    // }
 
     render(){
         const PaperStyle={
@@ -171,29 +138,11 @@ export default class AddUser extends Component{
                     </Grid>
                     <form>
                             <Grid container spacing={2} direction={"column"} align="center">
-
-                                    {/* Name field */}
-                                    <Grid item>
-                                        <TextField
-                                            id="id"
-                                            // onChange={this._handleNameTextFieldChange}
-                                            fullWidth
-                                            label="Id"
-                                            variant="outlined"
-                                            required
-                                            placeholder=""
-                                            multiline
-                                            margin="normal"
-                                        />
-                                        {/* {console.log(this.state.errors.nameUser)}
-                                        {this.state.errors.nameUser && <p>{this.state.errors.nameUser}</p>} */}
-                                    </Grid>
-                                    
                                     {/* Surame field */}
                                     <Grid item> 
                                         <TextField
                                             id="first_name"
-                                            // onChange={this._handleSurnameTextFieldChange}
+                                            onChange={this._handleSurnameTextFieldChange}
                                             fullWidth
                                             label="First Name"
                                             variant="outlined"
@@ -202,15 +151,15 @@ export default class AddUser extends Component{
                                             multiline
                                             margin="normal"
                                         />
-                                        {/* {this.state.errors.surnameUser && <p>{this.state.errors.surnameUser}</p>} */}
+                                         {this.state.errors.surnameUser && <p>{this.state.errors.surnameUser}</p>}
                                     </Grid>
 
-                                    {/* Username field */}
+                                    {/* Name field */}
                                     <Grid item> 
                                         <TextField
                                             id="last_name"
                                             label="Last Name"
-                                            // onChange={this._handleUsernameTextFieldChange}
+                                            onChange={this._handleNameTextFieldChange}
                                             variant="outlined"
                                             fullWidth
                                             required
@@ -218,16 +167,16 @@ export default class AddUser extends Component{
                                             multiline
                                             margin="normal"
                                         />
-                                        {/* {this.state.errors.usernameUser && <p>{this.state.errors.usernameUser}</p>} */}
+                                         {this.state.errors.nameUser && <p>{this.state.errors.nameUser}</p>}
                                     </Grid>
                                     
 
-                                    {/* Email Field*/}
+                                    {/* Password Field*/}
                                     <Grid item> 
                                     <TextField
                                         id="password"
                                         label="Password"
-                                        // onChange={this._handleEmailTextFieldChange}
+                                        onChange={this._handlePasswordTextFieldChange}
                                         variant="outlined"
                                         fullWidth
                                         required
@@ -235,15 +184,15 @@ export default class AddUser extends Component{
                                         multiline
                                         margin="normal"
                                     />
-                                        {/* {this.state.errors.emailUser && <p>{this.state.errors.emailUser}</p>} */}
+                                         {this.state.errors.passwordUser && <p>{this.state.errors.passwordUser}</p>}
                                     </Grid>
 
-                                    {/* Email Field*/}
+                                    {/* Username Field*/}
                                     <Grid item> 
                                     <TextField
                                         id="username"
                                         label="Username"
-                                        // onChange={this._handleEmailTextFieldChange}
+                                        onChange={this._handleUsernameTextFieldChange}
                                         variant="outlined"
                                         fullWidth
                                         required
@@ -251,7 +200,7 @@ export default class AddUser extends Component{
                                         multiline
                                         margin="normal"
                                     />
-                                        {/* {this.state.errors.emailUser && <p>{this.state.errors.emailUser}</p>} */}
+                                         {this.state.errors.usernameUser && <p>{this.state.errors.usernameUser}</p>}
                                     </Grid>
 
                                     {/* Email Field*/}
@@ -259,7 +208,7 @@ export default class AddUser extends Component{
                                     <TextField
                                         id="email"
                                         label="Email"
-                                        // onChange={this._handleEmailTextFieldChange}
+                                        onChange={this._handleEmailTextFieldChange}
                                         variant="outlined"
                                         fullWidth
                                         required
@@ -267,7 +216,7 @@ export default class AddUser extends Component{
                                         multiline
                                         margin="normal"
                                     />
-                                        {/* {this.state.errors.emailUser && <p>{this.state.errors.emailUser}</p>} */}
+                                         {this.state.errors.emailUser && <p>{this.state.errors.emailUser}</p>}
                                     </Grid>
 
                                     {this._renderCreateButtons()}
@@ -279,6 +228,3 @@ export default class AddUser extends Component{
         );
     }
 }
-
-
-

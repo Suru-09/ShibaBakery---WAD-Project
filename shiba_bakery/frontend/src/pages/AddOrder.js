@@ -1,124 +1,121 @@
 import React, { Component} from 'react';
-import { 
+import {
     Grid,
     Paper,
     TextField,
-    Button,
-    
+    Button, MenuItem, Checkbox, ListItemText,
+
 } from '@material-ui/core';
 
+import {Select, OutlinedInput} from '@mui/material'
+import GetAllUsers from "../utils/GetAllUsers";
+import GetAllProducts from "../utils/GetAllProducts";
+import GetCookie from "../utils/GetCookie";
 
-//const errorsDefault = {};
 
 export default class AddOrder extends Component{
 
     constructor(props) {
         super(props);
         this.state = {
-            date_created: '',
             customer: '',
-            product: '',
-            status: ''
+            product: [],
+            status: "",
+            users: [],
+            products: [],
         }
-        // this._handleNameTextFieldChange = this._handleNameTextFieldChange.bind(this);
-        // this._handleSurnameTextFieldChange = this._handleSurnameTextFieldChange.bind(this);
-        // this._handleUsernameTextFieldChange = this._handleUsernameTextFieldChange.bind(this);
-        // this._handlePasswordTextFieldChange = this._handlePasswordTextFieldChange.bind(this);
-        // this._handleConfirmTextFieldChange = this._handleConfirmTextFieldChange.bind(this);
-        // this._handleEmailTextFieldChange = this._handleEmailTextFieldChange.bind(this);
+
         this._renderCreateButtons = this._renderCreateButtons.bind(this);
-        // this._signUpButtonPressed = this._signUpButtonPressed.bind(this);
-        // this._handleClickShowPassword = this._handleClickShowPassword.bind(this);
-        // this._handleCheckBoxFieldChange = this._handleCheckBoxFieldChange.bind(this);
-        // this._setError = this._setError.bind(this);
+        this.getAllUsers = this.getAllUsers.bind(this);
+        this.getAllProducts = this.getAllProducts.bind(this);
+        this._handleProductChange = this._handleProductChange.bind(this);
+        this._handleCustomerChange= this._handleCustomerChange.bind(this);
+        this._handleStatusChange = this._handleStatusChange.bind(this);
+        this._addOrderButtonPressed = this._addOrderButtonPressed.bind(this);
+
     }
 
+    getAllUsers() {
+        const getUsers = async () => {
+            const usersRepo = await GetAllUsers();
+            console.log(usersRepo);
+            this.setState(
+                {
+                    users: usersRepo,
+                });
+        }
+        getUsers();
+    }
 
-    // _setError(e){
-    //     this.setState({
-    //         errors: e
-    //     });
-    // }
+    getAllProducts() {
+        const getProducts = async () => {
+            const productsRepo = await GetAllProducts();
+            console.log(productsRepo);
+            this.setState(
+                {
+                    products: productsRepo,
+                });
+        }
+        getProducts();
+    }
 
-    // _signUpButtonPressed(e) {
-       
-    //     const invalid = signUpValidation(this.state);
-    //     console.log(Object.keys(invalid).length);
-    //     console.log(Object.getPrototypeOf(invalid) === Object.prototype);
+    componentDidMount() {
+        this.getAllUsers();
+        this.getAllProducts();
+        console.log(this.state.users);
+        console.log(this.state.products);
+    }
 
-    //     if( Object.keys(invalid).length === 0 && 
-    //         Object.getPrototypeOf(invalid) === Object.prototype){
-                
-    //             const requestOptions = {
-    //                 method: "POST",
-    //                 headers: {
-    //                 "X-CSRFToken": GetCookie("csrftoken"),
-    //                 "Accept": "application/json",
-    //                 'Content-Type': 'application/json'
-    //             },
-    //                 body: JSON.stringify({
-    //                     last_name: this.state.nameUser,
-    //                     first_name: this.state.surnameUser,
-    //                     username: this.state.usernameUser,
-    //                     password: this.state.passwordUser,
-    //                     email: this.state.emailUser,
-    //                 }),
-    //             };
-                
-    //             fetch('/api/sign-up', requestOptions).then((response) => {
-    //                 if(response.ok) {
-    //                     console.log("Am reusit");
-    //                     this.props.history.push('/home');
-    //                 }
-    //                 else {
-    //                     console.log("Am esuat rau de tot!");
-    //                 }
-    //             }).catch((error) => {
-    //                 console.log(error);
-    //             });
-    //     }
-    //     else {
-    //         console.log("Eu sunt: ");
-    //         console.log(invalid);
-    //         this._setError(invalid);    
-    //     }
-    // } 
+    _addOrderButtonPressed(e) {
+        const requestOptions = {
+            method: "POST",
+            headers: {
+            "X-CSRFToken": GetCookie("csrftoken"),
+            "Accept": "application/json",
+            'Content-Type': 'application/json'
+        },
+            body: JSON.stringify({
+                status: this.state.status,
+                product: this.state.product,
+                customer: this.state.customer,
+            }),
+        };
 
-    // _handleNameTextFieldChange(e) {
-    //     this.setState({
-    //         nameUser: e.target.value
-    //     });
-    // }
+        fetch('/api/add-order', requestOptions).then((response) => {
+            if(response.ok) {
+                console.log("Am reusit");
+                this.props.history.push('/adminPage/OrderTable');
+            }
+            else {
+                console.log("Am esuat rau de tot!");
+            }
+        }).catch((error) => {
+            console.log(error);
+        });
+    }
 
-    // _handleSurnameTextFieldChange(e) {
-    //     this.setState({
-    //         surnameUser: e.target.value
-    //     });
-    // }
+    _handleCustomerChange(e) {
+        console.log(e.target.value);
+        this.setState({
+            customer: e.target.value
+        });
+    }
 
-    // _handleUsernameTextFieldChange(e) {
-    //     this.setState({
-    //         usernameUser: e.target.value
-    //     });
-    // }
+    _handleProductChange(e) {
+        this.setState({
+            product: e.target.value
+        });
 
-    // _handlePasswordTextFieldChange(e) {
-    //     this.setState({
-    //         passwordUser: e.target.value
-    //     });
-    // }
+        console.log("Eu sunt target value : " + e.target.value);
+        console.log("Eu sunt product: " + this.state.product);
+    }
 
-    // _handleConfirmTextFieldChange(e) {
-    //     this.setState({
-    //         confirmUser: e.target.value
-    //     });
-    // }
-
-    // _handleEmailTextFieldChange(e) {
-    //     this.setState({
-    //         emailUser: e.target.value
-    //     });
-    // }
+    _handleStatusChange(e) {
+        console.log(e.target.value);
+        this.setState({
+            status: e.target.value
+        });
+    }
 
     _renderCreateButtons() {
         return(
@@ -126,8 +123,7 @@ export default class AddOrder extends Component{
                 <Grid item align="center" >
                     <Button color="primary"
                             variant="contained"
-                            
-                            // onClick={this._signUpButtonPressed}
+                            onClick={this._addOrderButtonPressed}
                             >
                         Add
                     </Button>
@@ -135,18 +131,6 @@ export default class AddOrder extends Component{
            
         );
     }
-
-    // _handleClickShowPassword(e){
-    //     this.setState({
-    //         showPassword: !this.state.showPassword
-    //     });
-    // }
-
-    // _handleCheckBoxFieldChange(e){
-    //     this.setState({
-    //         checked: !this.state.checked
-    //     });
-    // }
 
     render(){
         const PaperStyle={
@@ -170,70 +154,82 @@ export default class AddOrder extends Component{
                     <form>
                             <Grid container spacing={2} direction={"column"} align="center">
 
-                                    {/* Name field */}
+                                    {/*  Customer field */}
                                     <Grid item>
                                         <TextField
-                                            id="date_created"
-                                            // onChange={this._handleNameTextFieldChange}
-                                            fullWidth
-                                            label="Date created"
-                                            variant="outlined"
-                                            required
-                                            placeholder=""
-                                            multiline
-                                            margin="normal"
-                                        />
-                                        {/* {console.log(this.state.errors.nameUser)}
-                                        {this.state.errors.nameUser && <p>{this.state.errors.nameUser}</p>} */}
-                                    </Grid>
-                                    
-                                    {/* Surame field */}
-                                    <Grid item> 
-                                        <TextField
                                             id="customer"
-                                            // onChange={this._handleSurnameTextFieldChange}
-                                            fullWidth
                                             label="Customer"
+                                            select
+                                            onChange={this._handleCustomerChange}
                                             variant="outlined"
+                                            value={this.state.customer}
+                                            fullWidth
                                             required
-                                            placeholder=""
                                             multiline
                                             margin="normal"
-                                        />
-                                        {/* {this.state.errors.surnameUser && <p>{this.state.errors.surnameUser}</p>} */}
+                                            SelectProps={{
+                                                multiple: false,
+                                                values : [],
+                                            }}
+                                        >
+                                          {this.state.users.map((user) => (
+                                             <MenuItem key={user.first_name} value={user.first_name}>
+                                              {user.first_name}
+                                            </MenuItem>
+                                            ))
+                                            }
+                                        </TextField>
                                     </Grid>
 
-                                    {/* Username field */}
-                                    <Grid item> 
-                                        <TextField
+                                    {/* Product field */}
+                                    <Grid item>
+                                        <Select
                                             id="product"
-                                            label="Product"
-                                            // onChange={this._handleUsernameTextFieldChange}
+                                            input={<OutlinedInput label="Product" />}
+                                            select
+                                            onChange={this._handleProductChange}
                                             variant="outlined"
-                                            fullWidth
-                                            required
-                                            placeholder=""
+                                            value={this.state.product}
+                                            renderValue={(selected) => selected.join(', ')}
                                             multiline
-                                            margin="normal"
-                                        />
-                                        {/* {this.state.errors.usernameUser && <p>{this.state.errors.usernameUser}</p>} */}
+                                            sx={{m: 1, width: 300}}
+                                            required
+                                            multiple
+                                        >
+                                          {this.state.products.map((product) => (
+                                             <MenuItem key={product.id} value={product.name} >
+                                                <Checkbox checked={this.state.product.indexOf(product.name) > -1} />
+                                                <ListItemText primary={product.name} />
+                                              {product.name}
+                                            </MenuItem>
+                                            ))
+                                            }
+                                        </Select>
                                     </Grid>
                                     
 
-                                    {/* Email Field*/}
+                                    {/* Status Field*/}
                                     <Grid item> 
                                     <TextField
                                         id="status"
                                         label="Status"
-                                        // onChange={this._handleEmailTextFieldChange}
+                                        select
+                                        onChange={this._handleStatusChange}
                                         variant="outlined"
+                                        value={this.state.status}
                                         fullWidth
                                         required
-                                        placeholder=""
                                         multiline
                                         margin="normal"
-                                    />
-                                        {/* {this.state.errors.emailUser && <p>{this.state.errors.emailUser}</p>} */}
+                                        SelectProps={{
+                                            multiple: false,
+                                            values : [],
+                                        }}
+                                    >
+                                        <MenuItem value={"PENDING"} key={"PENDING"} >PENDING</MenuItem>
+                                        <MenuItem value={"ACCEPTED"} key={"ACCEPTED"} >ACCEPTED</MenuItem>
+                                        <MenuItem value={"REJECTED"} key={"REJECTED"} >REJECTED</MenuItem>
+                                    </TextField>
                                     </Grid>
 
                                     {this._renderCreateButtons()}
@@ -244,7 +240,4 @@ export default class AddOrder extends Component{
             </Grid>       
         );
     }
-}
-
-
-
+}    

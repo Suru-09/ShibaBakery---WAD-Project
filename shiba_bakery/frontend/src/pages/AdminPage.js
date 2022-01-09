@@ -1,6 +1,3 @@
-import ProductTable from '../components/ProductTable';
-import UserTable from '../components/UserTable';
-import OrderTable from '../components/OrderTable';
 import React, {Component} from "react";
 import { Breadcrumbs, Button } from '@mui/material';
 import '../../static/css/admin.css'
@@ -8,13 +5,18 @@ import {
     BrowserRouter as Router,
     Switch,
     Route,
-    DefaultRoute,
     Link
     }
 from 'react-router-dom';
+
 import UpdateProduct from './UpdateProduct';
 import AddProduct from './AddProduct';
-import { Grid } from '@material-ui/core';
+import AddUser from "./AddUser";
+import ProductTable from '../components/ProductTable';
+import UserTable from '../components/UserTable';
+import OrderTable from '../components/OrderTable';
+import AddOrder from "./AddOrder";
+import HandleOrder from "./HandleOrder";
 
 
 export default class AdminPage extends Component {
@@ -22,19 +24,24 @@ export default class AdminPage extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            breadcrumbs_: ['Products' , 'Users', 'Orders']
+            breadcrumbs_: ['Products' , 'Users', 'Orders'],
+            updateProduct: {},
         }
+
+        this.handleProduct = this.handleProduct.bind(this);
+    }
+
+    handleProduct(product) {
+        this.setState({
+            updateProduct: product
+        })
+
     }
 
     render(){
         return(
             <Router>
-                <div className="pageContiner">
-                    
-                    {/* <div className="titel_div">
-                        <p>This id the admin page</p>
-                    </div> */}
-
+                <div className="pageContainer">
                     <div>
                         <Breadcrumbs aria-label="breadcrumb">
                             <Button underline="hover" color="inherit" to={'/adminPage/ProductTable'} component={Link}>
@@ -50,21 +57,27 @@ export default class AdminPage extends Component {
                     </div>
 
                     <Switch>
-                        <Route exact path='/adminPage/ProductTable' component={ProductTable}/>
+                        <Route exact path='/adminPage/ProductTable'
+                                   render={(props) =>
+                                   <ProductTable productCallBack={this.handleProduct}
+                                                  {...props}
+                                                  authed={true}/>
+                                   }
+                        />
+                        <Route path='/adminPage/addProduct' component={AddProduct}/>
+                        <Route path='/adminPage/updateProduct'
+                               render={(props) =>
+                                   <UpdateProduct product={this.state.updateProduct}
+                                                  {...props}
+                                                  authed={true}/>
+                               }/>
                         <Route path='/adminPage/UserTable' component={UserTable}/>
+                        <Route path='/adminPage/addUser' component={AddUser}/>
                         <Route path='/adminPage/OrderTable' component={OrderTable}/>
-                        <DefaultRoute path='/adminPage/ProductTable' component={ProductTable}/>
+                        <Route path='/adminPage/addOrder' component={AddOrder}/>
+                        <Route path='/adminPage/handleOrder' component={HandleOrder}/>
                     </Switch>
 
-                    {/* <Grid  container spacing={20} direction={"row"}>
-                        <div>
-                            <UpdateProduct/>
-                        </div>
-
-                        <div>
-                            <AddProduct/>
-                        </div>
-                    </Grid> */}
                 </div>
             </Router>
         );

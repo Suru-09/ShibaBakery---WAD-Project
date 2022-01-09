@@ -12,8 +12,9 @@ import { Box } from '@mui/system';
 import GetAllUsers from '../utils/GetAllUsers';
 import { useState, useEffect } from 'react';
 // import '../../static/css/userTable.css'
-import AddUser from '../pages/AddUser';
-import { Grid } from '@material-ui/core';
+
+import {Link} from 'react-router-dom';
+import GetCookie from "../utils/GetCookie";
 
 const columns = [
   { id: 'id', label: 'ID', minWidth: 170 },
@@ -25,14 +26,15 @@ const columns = [
 ];
 
 function createData(id, first_name, last_name,
-    password, username, email) {
+    password, username, email, code) {
     return { 
         id,
         first_name,
         last_name, 
         password,
         username,
-        email
+        email,
+        code
     };
 }
 
@@ -58,11 +60,10 @@ const UserTable =() => {
                 hidden_password,
                 users[i].username,
                 users[i].email,
+                i
                 ));
         }
     }
-
-    console.log(users);
 
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
@@ -76,15 +77,42 @@ const UserTable =() => {
         setPage(0);
     };
 
+    const deleteUser = async (username) => {
+        const requestOptions = {
+            method: "POST",
+            headers: {
+            "X-CSRFToken": GetCookie("csrftoken"),
+            "Accept": "application/json",
+            'Content-Type': 'application/json'
+        },
+            body: JSON.stringify({
+                username: username
+            }),
+        };
+
+        fetch('/api/delete-user', requestOptions).then((response) => {
+            if(response.ok) {
+                window.location = document.URL;
+                this.props.history.push('/adminPage/UserTable');
+            }
+            else {
+                console.log("The user from UserTable hasn't been deleted!");
+            }
+        }).catch((error) => {
+            console.log(error);
+        });
+    }
+
     return (
     <Paper sx={{ width: '100%', overflow: 'hidden' }}>
         <TableContainer sx={{ maxHeight: 440 }}>
         <Table stickyHeader aria-label="sticky table">
             <TableHead>
             <TableRow>
-                <TableCell></TableCell> 
+                {/*  Empty Cell for table alignemet. DO NOT DELETE */}
+                <TableCell/> 
                 {columns.map((column) => (
-                <TableCell
+                <TableCell key={column.id}
                     style={{ minWidth: column.minWidth }}
                 >
                     {column.label}
@@ -100,11 +128,10 @@ const UserTable =() => {
                             <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
                                 <TableCell>
                                     <Box className="prod_box">
-                                        {/* <Button variant="contained" size="small">
-                                            Update
-                                        </Button> */}
-
-                                        <Button variant="contained" size="small">
+                                        <Button onClick={() => {
+                                                deleteUser(row.username).then(r => console.log("The user from UserTable hasn't been deleted!"))}}
+                                                variant="contained"
+                                                size="small">
                                             Delete
                                         </Button>
                                     </Box>
@@ -112,7 +139,7 @@ const UserTable =() => {
                                 {columns.map((column) => {
                                 const value = row[column.id];
                                 return (
-                                    <TableCell>
+                                    <TableCell key={column.id}>
                                     {column.format && typeof value === 'number'
                                         ? column.format(value)
                                         : value}
@@ -137,16 +164,10 @@ const UserTable =() => {
         onRowsPerPageChange={handleChangeRowsPerPage}
         />
         <div className="add_div">
-        <Button variant="contained" size="large">
+        <Button component={Link} to={'/adminPage/addUser'} variant="contained" size="large">
             Add User
         </Button>
         </div>
-
-        <Grid  container spacing={2} direction={"row"}>
-                        <div>
-                            <AddUser/>
-                        </div>
-        </Grid>
         
     </Paper>
     );

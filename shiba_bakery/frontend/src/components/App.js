@@ -98,8 +98,7 @@ export default class App extends Component {
                                <Route path='/adminPage' component={AdminPage}/>
                                <Route  path='/sign-up' component={SignUpPage}/>
                                <Route  path='/cart' component={Cart}/>
-                               <Route path='/home' render={(props) => <HomePage productCallback={this.handleProductId} productId={this.state.productId} {...props} authed={true}/> }/>
-                               <Route path='/newhome' render={(props) => <HomeSecond productCallback={this.handleProductId} productId={this.state.productId} {...props} authed={true}/> }/>
+                               <Route path='/home' render={(props) => <HomeSecond productCallback={this.handleProductId} productId={this.state.productId} {...props} authed={true}/> }/>
                                <Route path='/product/:productId?' render={(props) => <ProductPage productId={window.localStorage.getItem('product')} {...props} authed={true}/> }/>
                            </Switch>
 

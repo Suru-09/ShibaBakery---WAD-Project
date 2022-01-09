@@ -7,7 +7,7 @@ from rest_framework import status
 from django.contrib.auth.hashers import make_password, check_password
 from django.contrib.auth.models import User
 from django.contrib.auth import login, authenticate
-from .models import Product, Order
+from .models import Product, Order, Order_Product
 
 
 # Create your views here.
@@ -40,7 +40,7 @@ class SignUpView(APIView):
 
 class LoginView(APIView):
     serializer_class = LoginSerializer
-    
+
     def post(self, request):
         serializer = self.serializer_class(data=request.data)
 
@@ -85,32 +85,30 @@ class ProductView(APIView):
         serializer = ProductSerializer(products, many=True)
         return Response(serializer.data)
 
-    def post(self, request):
+    def post(self, request, format=None):
         serializer = self.serializer_class(data=request.data)
         filter_product = ProductFilter
 
-        if serializer.is_valid():
+        if not serializer.is_valid():
             name = serializer.data.get('name')
             ingredients = serializer.data.get('ingredients')
             price = serializer.data.get('price')
             category = serializer.data.get('category')
             description = serializer.data.get('description')
             image = serializer.data.get('image')
+            stock_count = serializer.data.get('stock_count')
 
-            value = filter_product.my_custom_filter(filter_product, name, ingredients, price, category, description)
-            if not value:
-                product = Product(name,
-                                  ingredients,
-                                  price,
-                                  category,
-                                  description,
-                                  image)
-                print(product)
-                product.save()
-                return Response("The product has been added to the database",
-                                status=status.HTTP_200_OK)
-            return Response("The given data is not valid!",
-                            status=status.HTTP_400_BAD_REQUEST)
+            # value = filter_product.my_custom_filter(filter_product, name, ingredients, price, category, description, stock_count)
+            product = Product(name=name,
+                              ingredients=ingredients,
+                              price=price,
+                              category=category,
+                              description=description,
+                              image=image,
+                              stock_count=stock_count)
+            product.save()
+            return Response("The product has been added to the database",
+                            status=status.HTTP_200_OK)
         return Response("The given data is not valid!",
                         status=status.HTTP_400_BAD_REQUEST)
 
@@ -137,41 +135,55 @@ class OrderView(APIView):
     def post(self, request):
         serializer = self.serializer_class(data=request.data)
 
-        if serializer.is_valid():
-            status_order = serializer.data.get('status')
-            date_created = serializer.data.get('customer')
-            customer = serializer.data.get('customer')
-            product = serializer.data.get('product')
+        if not serializer.is_valid():
+            status_order = request.data.get('status')
 
-            order = Order(status_order,
-                          date_created,
-                          customer,
-                          product)
+            customer_name = request.data.get('customer')
+            customer_query = User.objects.filter(first_name=customer_name)
+            customer = customer_query[0]
 
+            order = Order(status=status_order,
+                          customer=customer)
             order.save()
+            final_order = Order.objects.filter(status=status_order,
+                                               customer=customer)
+
+            # Saving all the product in the many-to-many table for
+            # the list of products in each order
+            product_name = request.data.get('product')
+            for x in product_name:
+                product = Product.objects.filter(name=x)
+                print(product[0])
+                order_table = Order_Product(order_id=final_order[0],
+                                            product_id=product[0])
+                order_table.save()
+
             return Response("The order has been added to the database",
                             status=status.HTTP_200_OK)
         return Response("The given data is not valid!",
                         status=status.HTTP_400_BAD_REQUEST)
 
 
-class DeleteUser:
+class DeleteUser(APIView):
     def post(self, request, format=None):
         try:
-            first_name = request.data.get('first_name')
-            last_name = request.data.get('last_name')
-            user = User.filter(last_name, first_name)
+            username = request.data.get('username')
+            user = User.objects.filter(username=username)
+            print(user)
             user.delete()
-        except:
             return Response("There was an error",
                             status=status.HTTP_400_BAD_REQUEST)
-
-        return Response("The user has been deleted from the database",
-                        status=status.HTTP_200_OK)
+        finally:
+            return Response("The user has been deleted from the database",
+                            status=status.HTTP_200_OK)
 
 
 class UpdateUser:
     serializer_class = UserSerializer
+
+    def gest(self, request, format=None):
+        return Response("The user hasn't been updated!",
+                        status=status.HTTP_400_BAD_REQUEST)
 
     def post(self, request, format=None):
         serializer = self.serializer_class(data=request.data)
@@ -196,26 +208,26 @@ class UpdateUser:
                         status=status.HTTP_400_BAD_REQUEST)
 
 
-class DeleteProduct:
+class DeleteProduct(APIView):
+    serializer_class = ProductSerializer
+
     def post(self, request, format=None):
-        try:
-            name = request.data.get('name')
-            product = Product.filter(name)
+            product_name = request.data.get('name')
+            product = Product.objects.filter(name=product_name)[0]
+            print(product)
             product.delete()
-        except:
             return Response("The product hasn't been deleted!",
-                            status=status.HTTP_400_BAD_REQUEST)
-        return Response("The product has been deleted from the database",
-                        status=status.HTTP_200_OK)
+                            status=status.HTTP_200_OK)
 
 
-class UpdateProduct:
+class UpdateProduct(APIView):
     serializer_class = ProductSerializer
 
     def post(self, request, format=None):
         serializer = self.serializer_class(data=request.data)
+        print(request.data)
 
-        if serializer.is_valid():
+        if not serializer.is_valid():
             name = serializer.data.get('name')
             ingredients = serializer.data.get('ingredients')
             price = serializer.data.get('price')
@@ -224,7 +236,7 @@ class UpdateProduct:
             date_created = serializer.data.get('date_created')
             image = serializer.data.get('image')
 
-            Product.objects.update_or_create(
+            Product.objects.update(
                 name=name,
                 ingredients=ingredients,
                 price=price,
@@ -238,3 +250,40 @@ class UpdateProduct:
                             status=status.HTTP_200_OK)
         return Response("The product hasn't been updated!",
                         status=status.HTTP_400_BAD_REQUEST)
+
+
+class GetProductFromOrderProduct(APIView):
+    lookup_url_kwarg = 'order_id'
+    serializer_class = ProductSerializer
+
+    def get(self, request, format=None):
+
+        order_id = request.GET.get(self.lookup_url_kwarg)
+        print(order_id)
+        products_queue = Order_Product.objects.filter(order_id=order_id)
+        product_list = []
+        if products_queue:
+            for x in products_queue:
+                print(x)
+                product_list.append(x.product_id)
+
+        serializer = ProductSerializer(product_list, many=True)
+        if product_list:
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response("No products", status=status.HTTP_400_BAD_REQUEST)
+
+    def post(self, request, format=None):
+
+        product = request.data.get('product')
+        print(product["customer"])
+        customer_id = product["customer"]
+        status_2 = product["status"]
+
+        order_queue = Order.objects.filter(customer=customer_id,
+                                           status=status_2)
+        order = order_queue[0]
+
+        if order.delete():
+            return Response("The product has been updated in the database",
+                            status=status.HTTP_200_OK)
+        return Response(status=status.HTTP_400_BAD_REQUEST)
