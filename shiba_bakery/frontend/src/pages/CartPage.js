@@ -9,7 +9,6 @@ import GetProductAfterId from "../utils/GetProductAfterId";
 import { Paper, Grid } from "@material-ui/core";
 import { Button } from "@material-ui/core";
 
-
  const CartScreen = () => {
 
     const [products, setProducts] = useState('');
@@ -77,10 +76,11 @@ import { Button } from "@material-ui/core";
                             <p className="cart_info">Toatal : {getCartSubTotal()}$</p>
                         </div>
                         <div>
-                        <Button>Proceed To Checkout</Button>
+                        <Button to="/checkout" component={Link}>Proceed To Checkout</Button>
                         </div>
                     </Grid>
                 </Grid>
+
             </Paper>
         </>
     )

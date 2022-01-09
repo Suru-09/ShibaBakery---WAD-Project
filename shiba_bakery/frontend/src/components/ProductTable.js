@@ -77,14 +77,15 @@ const ProductTable =() => {
     };
 
     return (
-    <Paper sx={{ width: '100%', overflow: 'hidden' }}>
+        <Paper sx={{ width: '100%', overflow: 'hidden' }}>
         <TableContainer sx={{ maxHeight: 440 }}>
         <Table stickyHeader aria-label="sticky table">
             <TableHead>
             <TableRow>
-                <TableCell></TableCell> 
+                {/*  Empty Cell for table alignemet. DO NOT DELETE */}
+                <TableCell/> 
                 {columns.map((column) => (
-                <TableCell
+                <TableCell key={column.id}
                     style={{ minWidth: column.minWidth }}
                 >
                     {column.label}
@@ -100,11 +101,15 @@ const ProductTable =() => {
                             <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
                                 <TableCell>
                                     <Box className="prod_box">
-                                        <Button variant="contained" size="small" >
+                                        <Button to='/adminPage/updateProduct' onClick={ () => {productCallBack(row)} }
+                                            component={Link} variant="contained" size="small" >
                                             Update
                                         </Button>
 
-                                        <Button variant="contained" size="small">
+                                        <Button onClick={() => {
+                                                deleteProduct(row.name).then(r => {console.log("The product hasn't been deleted")})}}
+                                                variant="contained"
+                                                size="small">
                                             Delete
                                         </Button>
                                     </Box>
@@ -112,7 +117,7 @@ const ProductTable =() => {
                                 {columns.map((column) => {
                                 const value = row[column.id];
                                 return (
-                                    <TableCell>
+                                    <TableCell key={column.id}>
                                     {column.format && typeof value === 'number'
                                         ? column.format(value)
                                         : value}
@@ -137,21 +142,20 @@ const ProductTable =() => {
         onRowsPerPageChange={handleChangeRowsPerPage}
         />
         <div className="add_div">
-        <Button variant="contained" size="large">
+        <Button component={Link} to={'/adminPage/addProduct'} variant="contained" size="large">
             Add Product
         </Button>
         </div>
 
-        {/* <UpdateProduct/> */}
-        <Grid  container spacing={2} direction={"row"}>
-                        <div>
-                            <UpdateProduct/>
-                        </div>
+        {/*<Grid  container spacing={2} direction={"row"}>*/}
+        {/*                <div>*/}
+        {/*                    <UpdateProduct/>*/}
+        {/*                </div>*/}
 
-                        <div>
-                            <AddProduct/>
-                        </div>
-        </Grid>
+        {/*                <div>*/}
+        {/*                    <AddProduct/>*/}
+        {/*                </div>*/}
+        {/*</Grid>*/}
         
     </Paper>
     );

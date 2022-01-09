@@ -130,3 +130,5 @@ shiba_bakery/node_modules/
 shiba_bakery/frontend/static/frontend/main.js
 
 shiba_bakery/frontend/static/frontend/main.js.LICENSE.txt
+
+shiba_bakery/frontend/package-lock.json

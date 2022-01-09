@@ -17,6 +17,7 @@ import GetUserAfterName from "../utils/GetUserAfterUsername";
 import AdminPage from "../pages/AdminPage";
 import ToggleColorMode from "./Theme";
 import HomeSecond from "../pages/HomeSecond";
+import Cart from "../pages/Cart";
 
 //Css
 import '../../static/css/app.css'
@@ -96,7 +97,7 @@ export default class App extends Component {
                                <Route exact path='/login' render={(props) => <LoginPage loginCallback={this.handleUserSession} {...props} authed={true}/> }/>
                                <Route path='/adminPage' component={AdminPage}/>
                                <Route  path='/sign-up' component={SignUpPage}/>
-                               <Route  path='/cart_screen' component={CartScreen}/>
+                               <Route  path='/cart' component={Cart}/>
                                <Route path='/home' render={(props) => <HomePage productCallback={this.handleProductId} productId={this.state.productId} {...props} authed={true}/> }/>
                                <Route path='/newhome' render={(props) => <HomeSecond productCallback={this.handleProductId} productId={this.state.productId} {...props} authed={true}/> }/>
                                <Route path='/product/:productId?' render={(props) => <ProductPage productId={window.localStorage.getItem('product')} {...props} authed={true}/> }/>

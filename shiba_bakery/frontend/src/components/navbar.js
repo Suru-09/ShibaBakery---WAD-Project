@@ -92,7 +92,7 @@ const Navbar = ({navbarCall, userID}) => {
                                 Login
                               </Button>
 
-                              <Button to="/cart_screen"  component={Link} color="inherit">
+                              <Button to="/cart"  component={Link} color="inherit">
                                 <ShoppingCartIcon sx={{ mr: 1 }} />
                                 Cart
                               </Button>
