@@ -10,7 +10,6 @@ import HomePage from "../pages/HomePage"
 import Footer from "./Footer"
 import LoginPage from "../pages/LoginPage"
 import SignUpPage from "../pages/SignUpPage";
-import CartScreen from "../pages/CartPage";
 import Navbar from "./navbar";
 import ProductPage from "../pages/ProductPage";
 import GetUserAfterName from "../utils/GetUserAfterUsername";
@@ -18,6 +17,8 @@ import AdminPage from "../pages/AdminPage";
 import ToggleColorMode from "./Theme";
 import HomeSecond from "../pages/HomeSecond";
 import Cart from "../pages/Cart";
+import CartScreen from '../pages/CartPage';
+import Checkout from '../pages/Checkout';
 
 //Css
 import '../../static/css/app.css'
@@ -29,7 +30,6 @@ import {
     Route
     }
 from 'react-router-dom';
-import NewHome from "../pages/HomeSecond";
 
 // const ColorModeContext = React.createContext({ toggleColorMode: () => {} });
 
@@ -82,7 +82,7 @@ export default class App extends Component {
         // const colorMode = React.useContext(ColorModeContext);
 
         return(
-            <>
+            
                 <Router>
                     <div className="app_div">
                         <div className="footer-wrap">
@@ -96,10 +96,13 @@ export default class App extends Component {
                             <Switch>
                                <Route exact path='/login' render={(props) => <LoginPage loginCallback={this.handleUserSession} {...props} authed={true}/> }/>
                                <Route path='/adminPage' component={AdminPage}/>
-                               <Route  path='/sign-up' component={SignUpPage}/>
-                               <Route  path='/cart' component={Cart}/>
+                               <Route path='/sign-up' component={SignUpPage}/>
+                               <Route path='/product/:productId?' render={(props) => <ProductPage productId={window.localStorage.getItem('product')} {...props} authed={true}/> }/>
                                <Route path='/home' render={(props) => <HomeSecond productCallback={this.handleProductId} productId={this.state.productId} {...props} authed={true}/> }/>
-                               <Route path='/product/:productId?' render={(props) => <ProductPage productId={window.localStorage.getItem('product')} {...props} authed={true}/> }/>                     
+                               <Route path='/product/:productId?' render={(props) => <ProductPage productId={window.localStorage.getItem('product')} {...props} authed={true}/> }/>     
+                               <Route path='/cart' component={Cart}/>
+                               <Route path='/cart/cart_screen' component={CartScreen}/>
+                               <Route path='/cart/checkout' component={Checkout}/>                
                                <Route path='' render={(props) => <HomeSecond productCallback={this.handleProductId} productId={this.state.productId} {...props} authed={true}/> }/>
                            </Switch>
 
@@ -109,7 +112,7 @@ export default class App extends Component {
                         </div>
                     </div>
                 </Router>
-            </>
+            
         );
     }
 }

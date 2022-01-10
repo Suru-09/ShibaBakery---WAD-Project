@@ -5,26 +5,48 @@ import React from "react";
 import { Select, InputLabel, Box } from '@material-ui/core';
 import { MenuItem } from '@material-ui/core';
 import { Grid } from '@material-ui/core';
+import { withRouter} from "react-router-dom"
 
 
-const CartItem = ({quantity, homePageCallback, imageUrl, description, price, name, category, productId, stock_count }) => {
+const CartItem = ({quantity, deleteProductCallBack, qtyChangeHandler, imageUrl, description, price, name, category, productId, stock_count }) => {
 
     const changeSelectValue = (value) => {
         stock_count = value;
         console.log(value);
     }
 
+    Array.prototype.remove = function(from, to) {
+        var rest = this.slice((to || from) + 1 || this.length);
+        this.length = from < 0 ? this.length + from : from;
+        return this.push.apply(this, rest);
+    };
    
     const [quant, setQuantity] = React.useState(quantity);
     
-    const handleChange = (event) => {
+    const handleChange = (event, product) => {
+        qtyChangeHandler(event.target.value, productId);
         setQuantity(event.target.value);
     };
 
+    const removeProduct = (productId) => {
+        deleteProductCallBack(productId);
+        console.log("Eu sunt productId: ");
+        console.log(productId);
+        var cartList = JSON.parse(window.localStorage.getItem('cart') || "[]");
+        for(let i = 0 ; i < cartList.length; ++i) {
+            if(cartList[i].id === productId) {
+                cartList.remove(i, i);
+                console.log(cartList);
+            }
+        }
+
+        window.localStorage.setItem('cart', JSON.stringify(cartList));
+    }
+
     const createSelectQt = (count) =>{
         let arr = [];
-        for(let i=0; i<count; ++i){
-            arr[i] = i+1;
+        for(let i = 0; i < count; ++i){
+            arr[i] = i + 1;
         }
          return(
              arr.map((qt) => {
@@ -48,16 +70,17 @@ const CartItem = ({quantity, homePageCallback, imageUrl, description, price, nam
         
         
         <div className='lower_info'>
-            <Button to={`/product/${productId}`} component={Link} className="info__button" variant='contained' size='small'>
+            {/* <Button to={`/product/${productId}`}
+            component={Link} className="info__button" variant='contained' size='small'>
                 View
-            </Button>
+            </Button> */}
             <InputLabel>Quantity</InputLabel>
             <Select
                 value={quant}
                 lable="Quantity"
                 multiline
                 variant='outlined'
-                onChange={handleChange}
+                onChange={(event, productId) => {handleChange(event, productId)}}
             >
                 {createSelectQt(stock_count)}
             </Select>
@@ -66,7 +89,7 @@ const CartItem = ({quantity, homePageCallback, imageUrl, description, price, nam
                 className="cartItem__deleteBtn"
                 variant='contained'
                 size='small'
-                // onClick={() => removeHandler(item.product)}
+                onClick={() => removeProduct(productId)}
             >
                 Remove
             </Button>
@@ -75,4 +98,4 @@ const CartItem = ({quantity, homePageCallback, imageUrl, description, price, nam
   );
 };
 
-export default CartItem;
+export default withRouter(CartItem);

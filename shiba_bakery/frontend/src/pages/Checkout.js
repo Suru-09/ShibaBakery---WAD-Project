@@ -1,7 +1,7 @@
 import React from "react";
 import ProgressBar from "../components/Progress";
 import { Paper } from "@mui/material";
-
+import { withRouter } from "react-router-dom";
 
 const Checkout = () => {
 
@@ -14,4 +14,4 @@ const Checkout = () => {
     );
 }
 
-export default Checkout;
+export default withRouter(Checkout);

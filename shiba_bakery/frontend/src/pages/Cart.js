@@ -27,13 +27,13 @@ export default class Cart extends Component {
                 <div className="pageContiner">
 
                     <Switch>
-                        <Route exact path='/cart/cart_screen' component={CartScreen}/>
-                        <Route path='/cart/checkout' component={Checkout}/>
-                        <Route path='/cart' component={CartScreen}/>
-                    </Switch>
+                         <Route exact path='/cart/cart_screen' render={(props) => <CartScreen {...props} authed={true}/> }/>
+                         <Route path='/cart/checkout' component={Checkout}/>
+                         <Route path='/cart' render={(props) => <CartScreen {...props} authed={true}/> }/>
+                     </Switch>
 
                     
-                </div>
+            </div>
             </Router>
         );
     }
