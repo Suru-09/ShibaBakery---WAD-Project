@@ -37,12 +37,10 @@ const Payment= () => {
   return (
     <Paper align='center' elevation={20} style={PaperStyle} sx={{mx: "auto", my: "25px", width: '90%', overflow: 'hidden' }}>
         <Grid container spacing={5} direction={"column"} >
-            <div id="card">
-                <div className="sticker"></div>
-                <div>
+            <Grid item>
                     <img className="logo" src={"../../static/images/creditCard.jpg"}/>
-                </div>
-            </div>
+                
+            </Grid>
 
             {/* Card Number */}
             <Grid item>
@@ -50,7 +48,7 @@ const Payment= () => {
                 <TextField
                     id="cardnumber"
                     onChange={handleNum}
-                    width="70%"
+                    style = {{width: 500}}
                     label="Enter card number"
                     variant="outlined"
                     required
@@ -66,7 +64,7 @@ const Payment= () => {
                 <TextField
                     id="cardname"
                     onChange={handleCardHolder}
-                    fullWidth
+                    style = {{width: 500}}
                     label="Please enter the name on the card"
                     variant="outlined"
                     required
@@ -76,9 +74,9 @@ const Payment= () => {
                 />
             </Grid>
 
-            <Grid container spacing={20} direction={"row"}>
-                <div className="input-container">
-                    <h4>Expiration Year</h4>
+            <Grid container  direction={"row"} style={{ display: "flex", justifyContent: "space-evenly" }}>
+                <Grid item style={{ display: "flex", justifyContent: "flex-start" }}>
+                    <h3>Expiration Year</h3>
                     <Select value={expireYear} onChange={handleExpYear}>
                       <option value="January">January</option>
                       <option value="February">February</option>
@@ -93,10 +91,10 @@ const Payment= () => {
                       <option value="November">November</option>
                       <option value="December">December</option>
                     </Select>
-                </div>
-                <div className="input-container">
-                <h4>Month</h4>
-                <Select value={expireMonth} onChange={handleExpMonth}>
+                </Grid>
+                <Grid item style={{ display: "flex", justifyContent: "flex-start" }}>
+                <h3>Month</h3>
+                <Select value={expireMonth} onChange={handleExpMonth} style={{fontSize: "14"}}>
                       <option value="2021">2021</option>
                       <option value="2022">2022</option>
                       <option value="2023">2023</option>
@@ -107,14 +105,16 @@ const Payment= () => {
                       <option value="2028">2028</option>
                       <option value="2029">2029</option>
                     </Select>
-                </div>
-                <div className="input-container">
-                    <h4>CVV</h4>
+                </Grid>
+                <Grid item style={{ display: "flex", justifyContent: "flex-start" }}>
+                    <h3>CVV</h3>
                     <input type="password" placeholder="CVV" required/>
-                </div>
+                </Grid>
             </Grid>
 
-            <Button>Submit payment</Button>
+            <Grid item>
+                <Button>Submit payment</Button>
+            </Grid>
         </Grid>
     </Paper>
   );
