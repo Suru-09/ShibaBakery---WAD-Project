@@ -11,7 +11,7 @@ const OrderDet = () => {
 
     }
 
-    let ok=false;
+    
 
     return (
         <Paper align='center' elevation={20} style={PaperStyle} sx={{mx: "auto", my: "25px", width: '90%', overflow: 'hidden' }}>
@@ -19,14 +19,8 @@ const OrderDet = () => {
             
                 <Grid elevation={8} container spacing={5} direction={"column"}>
 
-                    <Grid item> 
-                        <Button 
-                            color="primary"
-                            variant="contained">Delivery</Button>
-
-                        <Button 
-                            color="primary"
-                            variant="contained">Personal Pick-Up</Button>
+                    <Grid item>
+                        <h2>Order details</h2>
                     </Grid>
 
                     {/* Contact Person */}
