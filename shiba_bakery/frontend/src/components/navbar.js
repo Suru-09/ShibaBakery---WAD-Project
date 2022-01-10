@@ -27,7 +27,7 @@ import { createBrowserHistory } from "history"
 
 const browserHistory = createBrowserHistory()
 
-const Navbar = ({navbarCall, userID}) => {
+const Navbar = ({navbarCall, userID, props, navbarRefresh}) => {
 
   const [user, setUser] = useState('');
 
@@ -49,6 +49,13 @@ const Navbar = ({navbarCall, userID}) => {
   const handleProduct = (productId) => {
       navbarCall(productId);
   }
+  
+  const _logout = () => {
+      window.localStorage.clear();
+      navbarRefresh();
+      // props.history.push('/home');
+      // window.location = document.URL;
+  }
 
   return (
         <Box sx={{ flexGrow: 1 }}>
@@ -62,15 +69,6 @@ const Navbar = ({navbarCall, userID}) => {
                                     <HomeIcon sx={{ mr: 1 }} />
                               </Button>
 
-                              <IconButton
-                                size="large"
-                                edge="start"
-                                color="inherit"
-                                aria-label="menu"
-                                sx={{ mr: 2 }}
-                              >
-                                {/* <MenuIcon /> */}
-                            </IconButton>
                             <Searchbar  history={browserHistory} handleCallback={handleProduct} />
                         </div>
 
@@ -78,7 +76,7 @@ const Navbar = ({navbarCall, userID}) => {
                         <div className="button_div">
                             <div className="nav_buttons">
 
-                                <CardHeader
+                              <CardHeader
                                   avatar={
                                     <Avatar
                                     >
@@ -86,7 +84,7 @@ const Navbar = ({navbarCall, userID}) => {
                                     </Avatar>
                                   }
                                   title = {userID && user ? user.last_name + " " + user.first_name : "Guest"}
-                                />
+                              />
 
                               <Button to="/login" component={Link} color="inherit">
                                 Login
@@ -97,12 +95,17 @@ const Navbar = ({navbarCall, userID}) => {
                                 Cart
                               </Button>
                               
+                              
                               {
                                 user.last_name === 'admin' ? 
                                   <Button to="/adminPage"  component={Link} color="inherit">
                                             Admin
                                   </Button> : null
                               }
+
+                              <Button to="/home" onClick={_logout} component={Link} color="inherit">
+                                  Logout
+                              </Button>
                               
                               </div>
                         </div>

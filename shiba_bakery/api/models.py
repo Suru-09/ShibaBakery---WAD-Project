@@ -24,6 +24,9 @@ class Order(models.Model):
     date_created = models.DateTimeField(auto_now_add=True, null=False)
     customer = models.ForeignKey(User, null=False, on_delete=models.CASCADE)
     status = models.CharField(max_length=200, null=False, choices=STATUS)
+    contact_person = models.CharField(max_length=200, null=True)
+    phone_number = models.CharField(max_length=15, null=True)
+    delivery_address = models.CharField(max_length=200, null=True)
 
 
 class Order_Product(models.Model):

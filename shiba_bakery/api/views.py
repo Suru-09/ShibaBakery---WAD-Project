@@ -137,13 +137,20 @@ class OrderView(APIView):
 
         if not serializer.is_valid():
             status_order = request.data.get('status')
-
             customer_name = request.data.get('customer')
+            print(customer_name)
             customer_query = User.objects.filter(first_name=customer_name)
             customer = customer_query[0]
 
+            phone_number = request.data.get('phone_number')
+            contact_person = request.data.get('contact_person')
+            delivery_address = request.data.get('delivery_address')
+
             order = Order(status=status_order,
-                          customer=customer)
+                          customer=customer,
+                          phone_number=phone_number,
+                          contact_person=contact_person,
+                          delivery_address=delivery_address)
             order.save()
             final_order = Order.objects.filter(status=status_order,
                                                customer=customer)

@@ -2,8 +2,9 @@ import React from "react";
 import { Button, Paper } from "@mui/material";
 import { Grid } from "@mui/material";
 import { TextField } from "@mui/material";
+import { useEffect, useState } from "react";
 
-const OrderDet = () => {
+const OrderDet = ( {orderDetailsCallback} ) => {
 
     const PaperStyle={
         padding: '30px 20px 50px',
@@ -11,7 +12,36 @@ const OrderDet = () => {
 
     }
 
-    
+    const [contactPerson, setContactPerson] = useState('');
+    const contactPersonChange = (e) => {
+        setContactPerson(e.target.value);
+        _handleCallback();
+    }
+
+    const [phoneNumber, setPhoneNumber] = useState('');
+    const phoneNumberChange = (e) => {
+        setPhoneNumber(e.target.value);
+        _handleCallback();
+    }
+
+    const [deliveryAddress, setDeliveryAddress] = useState('');
+    const deliveryAddressChange = (e) => {
+        setDeliveryAddress(e.target.value);
+        _handleCallback();
+    }
+
+    const _handleCallback = () => {
+        var orderDetails = []
+        if(contactPerson !== '')
+            orderDetails.push(contactPerson);
+        if(phoneNumber !== '')
+            orderDetails.push(phoneNumber);
+        if(deliveryAddress != '')    
+            orderDetails.push(deliveryAddress);
+        if(orderDetails.length === 3)
+            orderDetailsCallback(orderDetails);
+    }
+
 
     return (
         <Paper align='center' elevation={20} style={PaperStyle} sx={{mx: "auto", my: "25px", width: '90%', overflow: 'hidden' }}>
@@ -28,7 +58,7 @@ const OrderDet = () => {
                         <TextField
                             id="contactperson"
                             label="Contact Person"
-                            // onChange={this._handleUsernameTextFieldChange}
+                            onChange={contactPersonChange}
                             variant="outlined"
                             fullWidth
                             required
@@ -43,7 +73,7 @@ const OrderDet = () => {
                         <TextField
                             id="phonenumber"
                             label="Phone Number"
-                            // onChange={this._handleUsernameTextFieldChange}
+                            onChange={phoneNumberChange}
                             variant="outlined"
                             fullWidth
                             required
@@ -58,7 +88,7 @@ const OrderDet = () => {
                         <TextField
                             id="deliveryaddress"
                             label="Delivery Address"
-                            // onChange={this._handleUsernameTextFieldChange}
+                            onChange={deliveryAddressChange}
                             variant="outlined"
                             fullWidth
                             required

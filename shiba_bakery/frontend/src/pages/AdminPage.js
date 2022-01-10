@@ -76,6 +76,13 @@ export default class AdminPage extends Component {
                         <Route path='/adminPage/OrderTable' component={OrderTable}/>
                         <Route path='/adminPage/addOrder' component={AddOrder}/>
                         <Route path='/adminPage/handleOrder' component={HandleOrder}/>
+                        <Route path='/adminPage'
+                                   render={(props) =>
+                                   <ProductTable productCallBack={this.handleProduct}
+                                                  {...props}
+                                                  authed={true}/>
+                                   }
+                        />
                     </Switch>
 
                 </div>

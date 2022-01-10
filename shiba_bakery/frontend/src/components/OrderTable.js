@@ -7,7 +7,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
-import { Button } from '@mui/material';
+import { Button, iconButtonClasses } from '@mui/material';
 import { Box } from '@mui/system';
 import { useState, useEffect } from 'react';
 import {Link} from "react-router-dom";
@@ -18,16 +18,22 @@ import GetCookie from "../utils/GetCookie";
 
 
 const columns = [
-  { id: 'customer', label: 'Customer', minWidth: 170 },
-  { id: 'product_list', label: 'Product', minWidth: 100 },
-  { id: 'status', label: 'Status', minWidth: 100 }, 
+  { id: 'customer', label: 'Customer', minWidth: 50 },
+  { id: 'product_list', label: 'Product', minWidth: 150 },
+  { id: 'status', label: 'Status', minWidth: 50 }, 
+  { id: 'contact_person', label: 'Contact Person', minWidth: 50 }, 
+  { id: 'phone_number', label: 'Phone Number', minWidth: 50 }, 
+  { id: 'delivery_address', label: 'Delivery Address', minWidth: 50 }, 
 ];
 
-function createData(customer, product_list, status ) {
+function createData(customer, product_list, status, contact_person, phone_number, delivery_address ) {
     return {
         customer,
         product_list,
-        status
+        status,
+        contact_person,
+        phone_number,
+        delivery_address
     };
 }
 
@@ -68,7 +74,10 @@ const OrderTable =() => {
             createData(
                 orders[i].customer,
                 product_orders[i],
-                orders[i].status
+                orders[i].status,
+                orders[i].contact_person,
+                orders[i].phone_number,
+                orders[i].delivery_address
             )
         );
     }
@@ -138,19 +147,12 @@ const OrderTable =() => {
                             <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
                                 <TableCell>
                                     <Box className="prod_box">
-                                        {/*<Button variant="contained" size="small">*/}
-                                        {/*    Update*/}
-                                        {/*</Button>*/}
-
                                         <Button onClick={() => {
                                                 deleteProduct(row)
                                                 }}
                                                 variant="contained" size="small">
                                             Delete
                                         </Button>
-                                        {/*<Button component={Link} to={'/adminPage/handleOrder'} variant="contained" size="small">*/}
-                                        {/*    Handle*/}
-                                        {/*</Button>*/}
                                     </Box>
                                 </TableCell>
                                 {columns.map((column) => {

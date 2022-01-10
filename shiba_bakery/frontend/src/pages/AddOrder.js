@@ -23,6 +23,9 @@ export default class AddOrder extends Component{
             status: "",
             users: [],
             products: [],
+            contactPerson: '',
+            phoneNumber: '',
+            deliveryAddress: '',
         }
 
         this._renderCreateButtons = this._renderCreateButtons.bind(this);
@@ -32,6 +35,9 @@ export default class AddOrder extends Component{
         this._handleCustomerChange= this._handleCustomerChange.bind(this);
         this._handleStatusChange = this._handleStatusChange.bind(this);
         this._addOrderButtonPressed = this._addOrderButtonPressed.bind(this);
+        this._handleContactPersonChange = this._handleContactPersonChange.bind(this);
+        this._handlePhoneNumberChange = this._handlePhoneNumberChange.bind(this);
+        this._handleDeliveryAddressChange = this._handleDeliveryAddressChange.bind(this);
 
     }
 
@@ -78,6 +84,9 @@ export default class AddOrder extends Component{
                 status: this.state.status,
                 product: this.state.product,
                 customer: this.state.customer,
+                contact_person: this.state.contactPerson,
+                phone_number: this.state.phoneNumber,
+                delivery_address: this.state.deliveryAddress,
             }),
         };
 
@@ -115,6 +124,24 @@ export default class AddOrder extends Component{
         this.setState({
             status: e.target.value
         });
+    }
+
+    _handleContactPersonChange(e) {
+        this.setState({
+            contactPerson: e.target.value
+        })
+    }
+
+    _handlePhoneNumberChange(e) {
+        this.setState({
+            phoneNumber: e.target.value
+        })
+    }
+
+    _handleDeliveryAddressChange(e) {
+        this.setState({
+            deliveryAddress: e.target.value
+        })
     }
 
     _renderCreateButtons() {
@@ -163,7 +190,7 @@ export default class AddOrder extends Component{
                                             onChange={this._handleCustomerChange}
                                             variant="outlined"
                                             value={this.state.customer}
-                                            fullWidth
+                                            style={{width: "300px"}}
                                             required
                                             multiline
                                             margin="normal"
@@ -190,6 +217,7 @@ export default class AddOrder extends Component{
                                             onChange={this._handleProductChange}
                                             variant="outlined"
                                             value={this.state.product}
+                                            style={{width: "300px"}}
                                             renderValue={(selected) => selected.join(', ')}
                                             multiline
                                             sx={{m: 1, width: 300}}
@@ -217,7 +245,7 @@ export default class AddOrder extends Component{
                                         onChange={this._handleStatusChange}
                                         variant="outlined"
                                         value={this.state.status}
-                                        fullWidth
+                                        style={{width: "300px"}}
                                         required
                                         multiline
                                         margin="normal"
@@ -232,7 +260,52 @@ export default class AddOrder extends Component{
                                     </TextField>
                                     </Grid>
 
-                                    {this._renderCreateButtons()}
+                                    {/* Contact Person field */}
+                                    <Grid item> 
+                                    <TextField
+                                        id="contact"
+                                        label="Contact Person"
+                                        onChange={this._handleContactPersonChange}
+                                        variant="outlined"
+                                        style={{width: "300px"}}
+                                        required
+                                        placeholder=""
+                                        multiline
+                                        margin="normal"
+                                    />
+                                    </Grid>
+
+                                    {/* Phone Number field */}
+                                    <Grid item> 
+                                        <TextField
+                                            id="phone_number"
+                                            label="Phone Number"
+                                            onChange={this._handlePhoneNumberChange}
+                                            variant="outlined"
+                                            style={{width: "300px"}}
+                                            required
+                                            placeholder=""
+                                            multiline
+                                            margin="normal"
+                                        />
+                                    </Grid>
+
+                                    {/* Delivery Address field */}
+                                    <Grid item> 
+                                    <TextField
+                                        id="delivery"
+                                        label="Delivery Address"
+                                        onChange={this._handleDeliveryAddressChange}
+                                        variant="outlined"
+                                        style={{width: "300px"}}
+                                        required
+                                        placeholder=""
+                                        multiline
+                                        margin="normal"
+                                    />
+                                </Grid>
+
+                                {this._renderCreateButtons()}
                                     
                             </Grid>
                     </form>

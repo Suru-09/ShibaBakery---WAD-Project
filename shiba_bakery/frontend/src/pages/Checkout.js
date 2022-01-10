@@ -7,10 +7,10 @@ const Checkout = () => {
 
     return (
         <>
-        <Paper elevation={12} className="cartpaper">
-            <ProgressBar></ProgressBar>
-        </Paper>
-    </>
+            <Paper elevation={12} className="cartpaper">
+                <ProgressBar></ProgressBar>
+            </Paper>
+        </>
     );
 }
 

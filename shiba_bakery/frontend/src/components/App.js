@@ -30,6 +30,7 @@ import {
     Route
     }
 from 'react-router-dom';
+import SelectInput from "@mui/material/Select/SelectInput";
 
 // const ColorModeContext = React.createContext({ toggleColorMode: () => {} });
 
@@ -51,7 +52,7 @@ export default class App extends Component {
     }
 
     handleProductId = (childData) =>{
-        const user = window.localStorage.getItem('user');
+        const user = window.localStorage.getItem('user') || "''";
         window.localStorage.setItem('product', childData);
         console.log("Eu sunt ProductId: " + childData);
 
@@ -75,7 +76,10 @@ export default class App extends Component {
         getUser();
     }
 
-     
+    navbarRefresh = () => {
+        setTimeout(() => {  window.location = document.URL; }, 400);
+    }
+
     render() {
 
         // const theme = useTheme();
@@ -86,7 +90,8 @@ export default class App extends Component {
                 <Router>
                     <div className="app_div">
                         <div className="footer-wrap">
-                            <Navbar navbarCall={this.handleProductId} userID={window.localStorage.getItem('user')} />
+                            <Navbar navbarCall={this.handleProductId} navbarRefresh={this.navbarRefresh} 
+                                    userID={window.localStorage.getItem('user')} />
                             {/* {theme.palette.mode} mode
                             <IconButton sx={{ ml: 1 }} onClick={colorMode.toggleColorMode} color="inherit">
                                 {theme.palette.mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
