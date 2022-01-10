@@ -12,6 +12,8 @@ import TableRow from '@mui/material/TableRow';
 import { useState, useEffect } from 'react';
 import '../../static/css/home.css';
 import Slideshow from "../components/SlideShow";
+import { Select } from "@material-ui/core";
+import { MenuItem } from "@material-ui/core";
 
 
 function createData(name, ingredients, price, category, 
@@ -36,7 +38,9 @@ export default class HomeSecond extends Component {
             selectedProduct: 0,
             page: 0,
             rowsPerPage: 12,
-            
+            category: '',
+            // price: [],
+             kind: '',
         }
 
         this.renderHomePage = this.renderHomePage.bind(this);
@@ -45,6 +49,9 @@ export default class HomeSecond extends Component {
         this.handleData = this.handleData.bind(this);
         this.handleChangePage = this.handleChangePage.bind(this);
         this.handleChangeRowsPerPage = this.handleChangeRowsPerPage.bind(this);
+        this.createSelectCategory = this.createSelectCategory.bind(this);
+        this.handleChangeCategory = this.handleChangeCategory.bind(this);
+        this.handleChangeKind = this.handleChangeKind.bind(this);
     }
 
 
@@ -118,6 +125,36 @@ export default class HomeSecond extends Component {
         
     }
 
+    createSelectCategory = () =>{
+        let arr = [];
+        for(let i = 0; i < this.state.products.length; ++i){
+            if(!(arr.includes(this.state.products[i].category))){
+            arr[i] = this.state.products[i].category;
+            }
+        }
+         return(
+             arr.map((category) => {
+                return(
+                    <MenuItem value={category}>{category}</MenuItem>
+                )
+             })
+         );
+    };
+
+    handleChangeCategory = (event) =>{
+        this.setState({
+            category: event.target.value
+        
+        });
+    }
+
+    handleChangeKind = (event) =>{
+        this.setState({
+            kind: event.target.value
+        
+        });
+    }
+
     renderHomePage() {
 
         return (
@@ -127,6 +164,30 @@ export default class HomeSecond extends Component {
                     <div className="slideshow_div">
                         <Slideshow/>
                     </div>
+                    <Grid container className="filters_div" direction="row">
+                        <Select
+                            value={this.state.category}
+                            lable="Category"
+                            multiline
+                            variant='outlined'
+                            style = {{width: "200px", marginRight: "15px"}}
+                            onChange={(event) => {this.handleChangeCategory(event)}}
+                        >
+                            {this.createSelectCategory()}
+                        </Select>
+
+                        <Select
+                            value={this.state.kind}
+                            lable="Kind"
+                            multiline
+                            variant='outlined'
+                            style = {{width: "200px", marginLeft: "15px", marginRight: "15px"}}
+                            onChange={(event) => {this.handleChangeKind(event)}}
+                        >
+                            <MenuItem value={"Vegan"}>{"Vegan"}</MenuItem>
+                            <MenuItem value={"Non Vegan"}>{"Non Vegan"}</MenuItem>
+                        </Select>
+                    </Grid>
                     <Grid container spacing={5} direction={"column"}>
                         <div className="product_div">
                             

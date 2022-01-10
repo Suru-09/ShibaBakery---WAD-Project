@@ -2,16 +2,19 @@ import React, {useEffect, useState} from "react";
 import '../../static/css/productScreen.css'
 import GetProductAfterId from "../utils/GetProductAfterId";
 import { withRouter } from "react-router-dom";
+import { Paper } from "@material-ui/core";
 
 const ProductPage = ({ productId }) => {
 
   const [product, setProduct] = useState('');
+  const [ingredients,setIngredients] = useState('');
 
   useEffect(() => {
      async function getProduct() {
          if(productId !== 0) {
              const product = await GetProductAfterId(productId);
             setProduct(product);
+            setIngredients(product.ingredients);
          }
          else {
              console.log("Product id este: " + productId + " in ProductPage");
@@ -45,49 +48,47 @@ const ProductPage = ({ productId }) => {
 
 
   return (
-      <div className="productscreen">
 
-            <div className="productscreen__left">
-              <div className="left__image">
-                <img src={product.image}/>
-              </div>
-              <div className="left__info">
-                <p className="left__name">{product.name}</p>
-                <p>Price: ${product.price}</p>
-                <p>Description: {product.description}</p>
-              </div>
-            </div>
-            <div className="productscreen__right">
-              <div className="right__info">
-                <p>
-                  Price:
-                  <span>${product.price}</span>
-                </p>
-                <p>
-                  Status:
-                  {/* <span>
-                    {product.countInStock > 0 ? "In Stock" : "Out of Stock"}
-                  </span> */}
-                </p>
-                <p>
-                  Qty
-                  {/* <select value={qty} onChange={(e) => setQty(e.target.value)}>
-                    {[...Array(product.countInStock).keys()].map((x) => (
-                      <option key={x + 1} value={x + 1}>
-                        {x + 1}
-                      </option>
-                    ))}
-                  </select> */}
-                </p>
-                <p>
-                  <button type="button" onClick={() => {setCartItem(product)}} >
-                    Add To Cart
-                  </button>
-                </p>
-              </div>
-            </div>
+    <Paper elevation={12} className="productpaper">
+        <div className="productscreen">
 
-      </div>
+                <div className="productscreen__left">
+                <div className="left__image">
+                    <img className="image_product" src={product.image}/>
+                </div>
+                <div className="left__info">
+                    <p className="left__name">{product.name}</p>
+                    <p className="info">Description: {product.description}</p>
+                </div>
+                </div>
+                <div className="productscreen__right">
+                <div className="right__info">
+                    <p className="info">
+                    Price:
+                    <span className="info">${product.price}</span>
+                    </p>
+                    <p className="info">
+                    Product type:
+                    <span>
+                        {ingredients.includes("egg") > 0 ? "Non Vegan" : ingredients.includes("milk") > 0 ? "Non Vegan" : ingredients.includes("butter") > 0 ? "Non Vegan" : "Vegan"}
+                    </span>
+                    </p>
+                    <p className="info">
+                    Availability: 
+                    <span>
+                        {product.stock_count > 0 ? "In Stock" : "Out of Stock"}
+                    </span>
+                    </p>
+                    <p className="info">
+                    <button type="button" onClick={() => {setCartItem(product)}} >
+                        Add To Cart
+                    </button>
+                    </p>
+                </div>
+                </div>
+
+        </div>
+    </Paper>
     );
 };
 
