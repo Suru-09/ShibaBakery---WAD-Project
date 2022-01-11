@@ -19,6 +19,12 @@ const ProgressBar = () => {
     setOrderDetails(orderDet);
   }
 
+  const [paymentDetails, setPaymentDetails] = useState([]);
+
+  const paymentCallback = (paymentDet) => {
+    setPaymentDetails(paymentDet);
+  }
+
   const [product, setProduct] = useState([]);
   const [user, setUser] = useState('');
 
@@ -30,12 +36,14 @@ const ProgressBar = () => {
       return result;
   }
 
-  const showError = () => {
-    return (<Alert severity="error">
-      <AlertTitle>Error</AlertTitle>
-      This is an error alert — <strong>check it out!</strong>
-    </Alert>);
+  const showError = (message1, message2) => {
+    return (
+      <Alert severity="error">
+        <AlertTitle>Error</AlertTitle>
+        {message1} — <strong>{message2} </strong>
+      </Alert>);
   }
+
   useEffect(() => {
     async function getUser() {
       const userID = window.localStorage.getItem('user') || "''";
@@ -52,18 +60,26 @@ const ProgressBar = () => {
   }, [])
 
   const step1Content = <OrderDet orderDetailsCallback={(orderDet) => orderDetailsCallback(orderDet)} ></OrderDet>;
-  const step2Content = <Payment></Payment>;
+  const step2Content = <Payment paymentCallback={(paymentDet) => paymentCallback(paymentDet)} ></Payment>;
   const step3Content = <Finish ></Finish>;
 
-  // setup step validators, will be called before proceeding to the next step
-  function step2Validator() {
-    if(user !== '')
-      return true;
-    return false;  
+  const [errorNext, setErrorNext] = useState('');
+
+  function step1Validator() {
+    var tmpUser = window.localStorage.getItem('user') || "''";
+    var tmpProduct = JSON.parse(window.localStorage.getItem('cart') || "[]");
+    console.log(tmpProduct);
+    if(tmpUser === "''" || typeof tmpUser === 'undefined' || tmpProduct === [] 
+      || typeof tmpProduct === 'undefined' || tmpProduct.length === 0)
+      return false;
+    console.log("Am trecut de if");
+    console.log(orderDetails);
+
+    return true;  
   }
 
-  function step3Validator() {
-    // return a boolean
+  function step2Validator() {
+      return true;
   }
 
   function onFormSubmit() {
@@ -100,7 +116,10 @@ const ProgressBar = () => {
 
     return (
       <div className="App">
-        {user === '' ? showError() : null }
+        {user === '' ? showError("You are not logged in", "Go to login page!") : null }
+        {product.length === 0 || product === [] ? showError("You cart is empty", "Go buy something!") : null }
+        {/* {errorNext === 'false' ? showError("You haven't completed order details", "Please complete them!") : null } */}
+
         <StepProgressBar
           startingStep={0}
           onSubmit={onFormSubmit}
@@ -108,7 +127,8 @@ const ProgressBar = () => {
             {
               label: "Order Details",
               name: "Order Details",
-              content: step1Content
+              content: step1Content,
+              validator: step1Validator
             },
             {
               label: "Payment",

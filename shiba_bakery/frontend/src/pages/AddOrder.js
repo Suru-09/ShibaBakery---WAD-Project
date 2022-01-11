@@ -196,7 +196,6 @@ export default class AddOrder extends Component{
                                             margin="normal"
                                             SelectProps={{
                                                 multiple: false,
-                                                values : [],
                                             }}
                                         >
                                           {this.state.users.map((user) => (

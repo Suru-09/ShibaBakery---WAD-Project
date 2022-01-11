@@ -103,9 +103,13 @@ const Navbar = ({navbarCall, userID, props, navbarRefresh}) => {
                                   </Button> : null
                               }
 
-                              <Button to="/home" onClick={_logout} component={Link} color="inherit">
-                                  Logout
-                              </Button>
+                              { 
+                                user && typeof user !== 'undefined' ?
+                                  <Button to="/home" onClick={_logout} component={Link} color="inherit">
+                                      Logout
+                                  </Button> : null
+                              }
+
                               
                               </div>
                         </div>

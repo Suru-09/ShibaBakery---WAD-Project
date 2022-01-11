@@ -146,12 +146,11 @@ class OrderView(APIView):
             contact_person = request.data.get('contact_person')
             delivery_address = request.data.get('delivery_address')
 
-            order = Order(status=status_order,
+            Order.objects.update_or_create(status=status_order,
                           customer=customer,
                           phone_number=phone_number,
                           contact_person=contact_person,
                           delivery_address=delivery_address)
-            order.save()
             final_order = Order.objects.filter(status=status_order,
                                                customer=customer)
 
@@ -161,9 +160,8 @@ class OrderView(APIView):
             for x in product_name:
                 product = Product.objects.filter(name=x)
                 print(product[0])
-                order_table = Order_Product(order_id=final_order[0],
+                Order_Product.objects.update_or_create(order_id=final_order[0],
                                             product_id=product[0])
-                order_table.save()
 
             return Response("The order has been added to the database",
                             status=status.HTTP_200_OK)
