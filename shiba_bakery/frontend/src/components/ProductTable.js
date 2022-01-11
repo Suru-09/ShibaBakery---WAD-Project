@@ -134,14 +134,14 @@ const ProductTable = ( {productCallBack} ) => {
                                 <TableCell>
                                     <Box className="prod_box">
                                         <Button to='/adminPage/updateProduct' onClick={ () => {productCallBack(row)} }
-                                            component={Link} variant="contained" size="small" >
+                                            component={Link} variant="contained" size="small" color='inherit' >
                                             Update
                                         </Button>
 
                                         <Button onClick={() => {
                                                 deleteProduct(row.name).then(r => {console.log("The product hasn't been deleted")})}}
                                                 variant="contained"
-                                                size="small">
+                                                size="small" color='inherit'>
                                             Delete
                                         </Button>
                                     </Box>
@@ -174,7 +174,7 @@ const ProductTable = ( {productCallBack} ) => {
         onRowsPerPageChange={handleChangeRowsPerPage}
         />
         <div className="add_div">
-        <Button component={Link} to={'/adminPage/addProduct'} variant="contained" size="large">
+        <Button component={Link} to={'/adminPage/addProduct'} variant="contained" size="large" color='inherit'>
             Add Product
         </Button>
         </div>

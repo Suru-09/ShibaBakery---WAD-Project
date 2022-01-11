@@ -150,7 +150,7 @@ const OrderTable =() => {
                                         <Button onClick={() => {
                                                 deleteProduct(row)
                                                 }}
-                                                variant="contained" size="small">
+                                                variant="contained" size="small" color='inherit'>
                                             Delete
                                         </Button>
                                     </Box>
@@ -183,7 +183,7 @@ const OrderTable =() => {
         onRowsPerPageChange={handleChangeRowsPerPage}
         />
         <div className="add_div">
-        <Button component={Link} to={'/adminPage/addOrder'} variant="contained" size="large">
+        <Button component={Link} to={'/adminPage/addOrder'} variant="contained" size="large" color='inherit'>
             Add Order
         </Button>
         </div>

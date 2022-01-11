@@ -131,7 +131,7 @@ const UserTable =() => {
                                         <Button onClick={() => {
                                                 deleteUser(row.username).then(r => console.log("The user from UserTable hasn't been deleted!"))}}
                                                 variant="contained"
-                                                size="small">
+                                                size="small" color='inherit'>
                                             Delete
                                         </Button>
                                     </Box>
@@ -164,7 +164,7 @@ const UserTable =() => {
         onRowsPerPageChange={handleChangeRowsPerPage}
         />
         <div className="add_div">
-        <Button component={Link} to={'/adminPage/addUser'} variant="contained" size="large">
+        <Button component={Link} to={'/adminPage/addUser'} variant="contained" size="large" color='inherit'>
             Add User
         </Button>
         </div>

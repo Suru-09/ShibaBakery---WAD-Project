@@ -81,9 +81,6 @@ export default class App extends Component {
 
     render() {
 
-        // const theme = useTheme();
-        // const colorMode = React.useContext(ColorModeContext);
-
         return(
             
                 <Router>
@@ -91,10 +88,6 @@ export default class App extends Component {
                         <div className="footer-wrap">
                             <Navbar navbarCall={this.handleProductId} navbarRefresh={this.navbarRefresh} 
                                     userID={window.localStorage.getItem('user')} />
-                            {/* {theme.palette.mode} mode
-                            <IconButton sx={{ ml: 1 }} onClick={colorMode.toggleColorMode} color="inherit">
-                                {theme.palette.mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
-                            </IconButton> */}
 
                             {/*The site will be 1 page, so this is all the switching*/}
                             <Switch>

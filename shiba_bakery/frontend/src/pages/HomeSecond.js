@@ -299,7 +299,7 @@ export default class HomeSecond extends Component {
                                     margin="none"
                             />
 
-                        <Button color="primary"
+                        <Button color="inherit"
                             variant="contained"
                             style = {{width: "150px",height: "50px", marginLeft: "15px", marginRight: "15px"}}
                             onClick={this.applyFilters}

@@ -85,7 +85,7 @@ class LoginPage extends Component{
         return(
             
                 <Grid item align="center">
-                    <Button color="primary"
+                    <Button color='inherit'
                             variant="contained"
                             onClick={this._LoginButtonPressed}
                             

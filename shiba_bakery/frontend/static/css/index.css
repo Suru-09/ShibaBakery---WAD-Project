@@ -1,11 +1,6 @@
 body{
   
-    background-image: url('../images/black.jpg');
-    height: 100%;
-    position: relative;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
+    background-color: rgb(181, 200, 241);
     opacity: 0.9;
     
   }
