@@ -2,9 +2,11 @@ import React from 'react';
 import { Slide } from 'react-slideshow-image';
 import '../../static/css/slideshow.css';
 import 'react-slideshow-image/dist/styles.css'
+// import "node_modules/video-react/dist/video-react.css";
+import { Player } from 'video-react';
 
 const slideImages = [
-  "../../static/images/3.jpg",
+  "../../static/images/cake.mp4",
   '../../static/images/image.jpg',
   '../../static/images/bacgound3.jpg'
 ];
@@ -19,11 +21,18 @@ const properties = {
 
 const Slideshow = () => {
     return (
-      <Slide easing="ease">
+      <Slide easing="ease" {...properties}>
         <div className="each-slide">
-          <div style={{'backgroundImage': `url(${slideImages[0]})`}}>
-            
-          </div>
+            <div>
+                <video
+                    src={slideImages[0]}
+                    controls
+                    muted
+                    autoPlay={"autoplay"}
+                    preload="auto"
+                    loop
+                />
+            </div>
         </div>
         <div className="each-slide">
           <div style={{'backgroundImage': `url(${slideImages[1]})`}}>

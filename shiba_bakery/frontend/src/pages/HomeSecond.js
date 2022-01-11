@@ -14,6 +14,7 @@ import '../../static/css/home.css';
 import Slideshow from "../components/SlideShow";
 import { Select } from "@material-ui/core";
 import { MenuItem } from "@material-ui/core";
+import { Button, TextField } from "@mui/material";
 
 
 function createData(name, ingredients, price, category, 
@@ -39,8 +40,9 @@ export default class HomeSecond extends Component {
             page: 0,
             rowsPerPage: 12,
             category: '',
-            // price: [],
-             kind: '',
+            price_min: '',
+            price_max: '',
+            kind: '',
         }
 
         this.renderHomePage = this.renderHomePage.bind(this);
@@ -52,6 +54,8 @@ export default class HomeSecond extends Component {
         this.createSelectCategory = this.createSelectCategory.bind(this);
         this.handleChangeCategory = this.handleChangeCategory.bind(this);
         this.handleChangeKind = this.handleChangeKind.bind(this);
+        this.handleMinPriceChange = this.handleMinPriceChange.bind(this);
+        this.filterProducts = this.filterProducts.bind(this);
     }
 
 
@@ -154,6 +158,24 @@ export default class HomeSecond extends Component {
         
         });
     }
+    
+    handleMinPriceChange = (event) => {
+        this.setState({
+            price_min: event.target.value
+        
+        });
+    }
+
+    handleMaxPriceChange = (event) => {
+        this.setState({
+            price_min: event.target.value
+        
+        });
+    }
+
+    filterProducts = () =>{
+
+    }
 
     renderHomePage() {
 
@@ -165,12 +187,13 @@ export default class HomeSecond extends Component {
                         <Slideshow/>
                     </div>
                     <Grid container className="filters_div" direction="row">
+                        <h2 style = {{ marginLeft: "15px", marginRight: "15px"}}>Filters:</h2>
                         <Select
                             value={this.state.category}
                             lable="Category"
                             multiline
                             variant='outlined'
-                            style = {{width: "200px", marginRight: "15px"}}
+                            style = {{width: "200px", height: "50px", marginRight: "15px"}}
                             onChange={(event) => {this.handleChangeCategory(event)}}
                         >
                             {this.createSelectCategory()}
@@ -181,12 +204,39 @@ export default class HomeSecond extends Component {
                             lable="Kind"
                             multiline
                             variant='outlined'
-                            style = {{width: "200px", marginLeft: "15px", marginRight: "15px"}}
+                            style = {{width: "200px",height: "50px", marginLeft: "15px", marginRight: "15px"}}
                             onChange={(event) => {this.handleChangeKind(event)}}
                         >
                             <MenuItem value={"Vegan"}>{"Vegan"}</MenuItem>
                             <MenuItem value={"Non Vegan"}>{"Non Vegan"}</MenuItem>
                         </Select>
+
+                        <TextField
+                                    id="price_min"
+                                    onChange={this.handleMinPriceChange}
+                                    style = {{width: "200px",height: "40px", marginLeft: "15px", marginRight: "15px"}}
+                                    label="Min"
+                                    variant="outlined"
+                                    placeholder=""
+                                    margin="none"
+                        />
+                        
+                        <TextField
+                                    id="price_max"
+                                    onChange={this.handleMaxPriceChange}
+                                    style = {{width: "200px",height: "40px", marginLeft: "15px", marginRight: "15px"}}
+                                    label="Max"
+                                    variant="outlined"
+                                    placeholder=""
+                                    margin="none"
+                            />
+
+                        <Button color="primary"
+                            variant="contained"
+                            style = {{width: "150px",height: "50px", marginLeft: "15px", marginRight: "15px"}}> 
+                            Reset filters
+                        </Button>
+                        
                     </Grid>
                     <Grid container spacing={5} direction={"column"}>
                         <div className="product_div">
