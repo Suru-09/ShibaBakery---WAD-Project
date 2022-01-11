@@ -6,9 +6,11 @@ import 'react-slideshow-image/dist/styles.css'
 import { Player } from 'video-react';
 
 const slideImages = [
+  "../../static/images/preview.mp4",  
+  '../../static/images/bacgound3.jpg',
+  "../../static/images/rolling.mp4",
+  '../../static/images/muffins.jpg',
   "../../static/images/cake.mp4",
-  '../../static/images/image.jpg',
-  '../../static/images/bacgound3.jpg'
 ];
 
 const properties = {
@@ -31,6 +33,7 @@ const Slideshow = () => {
                     autoPlay={"autoplay"}
                     preload="auto"
                     loop
+                    width={"100%"}
                 />
             </div>
         </div>
@@ -40,9 +43,35 @@ const Slideshow = () => {
           </div>
         </div>
         <div className="each-slide">
-          <div style={{'backgroundImage': `url(${slideImages[2]})`}}>
+            <div>
+                <video
+                    src={slideImages[2]}
+                    controls
+                    muted
+                    autoPlay={"autoplay"}
+                    preload="auto"
+                    loop
+                    width={"100%"}
+                />
+            </div>
+        </div>
+        <div className="each-slide">
+          <div style={{'backgroundImage': `url(${slideImages[3]})`}}>
             
           </div>
+        </div>
+        <div className="each-slide">
+            <div>
+                <video
+                    src={slideImages[4]}
+                    controls
+                    muted
+                    autoPlay={"autoplay"}
+                    preload="auto"
+                    loop
+                    width={"100%"}
+                />
+            </div>
         </div>
       </Slide>
     )
