@@ -14,7 +14,7 @@ import '../../static/css/home.css';
 import Slideshow from "../components/SlideShow";
 import { Select } from "@material-ui/core";
 import { MenuItem } from "@material-ui/core";
-import { Button, TextField } from "@mui/material";
+import { Button, TextField, unstable_composeClasses } from "@mui/material";
 
 
 function createData(name, ingredients, price, category, 
@@ -39,10 +39,9 @@ export default class HomeSecond extends Component {
             selectedProduct: 0,
             page: 0,
             rowsPerPage: 12,
-            category: '',
-            price_min: '',
-            price_max: '',
-            kind: '',
+            category: window.localStorage.getItem('category') || '',
+            price_min: window.localStorage.getItem('price_min') || '',
+            price_max: window.localStorage.getItem('price_max') || '',
         }
 
         this.renderHomePage = this.renderHomePage.bind(this);
@@ -55,7 +54,8 @@ export default class HomeSecond extends Component {
         this.handleChangeCategory = this.handleChangeCategory.bind(this);
         this.handleChangeKind = this.handleChangeKind.bind(this);
         this.handleMinPriceChange = this.handleMinPriceChange.bind(this);
-        this.filterProducts = this.filterProducts.bind(this);
+        this.resetFilter = this.resetFilter.bind(this);
+        this.applyFilters = this.applyFilters.bind(this);
     }
 
 
@@ -71,11 +71,55 @@ export default class HomeSecond extends Component {
         };
 
         const response = await fetch('/api/get-product', requestOptions);
-        const products = await response.json();
+        var products = await response.json();
 
-        this.setState({
-           products: products
-        });
+        let category = this.state.category.valueOf();
+        let price_min = this.state.price_min;
+        let price_max = this.state.price_max;
+        
+        console.log(category);
+        console.log(price_min);
+        console.log(price_max);
+        console.log(products);
+
+        if( (this.state.category === '' || this.state.category === 'undefined') &&
+            (this.state.price_min === '' || this.state.price_min === 'undefined') &&
+            (this.state.price_max === '' || this.state.price_max === 'undefined') ) {
+
+            this.setState({
+                products: products
+                });
+        }
+        else {
+            if(this.state.category !== '' && typeof this.state.category !== 'undefined') {
+                    products = $.grep( products, function( n, i ) {
+                        return n.category === category;
+                        });
+                        console.log(products);   
+            }
+
+            // console.log(this.state.price_min);
+            // if(this.state.price_min !== '' && typeof this.state.price_min !== 'undefined' ) {
+            //     products = $.grep( products, function( n, i ) {
+            //         return n.price > price_min;
+            //         });
+            //         console.log(products);       
+            // }
+
+            if(this.state.price_max !== '' && typeof this.state.price_max !== 'undefined') {
+                products = $.grep( products, function( n, i ) {
+                    console.log(n.price);
+                    console.log(price_max)
+                    console.log(n.price < price_max);
+                    return n.price < price_max;
+                    });
+                    console.log(products);   
+            }
+
+            this.setState({
+                products: products,
+            })
+        }
 
         this.handleData();
 
@@ -94,7 +138,6 @@ export default class HomeSecond extends Component {
     }
 
     async handleData(){
-        console.log(this.state.products);
         let temp =[]
         for(let i = 0; i < this.state.products.length; ++i) {
             temp.push(createData(this.state.products[i].name,
@@ -110,8 +153,6 @@ export default class HomeSecond extends Component {
         this.setState({
             productRows: temp,
         })
-
-        console.log(temp);
     }
 
     handleChangePage = (event, newPage) => {
@@ -128,6 +169,7 @@ export default class HomeSecond extends Component {
         });
         
     }
+
 
     createSelectCategory = () =>{
         let arr = [];
@@ -168,13 +210,39 @@ export default class HomeSecond extends Component {
 
     handleMaxPriceChange = (event) => {
         this.setState({
-            price_min: event.target.value
+            price_max: event.target.value
         
         });
     }
 
-    filterProducts = () =>{
+    applyFilters = () =>{
+        if(this.state.category !== '') {
+            window.localStorage.setItem('category', this.state.category);
+        }
 
+        if(this.state.price_min !== '') {
+            window.localStorage.setItem('price_min', this.state.price_min);   
+        }
+
+        if(this.state.price_max !== '') {
+            window.localStorage.setItem('price_max', this.state.price_max);   
+        }
+
+        window.location = document.URL;
+    }
+
+    resetFilter = () => {
+        this.setState({
+            category: '',
+            price_min: '',
+            price_max: '',
+            kind: '',
+        })
+
+        window.localStorage.removeItem('category');   
+        window.localStorage.removeItem('price_min')   
+        window.localStorage.removeItem('price_max');   
+        setTimeout(() => {  window.location = document.URL; }, 400);
     }
 
     renderHomePage() {
@@ -199,7 +267,7 @@ export default class HomeSecond extends Component {
                             {this.createSelectCategory()}
                         </Select>
 
-                        <Select
+                        {/* <Select
                             value={this.state.kind}
                             lable="Kind"
                             multiline
@@ -219,7 +287,7 @@ export default class HomeSecond extends Component {
                                     variant="outlined"
                                     placeholder=""
                                     margin="none"
-                        />
+                        /> */}
                         
                         <TextField
                                     id="price_max"
@@ -233,7 +301,17 @@ export default class HomeSecond extends Component {
 
                         <Button color="primary"
                             variant="contained"
-                            style = {{width: "150px",height: "50px", marginLeft: "15px", marginRight: "15px"}}> 
+                            style = {{width: "150px",height: "50px", marginLeft: "15px", marginRight: "15px"}}
+                            onClick={this.applyFilters}
+                            > 
+                            Apply Filters
+                        </Button>
+
+                        <Button color="primary"
+                            variant="contained"
+                            style = {{width: "150px",height: "50px", marginLeft: "15px", marginRight: "15px"}}
+                            onClick={this.resetFilter}
+                            > 
                             Reset filters
                         </Button>
                         

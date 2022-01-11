@@ -54,7 +54,6 @@ export default class App extends Component {
     handleProductId = (childData) =>{
         const user = window.localStorage.getItem('user') || "''";
         window.localStorage.setItem('product', childData);
-        console.log("Eu sunt ProductId: " + childData);
 
         this.setState({
             currentUserID: user,
